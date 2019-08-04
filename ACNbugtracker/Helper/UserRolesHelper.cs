@@ -24,7 +24,7 @@ namespace ACNbugtracker.Helper
             return userManager.GetRoles(userId);
         }
 
-        public bool AddUsertoRole(string userId, string roleName)
+        public bool AddUserToRole(string userId, string roleName)
         {
             var result = userManager.AddToRole(userId, roleName);
             return result.Succeeded;
