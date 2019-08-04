@@ -1,5 +1,10 @@
-﻿@using ACNbugtracker.Models
+﻿@using ACNbugtracker.Models;
+@using ACNbugtracker.Helper;
+
 @model IEnumerable<UserProfileViewModel>
+@{ 
+    var roleHelper = new UserRolesHelper();
+}
 
 
 <!DOCTYPE html>
@@ -17,28 +22,31 @@
                         <th scope="col">Email</th>
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
-                        <th scope="col">Display Name</th>
+                        <th scope="col">Role</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var user in Model)
                     {
                     <tr>
-                        <th scope="row">1</th>
-
                         <td class="avartar"><img src="@user.AvatarUrl" class="img-responsive" /></td>
+
+                        <td>@Html.DisplayFor(modelItem => user.Email)</td>
 
                         <td>@Html.DisplayFor(modelItem => user.FirstName)</td>
 
                         <td>@Html.DisplayFor(modelItem => user.LastName)</td>
+                              
+                        <td>@roleHelper.ListUserRoles(user.Id).FirstOrDefault()</td>
 
-                        <td>@Html.DisplayFor(modelItem => user.DisplayName)</td>
+                        <td>@Html.ActionLink("Manage User", "ManageUserRole", "Admin", new { userId = user.Id }, null)</td>
 
-                        <td>@Html.DisplayFor(modelItem => user.Email)</td>
+                        <td>@Html.ActionLink("Manage Projects ", "ManageProjects", "Admin", new { userId = user.Id }, null)</td>
                     </tr>
                     }
                 </tbody>
             </table>
+            @Html.ActionLink("Back to Dashboard", "Index", "Home")
         </div>
     </div>
 </div>
