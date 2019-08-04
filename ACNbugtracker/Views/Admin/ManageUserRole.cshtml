@@ -1,17 +1,24 @@
-﻿
-@{
-    Layout = null;
+﻿@{ 
+    ViewBag.Title = "ManageUserRole";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ManageUserRole</title>
-</head>
-<body>
-    <div> 
+<h2>Managing an Individual Users role</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UserId",(string)ViewBag.UserId)
+
+    <br />
+    <div class="form-group">
+        @Html.Label("ASSIGN ROLE", null, htmlAttributes: new { @class = "control-label col-md-2"})
+        <div class="col=md-10">
+            @Html.DropDownList("UserRole", null,"--Select Role---", htmlAttributes: new { @class = "form-control"})
+        </div>
     </div>
-</body>
-</html>
+
+    <div class="form-group">
+            <button type="submit" value="Assign" btn btn-primary">Assign the User a Role Now</button>
+    </div>
+}
