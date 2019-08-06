@@ -9,7 +9,22 @@ namespace ACNbugtracker.Helper
 {
     public class ProjectsHelper
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
+
+        public List<string> UserInRoleOnProject(int projectId, string roleName)
+        {
+            var people = new List<string>();
+
+            foreach(var user in UsersOnProject(projectId).ToList())
+            {
+                if(rolesHelper.IsUserInRole(user.Id, roleName))
+                {
+                    people.Add(user.Id);
+                }
+            }
+            return people;
+        }
 
         public bool IsUserOnProject(string userId, int projectId)
         {
