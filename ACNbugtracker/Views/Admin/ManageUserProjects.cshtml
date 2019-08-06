@@ -1,9 +1,13 @@
-﻿
-@{
-    Layout = null;
-}
+﻿@*@using ACNbugtracker.Models
+@using ACNbugtracker.Helper
 
-<!DOCTYPE html>
+@model ACNbugtracker.Models.ApplicationUser
+
+
+@{ 
+    ViewBag.Title = "ManageUserProjects";
+    var userProjectsHelper = new UserProjectsHelper();
+}*@
 
 <html>
 <head>
