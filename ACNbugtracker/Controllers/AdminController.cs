@@ -13,6 +13,7 @@ namespace ACNbugtracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper rolesHelper = new UserRolesHelper();
+        private ProjectsHelper projectsHelper = new ProjectsHelper();
 
         // GET: Admin
         public ActionResult UserIndex()
@@ -33,7 +34,7 @@ namespace ACNbugtracker.Controllers
         [HttpGet]
         public ActionResult ManageUserRole(string userId)
         {
-            //How do i up a DropDownList with Role Information??
+            //How do i SPIN up a DropDownList with Role Information??
             //new SelectList("[First Selection]     The List of Data push into the control", 
             //               "[Second selection]    The Column that will be used to communicate my selection(s) to the post",
             //               "[Third selection]     The Column that we show the user inside the control",
@@ -70,6 +71,7 @@ namespace ACNbugtracker.Controllers
 
         public ActionResult ManageUsers()
         {
+
             return View();
         }
 
@@ -127,6 +129,51 @@ namespace ACNbugtracker.Controllers
         public ActionResult ManageUserProjects()
         {
             return View();
+        }
+
+        public ActionResult ManageProjects(string user)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ManageProjectUsers(int projectId, List<string> ProjectManagers, List<string> Developers, List<string> Submitters)
+        {
+            //Step 1: Remove all users from the project
+            foreach(var user in projectsHelper.UsersOnProject(projectId).ToList())
+            {
+                projectsHelper.RemoveUserFromProject(user.Id, projectId);
+            }
+
+            //Step 2: Adds back all the selected PM's
+            if(ProjectManagers != null)
+            {
+                foreach(var projectManagerId in ProjectManagers)
+                {
+                    projectsHelper.AddUserToProject(projectManagerId, projectId);
+                }
+            }
+
+            //Step 3: Adds all the selected Developers
+            if(Developers != null)
+            {
+                foreach (var developerId in Developers)
+                {
+                    projectsHelper.AddUserToProject(developerId, projectId);
+                }
+            }
+
+            //Step 4:Adds back all the selected Submittters
+            if(Submitters != null)
+            {
+                foreach (var submitterId in Submitters)
+                {
+                    projectsHelper.AddUserToProject(submitterId, projectId);
+                }
+            }
+
+            return RedirectToAction("Details", "Projects", new { id = projectId});
         }
     }
 }
