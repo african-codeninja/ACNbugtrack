@@ -17,14 +17,22 @@ namespace ACNbugtracker.Models
         public string DisplayName { get; set; }
         public string AvatarUrl { get; set; }
 
+
+        public string FullName
+        {
+            get
+            {
+                return $"{LastName}, {FirstName}";
+            }
+        }
+
         [NotMapped]
-        public string FullNameWihEmail
+        public string FullNameWithEmail
         {
             get
             {
                 return $"{LastName}, {FirstName}- {Email}";
             }
-
         }
 
         //virtual nav
