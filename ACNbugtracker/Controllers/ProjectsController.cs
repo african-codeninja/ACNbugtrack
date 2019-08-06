@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ACNbugtracker.Helper;
 using ACNbugtracker.Models;
 
 namespace ACNbugtracker.Controllers
@@ -13,6 +14,8 @@ namespace ACNbugtracker.Controllers
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
+        private ProjectsHelper projectHelper = new ProjectsHelper();
 
         // GET: Projects
         public ActionResult Index()
@@ -32,6 +35,24 @@ namespace ACNbugtracker.Controllers
             {
                 return HttpNotFound();
             }
+
+            //Give my details view a Multiselect of available PM's
+            //Keep an eye out for 'Magic Strings' throughout your application..
+            //Magic Strings are hard coded strings that should be handled differently...
+
+            
+            var allProjectManagers = rolesHelper.UsersInRole("ProjectManager");
+            var currentProjectManagers = projectHelper.UserInRoleOnProject(project.Id, "ProjectManager");
+            ViewBag.ProjectManagers = new MultiSelectList(allProjectManagers, "Id", "FullNameWithEmail", currentProjectManagers);
+
+            var allSubmitters = rolesHelper.UsersInRole("Submitter");
+            var currentSubmitters = projectHelper.UserInRoleOnProject(project.Id, "Submitter");
+            ViewBag.Submitters = new MultiSelectList(allSubmitters, "Id", "FullNameWithEmail", currentSubmitters);
+
+            var allDevelopers = rolesHelper.UsersInRole("Developer");
+            var currentDevelopers = projectHelper.UserInRoleOnProject(project.Id, "Developer");
+            ViewBag.Developers = new MultiSelectList(allDevelopers, "Id", "FullNameWithEmail", currentDevelopers);
+
             return View(project);
         }
 
