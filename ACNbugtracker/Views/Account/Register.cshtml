@@ -49,10 +49,10 @@
                 </div>
 
                 <div class="login-form">
-                    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
-                        <div class="form-group">
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "Multipart/form-data"}))
+                       {
+                         @Html.AntiForgeryToken()
+                            <div class="form-group">
                             @Html.LabelFor(m => m.FirstName, new { @class = "" })
 
                             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
