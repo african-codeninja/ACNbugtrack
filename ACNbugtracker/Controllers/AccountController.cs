@@ -10,9 +10,16 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ACNbugtracker.Models;
 using System.Web.Configuration;
+using ACNbugtracker.Helper;
+using System.Drawing;
+using static System.Net.Mime.MediaTypeNames;
+using System.Web.UI.WebControls;
+using System.IO;
 
 namespace ACNbugtracker.Controllers
 {
+
+
     [Authorize]
     public class AccountController : Controller
     {
@@ -149,7 +156,7 @@ namespace ACNbugtracker.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -167,6 +174,13 @@ namespace ACNbugtracker.Controllers
                 //{
 
                 //}
+
+                if (ImageUploadValidator.IsWebFriendlyImage(image))
+                {
+                    var fileName = Path.GetFileName(image.FileName);
+                    image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    user.AvatarUrl = "/Uploads/" + fileName;
+                }
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
