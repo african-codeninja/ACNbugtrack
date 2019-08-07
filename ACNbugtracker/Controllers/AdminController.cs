@@ -71,8 +71,17 @@ namespace ACNbugtracker.Controllers
 
         public ActionResult ManageUsers()
         {
+            var users = db.Users.Select(userAttrib => new UserProfileViewModel
+            {
+                Id = userAttrib.Id,
+                FirstName = userAttrib.FirstName,
+                LastName = userAttrib.LastName,
+                DisplayName = userAttrib.DisplayName,
+                AvatarUrl = userAttrib.AvatarUrl,
+                Email = userAttrib.Email
+            }).ToList();
 
-            return View();
+            return View(users);
         }
 
         
