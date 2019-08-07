@@ -1,15 +1,31 @@
-﻿using System;
+﻿using ACNbugtracker.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows.Documents;
 
 namespace ACNbugtracker.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
+            var users = db.Users.Select(userAttrib => new UserProfileViewModel
+            {
+                Id = userAttrib.Id,
+                FirstName = userAttrib.FirstName,
+                LastName = userAttrib.LastName,
+                DisplayName = userAttrib.DisplayName,
+                AvatarUrl = userAttrib.AvatarUrl,
+                Email = userAttrib.Email
+            }).ToList();
+
+            return View(users);
+            //ViewBag.Users = new List(User);
+
             return View();
         }
 
