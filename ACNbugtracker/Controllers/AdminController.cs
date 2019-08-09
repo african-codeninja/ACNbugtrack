@@ -135,11 +135,33 @@ namespace ACNbugtracker.Controllers
             return View();
         }
 
-        public ActionResult ManageUserProjects()
+        //Get Function
+        public ActionResult ManageUserProjects(string userId)
         {
+            var myProjects = projectsHelper.ListUserProjects(userId).Select(p => p.Id);
+            ViewBag.Projects = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
             return View();
         }
 
+        //post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ManageUserProjects(List<int> projects, string userId)
+        {
+            foreach (var project in projectsHelper.ListUserProjects(userId).ToList())
+            {
+                projectsHelper.RemoveUserFromProject(userId, project.Id);
+            }
+            if (projects != null)
+            {
+                foreach (var projectId in projects)
+                {
+                    projectsHelper.AddUserToProject(userId, projectId);
+                }
+            }
+            return RedirectToAction("UserIndex");
+
+        }
         public ActionResult ManageProjects(string user)
         {
             return View();
