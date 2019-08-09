@@ -211,7 +211,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bugtacker1.css" />
+    <Content Include="Content\buttons.bootstrap4.min.css" />
     <Content Include="Content\cs-skin-elastic.css" />
+    <Content Include="Content\dataTables.bootstrap4.min.css" />
     <Content Include="Content\flag-icon.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\jqvmap.min.css" />
@@ -761,13 +763,21 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\buttons.bootstrap4.min.js" />
+    <Content Include="Scripts\buttons.colVis.js" />
+    <Content Include="Scripts\buttons.html5.min.js" />
+    <Content Include="Scripts\buttons.print.min.js" />
     <Content Include="Scripts\Chart.bundle.min.js" />
     <Content Include="Scripts\dashboard.js" />
+    <Content Include="Scripts\datatables-init.js" />
+    <Content Include="Scripts\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\dataTables.buttons.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -776,10 +786,28 @@
     <Content Include="Scripts\jquery.vmap.min.js" />
     <Content Include="Scripts\jquery.vmap.sampledata.js" />
     <Content Include="Scripts\jquery.vmap.world.js" />
+    <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\widgets.js" />
+    <Content Include="Uploads\avatar-160055_640.png" />
+    <Content Include="Uploads\avatar-1606916_640.png" />
+    <Content Include="Uploads\avatar-2027365_640.png" />
+    <Content Include="Uploads\avatar-2027366_640.png" />
+    <Content Include="Uploads\avatar-2027367_640.png" />
+    <Content Include="Uploads\avatar-2027369_640.png" />
+    <Content Include="Uploads\avatar-3637425_640.png" />
+    <Content Include="Uploads\bald-head-147977_640.png" />
+    <Content Include="Uploads\bald-head-149857_640.png" />
+    <Content Include="Uploads\cartoon-1890438_640.jpg" />
+    <Content Include="Uploads\goaty-149860_640.png" />
+    <Content Include="Uploads\kaiser-40048_640.png" />
+    <Content Include="Uploads\man-1721463_640.png" />
+    <Content Include="Uploads\man-3357275_640.png" />
+    <Content Include="Uploads\man-3414477_640.png" />
+    <Content Include="Uploads\secondlife-1625903_640.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -872,10 +900,11 @@
     <Content Include="Views\Admin\ManageUserProjects.cshtml" />
     <Content Include="Views\Admin\ManageRoles.cshtml" />
     <Content Include="Views\Admin\ManageProjects.cshtml" />
+    <Content Include="Views\Tickets\MyIndex.cshtml" />
+    <Content Include="Views\Account\userAdminIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
