@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,12 +9,17 @@ namespace ACNbugtracker.Models
     public class Ticket
     {
         public int  Id { get; set; }
+        [Display(Name ="Project Name")]
         public int ProjectId { get; set; }
+        [Display(Name ="Ticket Type")]
         public int TicketTypeId { get; set; }
+        [Display(Name ="Ticket Priority")]
         public int TicketPriorityId { get; set; }
+        [Display(Name ="Ticket Status")]
         public int TicketStatusId { get; set; }
-
+        [Display(Name ="Submitter")]
         public string OwnerUserId { get; set; }
+        [Display(Name ="Developer")]
         public string AssignedToUserId { get; set; }
 
         public string Title { get; set; }
