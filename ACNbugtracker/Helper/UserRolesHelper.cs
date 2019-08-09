@@ -35,9 +35,7 @@ namespace ACNbugtracker.Helper
             var result = userManager.RemoveFromRole(userId, roleName);
             return result.Succeeded;
         }
-
-
-
+        
         public ICollection<ApplicationUser> UsersInRole(string roleName)
         {
             var resultList = new List<ApplicationUser>();
