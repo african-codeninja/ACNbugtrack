@@ -90,5 +90,7 @@ namespace ACNbugtracker.Models
         //public System.Data.Entity.DbSet<ACNbugtracker.Models.ApplicationUser> ApplicationUsers { get; set; }
 
         //public System.Data.Entity.DbSet<ACNbugtracker.Models.ApplicationUser> ApplicationUsers { get; set; }
+
+        //public System.Data.Entity.DbSet<ACNbugtracker.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
