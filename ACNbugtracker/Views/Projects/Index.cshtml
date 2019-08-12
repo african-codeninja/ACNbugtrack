@@ -8,18 +8,28 @@
     <title>Index</title>
 </head>
 <body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+    
     <div class="breadcrumbs">
         <div class="col-sm-4">
             <div class="page-header float-left">
-                <div class="page-title">
-                    <h1>Dashboard</h1>
+                <div class="page-title ">
+                    <h1>Projects Dashboard</h1>
                 </div>
             </div>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title ">
+                    <h1>
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                        {
+                            @Html.ActionLink("Create New", "Create")
+                        }
+                                    </h1>
+                </div>
+            </div>
+         </div>      
+        <div class="col-sm-4">
             <div class="page-header float-right">
                 <div class="page-title">
                     <ol class="breadcrumb text-right">
