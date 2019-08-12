@@ -69,7 +69,7 @@
                                     <input type="checkbox"> Remember Me
                                 </label>
                                 <label class="pull-right">
-                                    <a href="#">Forgotten Password?</a>
+                                    <p>@Html.ActionLink("Forgot your password?","ForgotPassword" , "Account")</p>
                                 </label>
 
                             </div>
@@ -80,10 +80,12 @@
                                         <p>Don't have account ? <a href="@Url.Action("register")"> Sign Up Here</a></p>
                                     </div>
 
-                            @* Enable this once you have account confirmation enabled for password reset functionality
+                            //Enable this once you have account confirmation enabled for password reset functionality
                             <p>
-                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                        </p>*@
+
+                            @*@Html.ActionLink("Forgot your password?", "Account",  "ForgotPassword")*@
+
+                        </p>
                         }
                     </div>
                 </div>
