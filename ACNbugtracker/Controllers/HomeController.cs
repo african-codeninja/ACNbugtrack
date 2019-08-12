@@ -26,7 +26,7 @@ namespace ACNbugtracker.Controllers
             return View(users);
             //ViewBag.Users = new List(User);
 
-            return View();
+            //return View();
         }
 
         public ActionResult About()
