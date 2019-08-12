@@ -66,15 +66,16 @@ namespace ACNbugtracker.Controllers
             }
             return View(ticket);
         }
-        [Authorize(Roles = "Submitter")]
+
         // GET: Tickets/Create
+        [Authorize(Roles = "Submitter")]
         public ActionResult Create()
         {
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name");
+            //var userId = User.Identity.GetUserId();
+            var myProjects = projectsHelper.ListUserProjects(User.Identity.GetUserId());
+            //Create a create view only for the tickets the submitter is on when we did the Manage projects
+            ViewBag.ProjectId = new SelectList(myProjects, "Id", "Name");
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");            
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
             return View();
         }
@@ -89,7 +90,7 @@ namespace ACNbugtracker.Controllers
             if (ModelState.IsValid)
             {
                 ticket.Created = DateTime.Now;
-                ticket.OwnerUserId = User.Identity.GetUserId();
+                ticket.OwnerUserId = User.Identity.GetUserId();//whoever is logged in
                 ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New/Unassigned").Id;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
@@ -104,6 +105,7 @@ namespace ACNbugtracker.Controllers
         }
 
         // GET: Tickets/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
