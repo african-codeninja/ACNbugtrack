@@ -6,50 +6,68 @@
     var roleHelper = new UserRolesHelper();
 }
 
+<!DOCTYPE html>
 
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <strong class="card-title">User Index</strong>
-            </div>
-            <div class="card-body">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Email</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Display Name</th>
-                            <th scope="col">Avatar</th>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ManageUsers</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisplayName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvatarUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            
+            </th>
+            <th></th>
+        </tr>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var user in Model)
-                        {
-                            <tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvatarUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "ManageUsers" ,"Admin", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
 
-                                <td>@Html.DisplayFor(modelItem => user.Email)</td>
-
-                                <td>@Html.DisplayFor(modelItem => user.FirstName)</td>
-
-                                <td>@Html.DisplayFor(modelItem => user.LastName)</td>
-
-                                <td>@Html.DisplayFor(modelItem => user.DisplayName)</td>
-
-                                <td>@Html.DisplayFor(modelItem => user.AvatarUrl)</td>
-
-                                <td>@Html.ActionLink("EDIT USER", "Register", "Account", new { userId = user.Id }, null)</td>
-
-                                <td>@Html.ActionLink("DELETE A USER", "ManageProjects", "Admin", new { userId = user.Id }, null)</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                @Html.ActionLink("Back to Dashboard", "Index", "Home")
-            </div>
-        </div>
-    </div>
-
-</div>
+    </table>
+</body>
+</html>
