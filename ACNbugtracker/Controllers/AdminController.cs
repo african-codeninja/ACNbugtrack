@@ -3,6 +3,7 @@ using ACNbugtracker.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -53,14 +54,14 @@ namespace ACNbugtracker.Controllers
         {
             ///This is where I will be using the UserRolesHelper class to make sure my user occupies the proper role
             ///The first thing I want to do is to make sure I remove the user from ALL ROLES they may occupy
-            
-            foreach(var role in rolesHelper.ListUserRoles(userId))
+
+            foreach (var role in rolesHelper.ListUserRoles(userId))
             {
                 rolesHelper.RemoveUserFromRole(userId, role);
             }
 
             //if the incoming role selection IS NOT NULL I want to assign the user to the selected role
-            if(!string.IsNullOrEmpty(userRole))
+            if (!string.IsNullOrEmpty(userRole))
             {
                 rolesHelper.AddUserToRole(userId, userRole);
             }
@@ -79,12 +80,13 @@ namespace ACNbugtracker.Controllers
                 DisplayName = userAttrib.DisplayName,
                 AvatarUrl = userAttrib.AvatarUrl,
                 Email = userAttrib.Email
+
             }).ToList();
 
             return View(users);
         }
 
-        
+
 
         [HttpGet]
         public ActionResult ManageRoles()
@@ -108,24 +110,24 @@ namespace ACNbugtracker.Controllers
         [HttpPost]
         public ActionResult ManageRoles(List<string> users, string roleName)
         {
-            if(users != null)
-            { 
-            //Lets iterate over the incoming list that were selected from the form
-            foreach(var userId in users)
+            if (users != null)
             {
-                //and remove each of them from whatever role they occupy and only add them back to the selected role
-                foreach(var role in rolesHelper.ListUserRoles(userId))
-                { 
-                rolesHelper.RemoveUserFromRole(userId, role);
-                }
-
-                //then only to add the user back to the selected role
-                if (!string.IsNullOrEmpty(roleName))
+                //Lets iterate over the incoming list that were selected from the form
+                foreach (var userId in users)
                 {
-                    rolesHelper.AddUserToRole(userId, roleName);
+                    //and remove each of them from whatever role they occupy and only add them back to the selected role
+                    foreach (var role in rolesHelper.ListUserRoles(userId))
+                    {
+                        rolesHelper.RemoveUserFromRole(userId, role);
+                    }
+
+                    //then only to add the user back to the selected role
+                    if (!string.IsNullOrEmpty(roleName))
+                    {
+                        rolesHelper.AddUserToRole(userId, roleName);
+                    }
+
                 }
-                
-            }
             }
             return RedirectToAction("ManageRoles");
         }
@@ -161,33 +163,29 @@ namespace ACNbugtracker.Controllers
             }
             return RedirectToAction("UserIndex");
 
-        }
-        public ActionResult ManageProjects(string user)
-        {
-            return View();
-        }
+        }      
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ManageProjectUsers(int projectId, List<string> ProjectManagers, List<string> Developers, List<string> Submitters)
         {
             //Step 1: Remove all users from the project
-            foreach(var user in projectsHelper.UsersOnProject(projectId).ToList())
+            foreach (var user in projectsHelper.UsersOnProject(projectId).ToList())
             {
                 projectsHelper.RemoveUserFromProject(user.Id, projectId);
             }
 
             //Step 2: Adds back all the selected PM's
-            if(ProjectManagers != null)
+            if (ProjectManagers != null)
             {
-                foreach(var projectManagerId in ProjectManagers)
+                foreach (var projectManagerId in ProjectManagers)
                 {
                     projectsHelper.AddUserToProject(projectManagerId, projectId);
                 }
             }
 
             //Step 3: Adds all the selected Developers
-            if(Developers != null)
+            if (Developers != null)
             {
                 foreach (var developerId in Developers)
                 {
@@ -196,7 +194,7 @@ namespace ACNbugtracker.Controllers
             }
 
             //Step 4:Adds back all the selected Submittters
-            if(Submitters != null)
+            if (Submitters != null)
             {
                 foreach (var submitterId in Submitters)
                 {
@@ -204,7 +202,8 @@ namespace ACNbugtracker.Controllers
                 }
             }
 
-            return RedirectToAction("Details", "Projects", new { id = projectId});
+            return RedirectToAction("Details", "Projects", new { id = projectId });
         }
     }
 }
+
