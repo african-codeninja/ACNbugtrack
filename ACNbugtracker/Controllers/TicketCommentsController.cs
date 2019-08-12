@@ -13,14 +13,13 @@ namespace ACNbugtracker.Controllers
     public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        [AllowAnonymous]
         // GET: TicketComments
         public ActionResult Index()
         {
             var ticketComments = db.TicketComments.Include(t => t.Author).Include(t => t.Ticket);
             return View(ticketComments.ToList());
         }
-
         // GET: TicketComments/Details/5
         public ActionResult Details(int? id)
         {
