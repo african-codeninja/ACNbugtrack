@@ -1,8 +1,8 @@
-﻿
+﻿@model ACNbugtracker.Models.RegisterViewModel
+
 @{
     Layout = null;
 }
-@model ACNbugtracker.Models.RegisterViewModel
 <!DOCTYPE html>
 
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -49,10 +49,10 @@
                 </div>
 
                 <div class="login-form">
-                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "Multipart/form-data"}))
-                       {
-                         @Html.AntiForgeryToken()
-                            <div class="form-group">
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
                             @Html.LabelFor(m => m.FirstName, new { @class = "" })
 
                             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
@@ -94,7 +94,7 @@
                                 <input type="checkbox"> Remember Me
                             </label>
                             <label class="pull-right">
-                                <a href="#">Forgotten Password?</a>
+                                <a href="@Html.ActionLink("Forgot your password?", "ForgotPassword")">Forgotten Password?</a>
                             </label>
 
                         </div>
@@ -108,16 +108,16 @@
                         <div class="register-link m-t-15 text-center">
                             <p>Have an Account? <a href="@Url.Action("Login")"> Sign in Here</a></p>
                         </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/popper.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/main.js"></script>
-</body>
+        <script src="~/Scripts/jquery.min.js"></script>
+        <script src="~/Scripts/popper.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/main.js"></script>
+    </body>
 
 </html>
