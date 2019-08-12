@@ -67,7 +67,7 @@
                                 <li><i class="fa fa-id-badge"></i><a href="@Url.Action("UserIndex","Admin")">Project Users</a></li>
                                 <li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageUsers","Admin")">Manage Users</a></li>
                                 <li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageRoles","Admin")">Manage User Roles</a></li>
-                                <li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageProjects","Admin")">Manage User Projects</a></li>
+                                @*<li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageUserRole","Admin")">Manage User Projects</a></li>*@
 
                             </ul>
                         </li>
@@ -104,18 +104,14 @@
 
                     <li>
 
-                        @*<h3 class="menu-title">User Profile</h3>
+                        <h3 class="menu-title">User Profile</h3>
 
                             <li class="menu-item-has-children dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
                                 <ul class="sub-menu children dropdown-menu">
-                                    <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects","Admin")">Manage User Projects</a></li>
-                                    <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects","Admin")">Manage User Projects</a></li>
-                                    <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects","Admin")">Manage User Projects</a></li>
-                                    <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects","Admin")">Manage User Projects</a></li>
-                                    <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects","Admin")">Manage User Projects</a></li>
+                                    <li><i class="fa fa-book"></i><a href="@Url.Action("Logoff","Admin")">Log Out</a></li>               
                                 </ul>
-                            </li>*@
+                            </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
