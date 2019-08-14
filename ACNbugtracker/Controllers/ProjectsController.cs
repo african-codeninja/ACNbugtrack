@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using ACNbugtracker.Helper;
 using ACNbugtracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ACNbugtracker.Controllers
 {
@@ -15,13 +16,23 @@ namespace ACNbugtracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper rolesHelper = new UserRolesHelper();
-        private ProjectsHelper projectHelper = new ProjectsHelper();
+        private ProjectsHelper projectsHelper = new ProjectsHelper();
 
-        // GET: Projects
+        //GET: Projects
+        [Authorize(Roles = "Admin, ProjectManager")]
         public ActionResult Index()
         {
             return View(db.Projects.ToList());
         }
+        [Authorize]
+        public ActionResult MyProjectsIndex()
+        {
+            return View(projectsHelper.ListUserProjects(User.Identity.GetUserId()));
+        }
+
+    
+        //    return View("Index", myTickets);
+        //}
 
         // GET: Projects/Details/5
         public ActionResult Details(int? id)
@@ -42,19 +53,20 @@ namespace ACNbugtracker.Controllers
 
             
             var allProjectManagers = rolesHelper.UsersInRole("ProjectManager");
-            var currentProjectManagers = projectHelper.UserInRoleOnProject(project.Id, "ProjectManager");
+            var currentProjectManagers = projectsHelper.UserInRoleOnProject(project.Id, "ProjectManager");
             ViewBag.ProjectManagers = new MultiSelectList(allProjectManagers, "Id", "FullNameWithEmail", currentProjectManagers);
 
             var allSubmitters = rolesHelper.UsersInRole("Submitter");
-            var currentSubmitters = projectHelper.UserInRoleOnProject(project.Id, "Submitter");
+            var currentSubmitters = projectsHelper.UserInRoleOnProject(project.Id, "Submitter");
             ViewBag.Submitters = new MultiSelectList(allSubmitters, "Id", "FullNameWithEmail", currentSubmitters);
 
             var allDevelopers = rolesHelper.UsersInRole("Developer");
-            var currentDevelopers = projectHelper.UserInRoleOnProject(project.Id, "Developer");
+            var currentDevelopers = projectsHelper.UserInRoleOnProject(project.Id, "Developer");
             ViewBag.Developers = new MultiSelectList(allDevelopers, "Id", "FullNameWithEmail", currentDevelopers);
 
             return View(project);
         }
+
 
         // GET: Projects/Create
         public ActionResult Create()
