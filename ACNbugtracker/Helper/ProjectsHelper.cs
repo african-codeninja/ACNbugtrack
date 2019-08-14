@@ -9,18 +9,18 @@ namespace ACNbugtracker.Helper
 {
     public class ProjectsHelper
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        private UserRolesHelper rolesHelper = new UserRolesHelper();
+        public ApplicationDbContext db = new ApplicationDbContext();
+        public UserRolesHelper rolesHelper = new UserRolesHelper();
 
         public List<string> UserInRoleOnProject(int projectId, string roleName)
         {
             var people = new List<string>();
 
-            foreach(var user in UsersOnProject(projectId).ToList())
+            foreach (var user in UsersOnProject(projectId).ToList())
             {
-                if(rolesHelper.IsUserInRole(user.Id, roleName))
+                if (rolesHelper.IsUserInRole(user.Id, roleName))
                 {
-                    people.Add(user.Id);
+                    people.Add(user.FullName);
                 }
             }
             return people;
@@ -31,7 +31,7 @@ namespace ACNbugtracker.Helper
             //go into the database find project table and using the a particular User's Id get the projects they are on and return a true or false value
             var project = db.Projects.Find(projectId);
             var flag = project.Users.Any(u => u.Id == userId);
-            return(flag);
+            return (flag);
         }
 
         //Lists the projects a user is working on
@@ -63,7 +63,7 @@ namespace ACNbugtracker.Helper
         public void RemoveUserFromProject(string userId, int projectId)
         {
             //Do this only if user is on a project
-            if(IsUserOnProject(userId, projectId))
+            if (IsUserOnProject(userId, projectId))
             {
                 Project proj = db.Projects.Find(projectId);
                 var delUser = db.Users.Find(userId);
@@ -84,8 +84,38 @@ namespace ACNbugtracker.Helper
         //For every project list users are not working on it
         public ICollection<ApplicationUser> UsersNotOnProject(int projectId)
         {
-            return db.Users.Where(u=>u.Projects.All(p=>p.Id!=projectId)).ToList();
+            return db.Users.Where(u => u.Projects.All(p => p.Id != projectId)).ToList();
         }
 
+        public ICollection<Ticket> ListProjectTickets(int projectId)
+        {
+            var projectTickets = db.Tickets.Where(t => t.ProjectId == projectId).ToList();
+            return (projectTickets);
+        }
+
+        public ICollection<Ticket> ListUserTickets(string userId)
+        {
+            var userTickets = new List<Ticket>();
+            var userRole = rolesHelper.ListUserRoles(userId).FirstOrDefault();
+            switch (userRole)
+            {
+                case "Submitter":
+                    userTickets = db.Tickets.Where(t => t.OwnerUserId == userId).ToList();
+                    break;
+                case "Developer":
+                    userTickets = db.Tickets.Where(t => t.AssignedToUserId == userId).ToList();
+                    break;
+                case "ProjectManager":
+                    var user = db.Users.Find(userId);
+                    userTickets = user.Projects.SelectMany(p => p.Tickets).ToList();
+                    break;
+                case "Admin":
+                    userTickets = db.Tickets.ToList();
+                    break;
+                default:
+                    break;
+            }
+            return (userTickets);
+        }
     }
 }
