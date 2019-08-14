@@ -1,4 +1,4 @@
-﻿@using ACNbugtracker.Models;
+﻿﻿@using ACNbugtracker.Models;
 @using ACNbugtracker.Helper;
 
 @model IEnumerable<UserProfileViewModel>
@@ -6,64 +6,4 @@
     var roleHelper = new UserRolesHelper();
 }
 
-@foreach (var user in Model)
-{
 
-    <div class="col-lg-4 col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <strong class="card-title mb-3">@roleHelper.ListUserRoles(user.Id).FirstOrDefault()</strong>
-            </div>
-            <div class="card-body">
-                <div class="mx-auto d-block">
-                    <img class="rounded-circle mx-auto d-block img" src="@user.AvatarUrl" height="80" alt="Card image cap">
-                    <h5 class="text-sm-center mt-2 mb-1">@Html.DisplayFor(modelItem => user.FirstName)</h5>
-                    <h5 class="text-sm-center mt-2 mb-1">@Html.DisplayFor(modelItem => user.LastName)</h5>
-                    <h5 class="text-sm-center mt-2 mb-1">@Html.DisplayFor(modelItem => user.Email)</h5>
-                </div>
-                <hr>
-                <div class="card-text text-sm-center">
-                    <a href="#"><i class="fa fa-facebook pr-1"></i></a>
-                    <a href="#"><i class="fa fa-twitter pr-1"></i></a>
-                    <a href="#"><i class="fa fa-linkedin pr-1"></i></a>
-                    <a href="#"><i class="fa fa-pinterest pr-1"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
-
-<div class="card">
-    <div class="card-header">
-        <strong class="card-title">REGISTERED USERS</strong>
-    </div>
-    <div class="card-body">
-        <table class="table table-dark">
-            <thead>
-                <tr>
-                    <th scope="col">Avatar</th>
-                    
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Role</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model)
-                {
-                    <tr>
-                        <td class="avartar"><img src="@user.AvatarUrl" class="img" height="40" /></td>
-
-                        <td>@Html.DisplayFor(modelItem => user.FirstName)</td>
-
-                        <td>@Html.DisplayFor(modelItem => user.LastName)</td>
-
-                        <td>@roleHelper.ListUserRoles(user.Id).FirstOrDefault()</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        @Html.ActionLink("Back to Dashboard", "Index", "Home")
-    </div>
-</div>
