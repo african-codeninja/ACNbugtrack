@@ -10,17 +10,29 @@ namespace ACNbugtracker.Helper
 {
     public class UserRolesHelper
     {
-        private UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+        public UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
-        private ApplicationDbContext db = new ApplicationDbContext();
+        public ApplicationDbContext db = new ApplicationDbContext();
         //takes the UserID and role name and confirms that they exist and have a role
-        public bool IsUserInRole(string UserId, string roleName)
+        public bool IsUserInRole(string userId, string roleName)
         {
-            return userManager.IsInRole(UserId, roleName);
+            return userManager.IsInRole(userId, roleName);
         }
         //Takes the User Id's and spits out their associated roles
         public ICollection<string> ListUserRoles(string userId)
         {
+            return userManager.GetRoles(userId);
+        }
+
+        public bool IsEmailInRole(string email, string roleName)
+        {
+            var userId = userManager.FindByEmail(email).Id;
+            return userManager.IsInRole(userId, roleName);
+        }
+
+        public ICollection<string> ListEmailRoles(string email)
+        {
+            var userId = userManager.FindByEmail(email).Id;
             return userManager.GetRoles(userId);
         }
 
