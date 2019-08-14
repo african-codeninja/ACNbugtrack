@@ -17,7 +17,8 @@ namespace ACNbugtracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper rolesHelper = new UserRolesHelper();
         private ProjectsHelper projectsHelper = new ProjectsHelper();
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
         // GET: Tickets
         public ActionResult Index()
         {
@@ -25,7 +26,7 @@ namespace ACNbugtracker.Controllers
             return View(tickets.ToList());
         }
 
-        [Authorize(Roles = "ProjectManager,Developer,Submitter")]
+        [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
         //Creating MyIndex view that is only filled with data that belongs to a particular role
         public ActionResult MyIndex()
         {
@@ -46,6 +47,10 @@ namespace ACNbugtracker.Controllers
                     break;
                 case "ProjectManager":
                     myTickets = db.Users.Find(userId).Projects.SelectMany(t => t.Tickets).ToList();
+                    break;
+                case "Admin":
+                    var tickets = db.Tickets.Include(t => t.AssignedToUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+                    return View(tickets.ToList());
                     break;
             }
 
@@ -105,23 +110,39 @@ namespace ACNbugtracker.Controllers
         }
 
         // GET: Tickets/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Developer, Submitter, ProjectManager")]
         public ActionResult Edit(int? id)
-        {
+        {         
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var allowed = false;
+
             Ticket ticket = db.Tickets.Find(id);
+
+            var userId = User.Identity.GetUserId();
+
+            
+
             if (ticket == null)
             {
                 return HttpNotFound();
             }
             
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);            
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
-            return View(ticket);
+            if(TicketDecisionHelper.TicketIsEditableByUser(ticket))
+            {
+                ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
+                ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
+                ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
+                ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
+                ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
+                return View(ticket);
+            }
+            else
+            {
+                return RedirectToAction("AccesValidation", "Admin");
+            }
         }
 
         // POST: Tickets/Edit/5
@@ -180,5 +201,17 @@ namespace ACNbugtracker.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //Get Assignticket page
+        public ActionResult AssignTicket()
+        {
+            var myProjects = projectsHelper.ListUserProjects(User.Identity.GetUserId());
+            //Create a create view only for the tickets the submitter is on when we did the Manage projects
+            ViewBag.ProjectId = new SelectList(myProjects, "Id", "Name");
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
+            return View();
+        }
+
     }
 }
