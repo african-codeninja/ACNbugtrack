@@ -9,12 +9,12 @@ using System.Web.Mvc;
 
 namespace ACNbugtracker.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper rolesHelper = new UserRolesHelper();
-        private ProjectsHelper projectsHelper = new ProjectsHelper();
+        private ProjectsHelper projectHelper = new ProjectsHelper();
 
         // GET: Admin
         public ActionResult UserIndex()
@@ -131,16 +131,30 @@ namespace ACNbugtracker.Controllers
             }
             return RedirectToAction("ManageRoles");
         }
-
-        public ActionResult ManageProjects()
+        [HttpGet]
+        public ActionResult ManageProjects(string userId)
         {
-            return View();
+            //var users = db.Users.Find(userId);
+
+            //var users = db.Users.Select(userAttrib => new UserProfileViewModel
+            //{
+            //    Id = userAttrib.Id,
+            //    FirstName = userAttrib.FirstName,
+            //    LastName = userAttrib.LastName,
+            //    DisplayName = userAttrib.DisplayName,
+            //    AvatarUrl = userAttrib.AvatarUrl,
+            //    Email = userAttrib.Email
+            //}).ToList();
+
+            var myProjects = projectHelper.ListUserProjects(userId).Select(p => p.Id);
+            ViewBag.Projects = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
+            return View();         
         }
 
         //Get Function
-        public ActionResult ManageUserProjects(string userId)
+        public ActionResult ManageUserProjects(string userId, string projectId)
         {
-            var myProjects = projectsHelper.ListUserProjects(userId).Select(p => p.Id);
+            var myProjects = projectHelper.ListUserProjects(userId).Select(p => p.Id);
             ViewBag.Projects = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
             return View();
         }
@@ -150,15 +164,15 @@ namespace ACNbugtracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ManageUserProjects(List<int> projects, string userId)
         {
-            foreach (var project in projectsHelper.ListUserProjects(userId).ToList())
+            foreach (var project in projectHelper.ListUserProjects(userId).ToList())
             {
-                projectsHelper.RemoveUserFromProject(userId, project.Id);
+                projectHelper.RemoveUserFromProject(userId, project.Id);
             }
             if (projects != null)
             {
                 foreach (var projectId in projects)
                 {
-                    projectsHelper.AddUserToProject(userId, projectId);
+                    projectHelper.AddUserToProject(userId, projectId);
                 }
             }
             return RedirectToAction("UserIndex");
@@ -170,9 +184,9 @@ namespace ACNbugtracker.Controllers
         public ActionResult ManageProjectUsers(int projectId, List<string> ProjectManagers, List<string> Developers, List<string> Submitters)
         {
             //Step 1: Remove all users from the project
-            foreach (var user in projectsHelper.UsersOnProject(projectId).ToList())
+            foreach (var user in projectHelper.UsersOnProject(projectId).ToList())
             {
-                projectsHelper.RemoveUserFromProject(user.Id, projectId);
+                projectHelper.RemoveUserFromProject(user.Id, projectId);
             }
 
             //Step 2: Adds back all the selected PM's
@@ -180,7 +194,7 @@ namespace ACNbugtracker.Controllers
             {
                 foreach (var projectManagerId in ProjectManagers)
                 {
-                    projectsHelper.AddUserToProject(projectManagerId, projectId);
+                    projectHelper.AddUserToProject(projectManagerId, projectId);
                 }
             }
 
@@ -189,7 +203,7 @@ namespace ACNbugtracker.Controllers
             {
                 foreach (var developerId in Developers)
                 {
-                    projectsHelper.AddUserToProject(developerId, projectId);
+                    projectHelper.AddUserToProject(developerId, projectId);
                 }
             }
 
@@ -198,9 +212,16 @@ namespace ACNbugtracker.Controllers
             {
                 foreach (var submitterId in Submitters)
                 {
-                    projectsHelper.AddUserToProject(submitterId, projectId);
+                    projectHelper.AddUserToProject(submitterId, projectId);
                 }
             }
+
+            return RedirectToAction("Details", "Projects", new { id = projectId });
+        }
+
+        public ActionResult RemoveProjectUser(string userId, int projectId)
+        {
+            projectHelper.RemoveUserFromProject(userId, projectId);
 
             return RedirectToAction("Details", "Projects", new { id = projectId });
         }
