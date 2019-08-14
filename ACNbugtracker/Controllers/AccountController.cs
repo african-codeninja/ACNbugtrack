@@ -236,7 +236,7 @@ namespace ACNbugtracker.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -253,6 +253,37 @@ namespace ACNbugtracker.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        [HttpGet] [AllowAnonymous]
+        public ActionResult ResendEmailConfirmation()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResendEmailConfirmation(ForgotPasswordViewModel model)
+        {
+            var user = await UserManager.FindByNameAsync(model.Email);
+
+            if (user != null)
+            {
+                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", 
+                    new { userId = user.Id, code = code }, 
+                    protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>"); }
+
+            return RedirectToAction("ConfirmationSent");
+        }
+
+        public ActionResult ConfimationSent()
+        {
+            return View();
+        }
+
 
         //
         // GET: /Account/ForgotPasswordConfirmation
@@ -282,7 +313,7 @@ namespace ACNbugtracker.Controllers
                 return View(model);
             }
             var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
+            if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
@@ -425,7 +456,7 @@ namespace ACNbugtracker.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
