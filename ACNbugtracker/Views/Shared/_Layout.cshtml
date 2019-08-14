@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="~/Content/flag-icon.min.css">
     <link rel="stylesheet" href="~/Content/cs-skin-elastic.css">
     <link rel="stylesheet" href="~/Content/dataTables.bootstrap4.min.css">
-    <link href="~/Content/buttons.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="Stylesheet" href="~/Content/buttons.bootstrap4.min.css" rel="stylesheet" />
 
 
     @*<link rel="stylesheet" href="~/Content/jqvmap.min.css">*@
@@ -65,7 +65,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-laptop"></i>User Administration</a>
                             <ul class="sub-menu children dropdown-menu">
                                 <li><i class="fa fa-id-badge"></i><a href="@Url.Action("UserIndex","Admin")">Project Users</a></li>
-                                <li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageUsers","Admin")">Manage Users</a></li>
+                                @*<li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageUser","Admin")">Manage Users</a></li>*@
                                 <li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageRoles","Admin")">Manage User Roles</a></li>
                                 @*<li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageUserRole","Admin")">Manage User Projects</a></li>*@
 
@@ -77,10 +77,10 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Ticket Management</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-book"></i><a href="@Url.Action("Index","Tickets")">Tickets Home</a></li>
+                            <li><i class="fa fa-book"></i><a href="@Url.Action("MyIndex","Tickets")">Tickets Home</a></li>
                             @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                             {
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects", "Admin")">Project Manager tickets</a></li>
+                                <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "TicketComments")">Tickets Comments</a></li>
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects", "Admin")">Developer tickets</a></li>
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects", "Admin")">Developer tickets</a></li>
                             }
@@ -94,11 +94,12 @@
                         <ul class="sub-menu children dropdown-menu">
                             @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                             {
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "Projects")">Project Index</a></li>
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects", "Admin")">Manage User Projects</a></li>
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects", "Admin")">Manage User Projects</a></li>
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects", "Admin")">Manage User Projects</a></li>
+                                <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "projects")">Manage User Projects</a></li>
                             }
+                            <li><i class="fa fa-book"></i><a href="@Url.Action("MyProjectsIndex", "Projects")">Project Index</a></li>
+                            <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects", "Admin")">Manage User Projects</a></li>
+                            <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects", "Admin")">Manage User Projects</a></li>
+
                         </ul>
                     </li>
 
@@ -106,12 +107,17 @@
 
                         <h3 class="menu-title">User Profile</h3>
 
-                            <li class="menu-item-has-children dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
-                                <ul class="sub-menu children dropdown-menu">
-                                    <li><i class="fa fa-book"></i><a href="@Url.Action("Logoff","Admin")">Log Out</a></li>               
-                                </ul>
-                            </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>App Manager</a>
+                        @*<ul class="sub-menu children dropdown-menu">
+            <li><i class="fa fa-book"></i><a href="@Url.Action("Logoff","Admin")">Log Out</a></li>
+        </ul>*@
+                        @using (Html.BeginForm("LogOff", "Account"))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit">Logout</button>
+                        }
+                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
