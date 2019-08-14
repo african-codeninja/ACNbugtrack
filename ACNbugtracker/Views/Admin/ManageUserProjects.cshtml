@@ -1,21 +1,33 @@
 ﻿@using ACNbugtracker.Models
 @using ACNbugtracker.Helper
 
-@model ACNbugtracker.Models.ApplicationUser
+@model IEnumerable<Project>
 
 
-@{ 
+@{
     ViewBag.Title = "ManageUserProjects";
-    var userProjectsHelper = new UserProjectsHelper();
+    var projectHelper = new ProjectsHelper();
 }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ManageUserProjects</title>
-</head>
-<body>
-    <div> 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UserId", (string)ViewBag.UserId)
+
+    <br />
+    @Html.Display(User.Identity.Name)
+
+    <div class="form-group">
+        @Html.Label("ASSIGN THIS USER TO A PROJECT", null, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col=md-10">
+            @Html.DropDownList("Projects", null, "--Select Role---", htmlAttributes: new { @class = "form-control" })
+        </div>
     </div>
-</body>
-</html>
+
+    <div class="form-group">
+        <button type="submit" value="Assign" btn btn-primary">Assign the User a Project Now</button>
+    </div>
+
+    @Html.ActionLink("BACK TO USER INDEX", "UserIndex", "Admin")
+
+}
