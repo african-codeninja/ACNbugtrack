@@ -5,9 +5,12 @@
 }
 
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    <p>
+        @if (User.IsInRole("Submitter"))
+        {
+            @Html.ActionLink("Create New", "Create")
+        }
+        </p>
 <div class="col-lg-12 container-fluid">
     <div class="card">
         <div class="card-header">
