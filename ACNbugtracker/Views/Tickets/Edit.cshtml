@@ -3,112 +3,74 @@
 @{
     ViewBag.Title = "TICKET EDIT AND ASSIGNMENT";
 }
+    <div class="col-12">
+        <div class="col-lg-12">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="card">
+                    <div class="card-header">
+                        <strong>TICKET EDIT</strong>
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                        {
+                            <small>TICKET ASSIGNMENT</small>
+                        }
+                    </div>
+                    <div class="card-body card-block">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProjectId, "PROJECT", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TicketTypeId, "TICKET TYPE", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TicketPriorityId, "TICKET PRIORITY", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.DropDownList("TicketPriorityId", null, "--Select New Priority--", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
+                        </div>
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TicketStatusId, "TICKET STATUS", htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.DropDownList("TicketStatusId", null, "--Select New status--", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
+                            </div>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AssignedToUserId, "TICKET ASSIGNMENT", htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.DropDownList("AssignedToUserId", null, "--Assign ticket--", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })
+                            </div>
+                        }
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Title, "TICKET TITLE", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, "TICKET DESCRIPTION", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
+        </div>            
+        </div>       
+    </div>
     
-    <div class="form-horizontal">
-        <h4>TICKET EDIT AND ASSIGMENT</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.OwnerUserId)
-        @Html.HiddenFor(model => model.Created)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProjectId, "PROJECT", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TicketTypeId, "TICKET TYPE", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TicketPriorityId, "TICKET PRIORITY", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TicketPriorityId", null, "--Select New Priority--", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.TicketStatusId, "TICKET STATUS", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("TicketStatusId", null, "--Select New status--", htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
-            @*<div class="form-group">
-                @Html.LabelFor(model => model.OwnerUserId, "OwnerUserId", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("OwnerUserId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.OwnerUserId, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.AssignedToUserId, "TICKET ASSIGNMENT", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("AssignedToUserId", null, "--Assign ticket--", htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Title, "TICKET TITLE", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Description, "TICKET DESCRIPTION", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*<div class="form-group">
-                @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Created, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
-            @*<div class="form-group">
-                @Html.LabelFor(model => model.Updated, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Updated, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Updated, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        
