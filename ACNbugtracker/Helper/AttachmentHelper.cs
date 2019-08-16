@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 
-namespace Automata_DTaylor_Bugtracker.Helpers
+namespace ACNbugtracker.Helper
 {
     public class AttachmentHelper
     {
