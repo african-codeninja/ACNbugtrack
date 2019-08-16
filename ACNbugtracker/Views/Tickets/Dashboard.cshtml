@@ -1,0 +1,284 @@
+﻿@using ACNbugtracker.Helper
+@using ACNbugtracker.Models
+@model ACNbugtracker.Models.Ticket
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+            <div class="breadcrumbs">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+                            <h1>Tickets</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <div class="page-title">
+                            <ol class="breadcrumb text-right">
+                                <li><a href="#">Dashboard</a></li>
+                                <li><a href="#">UI Elements</a></li>
+                                <li class="active">Tab</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content mt-3">
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <div class="card text-white bg-flat-color-1">
+                            <div class="card-body pb-0">
+                                <div class="dropdown float-right">
+                                    <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button" id="dropdownMenuButton1" data-toggle="dropdown">
+                                        <i class="fa fa-cog"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <div class="dropdown-menu-content">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="container-fluid">
+                                    <span @*Causing issues when page is loading class="count"*@>104</span>
+                                </h4>
+                                <p class="text-light">Register Users</p>
+
+                                <div class="chart-wrapper px-0" style="height:100px;" height="70" />
+                                <canvas id="widgetChart1"></canvas>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="stat-widget-one">
+                                <div class="stat-icon dib"><i class="ti-layout-grid2 text-warning border-warning"></i></div>
+                                <div class="stat-content dib">
+                                    <div class="stat-text">Active Projects</div>
+                                    <div class="stat-digit">15</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="stat-widget-one">
+                                <div class="stat-icon dib"><i class="ti-link text-danger border-danger"></i></div>
+                                <div class="stat-content dib">
+                                    <div class="stat-text">Tickets</div>
+                                    <div class="stat-digit">245</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content mt-3">
+            <div class="animated fadeIn">
+
+                <div class="row">
+
+                    <!-- /# column -->
+                    <!-- /# column -->
+                </div>
+
+
+                <div class="row">
+
+                    <!-- /# column -->
+
+                </div>
+
+                <div class="row">
+
+                    <!-- /# column -->
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+
+                    </div>
+                    <!-- /# column -->
+                    <!-- /# column -->
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>User Tickets</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="default-tab">
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Ticket Attachment</a>
+                                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Something will be here</a>
+                                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Another thing who knows</a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <p>
+                                                    <!--Top Row for Entire Diplay-->
+                                                    <div class="rom">
+                                                        <div class="col-12">
+                                                            @if (TicketDecisionHelper.TicketIsEditableByUser(Model))
+                                                            {
+                                                                using (Html.BeginForm("Create", "TicketAttachment", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                                                                {
+                                                                    @Html.AntiForgeryToken()
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <h6>Title</h6>
+                                                                            <input type="text" name="Title" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <h6>Description</h6>
+                                                                            <textarea rows="5" cols="70" type="text" name="Description"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <button type="submit" class="btn btn-primary btn-sm">Add Attachment</button>
+                                                                        </div>
+                                                                    </div>
+                                                                };
+                                                            }
+                                                            <!--Show the attachment image/icon-->
+                                                            <!--Show the attachment file name-->
+                                                            <!--Show the Created date-->
+                                                            <!--Show the title-->
+                                                            <!--Show the description-->
+                                                            <!--Show the author name-->
+                                                            @foreach (var attachment in Model.TicketAttachments)
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <h3>Image Goes Here</h3>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <h3><a target="-blank" href="@attachment.FileUrl">@Path.GetFileNameWithoutExtension(attachment.FileUrl)</a></h3>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">@attachment.Created.ToString("MMM d, yyyy")</div>
+                                                                            <div class="col-md-6">@attachment.User.FirstName</div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                @attachment.Title
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                @attachment.Description
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </p>
+                                            </div>
+                                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                <p>
+                                                    Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
+                                                    butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd. Alip placeat salvia cillum iphone. Seitan alip s cardigan american apparel, butcher voluptate nisi .
+                                                </p>
+                                            </div>
+                                            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <p>
+                                                    Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
+                                                    butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd. Alip placeat salvia cillum iphone. Seitan alip s cardigan american apparel, butcher voluptate nisi .
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Ticket Notifications</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="default-tab">
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+                                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <p>
+                                                    Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
+                                                    butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd. Alip placeat salvia cillum iphone. Seitan alip s cardigan american apparel, butcher voluptate nisi .
+                                                </p>
+                                            </div>
+                                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                <p>
+                                                    Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
+                                                    butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd. Alip placeat salvia cillum iphone. Seitan alip s cardigan american apparel, butcher voluptate nisi .
+                                                </p>
+                                            </div>
+                                            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <p>
+                                                    Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
+                                                    butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd. Alip placeat salvia cillum iphone. Seitan alip s cardigan american apparel, butcher voluptate nisi .
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /# column -->
+                        </div>
+
+
+
+
+                    </div><!-- .animated -->
+                </div><!-- .content -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
