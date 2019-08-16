@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ACNbugtracker.Helpers
+namespace ACNbugtracker.Helper
 {
     public class NotificationHelper
     {
