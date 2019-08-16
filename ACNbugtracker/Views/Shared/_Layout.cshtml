@@ -24,10 +24,8 @@
     <link rel="stylesheet" href="~/Content/flag-icon.min.css">
     <link rel="stylesheet" href="~/Content/cs-skin-elastic.css">
     <link rel="stylesheet" href="~/Content/dataTables.bootstrap4.min.css">
-    <link rel="Stylesheet" href="~/Content/buttons.bootstrap4.min.css" rel="stylesheet" />
-
-
-    @*<link rel="stylesheet" href="~/Content/jqvmap.min.css">*@
+    <link rel="Stylesheet" href="~/Content/buttons.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="~/Content/jqvmap.min.css">
 
 
     <link rel="stylesheet" href="~/Content/style.css">
@@ -109,14 +107,10 @@
 
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>App Manager</a>
-                        @*<ul class="sub-menu children dropdown-menu">
-            <li><i class="fa fa-book"></i><a href="@Url.Action("Logoff","Admin")">Log Out</a></li>
-        </ul>*@
-                        @using (Html.BeginForm("LogOff", "Account"))
-                        {
-                            @Html.AntiForgeryToken()
-                            <button type="submit">Logout</button>
-                        }
+                        <ul class="sub-menu children dropdown-menu">
+                                <li><i class="fa fa-book"></i><a href="">Log Out</a></li>
+                            </ul>
+                        
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -201,7 +195,12 @@
 
                             <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
 
-                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i> Logout</a>
+                            @using (Html.BeginForm("LogOff", "Account"))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit">Logout</button>
+                                @*<a class="nav-link" href="#"><i class="fa fa-power-off"></i> Logout</a>*@
+                            }
                         </div>
                     </div>
 
@@ -232,12 +231,13 @@
         <!-- /header -->
         <!-- Header-->
 
-        <div class="container body-content">
+        <div class="row">
             @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - Moses Mbutha Mwangi</p>
-            </footer>
+            <div class="col-10">
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - Moses Mbutha Mwangi</p>
+                </footer>
+            </div>
         </div>
     </div>
 
@@ -247,11 +247,11 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/main.js"></script>
 
-    @*<script src="~/Scripts/Chart.bundle.min.js"></script>*@
+    <script src="~/Scripts/Chart.bundle.min.js"></script>
     <script src="~/Scripts/dashboard.js"></script>
     <script src="~/Scripts/widgets.js"></script>
     <script src="~/Scripts/jquery.vmap.min.js"></script>
-    @*<script src="~/Scripts/jquery.vmap.sampledata.js"></script>*@
+    <script src="~/Scripts/jquery.vmap.sampledata.js"></script>
     <script src="~/Scripts/jquery.vmap.world.js"></script>
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
@@ -268,26 +268,27 @@
         @Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
 
+    <script>
+        (function ($) {
+            "use strict";
+
+            jQuery('#vmap').vectorMap({
+                map: 'world_en',
+                backgroundColor: null,
+                color: '#ffffff',
+                hoverOpacity: 0.7,
+                selectedColor: '#1de9b6',
+                enableZoom: true,
+                showTooltip: true,
+                values: sample_data,
+                scaleColors: ['#1de9b6', '#03a9f5'],
+                normalizeFunction: 'polynomial'
+            });
+        })(jQuery);
+    </script>
+
 
 
 </body>
 
 </html>
-@*<script>
-    (function ($) {
-        "use strict";
-
-        jQuery('#vmap').vectorMap({
-            map: 'world_en',
-            backgroundColor: null,
-            color: '#ffffff',
-            hoverOpacity: 0.7,
-            selectedColor: '#1de9b6',
-            enableZoom: true,
-            showTooltip: true,
-            values: sample_data,
-            scaleColors: ['#1de9b6', '#03a9f5'],
-            normalizeFunction: 'polynomial'
-        });
-    })(jQuery);
-</script>*@
