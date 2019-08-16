@@ -27,6 +27,20 @@ namespace ACNbugtracker.Controllers
         }
 
         [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
+        // GET: Tickets
+        public ActionResult Dashboard(int id)
+        {
+            var tickets = db.Tickets.Find(id);
+
+            if(tickets == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(tickets);
+        }
+
+        [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
         //Creating MyIndex view that is only filled with data that belongs to a particular role
         public ActionResult MyIndex()
         {
@@ -116,20 +130,20 @@ namespace ACNbugtracker.Controllers
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var allowed = false;
+            }            
 
             Ticket ticket = db.Tickets.Find(id);
-
-            var userId = User.Identity.GetUserId();
-
-            
 
             if (ticket == null)
             {
                 return HttpNotFound();
             }
+
+            var allowed = false;
+            var userId = User.Identity.GetUserId();
             
+            
+
             if(TicketDecisionHelper.TicketIsEditableByUser(ticket))
             {
                 ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
@@ -141,7 +155,7 @@ namespace ACNbugtracker.Controllers
             }
             else
             {
-                return RedirectToAction("AccesValidation", "Admin");
+                return RedirectToAction("AccessViolation", "Admin");
             }
         }
 
