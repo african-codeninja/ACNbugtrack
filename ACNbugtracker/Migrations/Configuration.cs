@@ -1,5 +1,6 @@
 namespace ACNbugtracker.Migrations
 {
+    using ACNbugtracker.Helper;
     using ACNbugtracker.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
@@ -10,8 +11,6 @@ namespace ACNbugtracker.Migrations
 
     internal sealed class Configuration : DbMigrationsConfiguration<ACNbugtracker.Models.ApplicationDbContext>
     {
-
-
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
@@ -42,6 +41,7 @@ namespace ACNbugtracker.Migrations
             #endregion
             //  This method will be called after migrating to the latest version.            
             //I need to create several users that will eventually occupy the roles of either Admin, Project Manager, Developer and Submitter
+
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
             if (!context.Users.Any(u => u.Email == "mosesmwangi@mailinator.com"))
@@ -56,7 +56,55 @@ namespace ACNbugtracker.Migrations
                     UserName = "mosesmwangi@mailinator.com"
 
                 }, "Abc&123");
+            }
 
+                if (!context.Users.Any(u => u.Email == "Admin@Mailinator.com"))
+                {
+                    userManager.Create(new ApplicationUser
+                    {
+                        UserName = "Admin@Mailinator.com",
+                        Email = "Admin@Mailinator.com",
+                        FirstName = "Admin",
+                        LastName = "Administrator",
+                        DisplayName = "The Admin"
+                    }, "Abc&123!");
+                }
+
+                if (!context.Users.Any(u => u.Email == "ProjectManager@Mailinator.com"))
+                {
+                    userManager.Create(new ApplicationUser
+                    {
+                        UserName = "ProjectManager@Mailinator.com",
+                        Email = "ProjectManager@Mailinator.com",
+                        FirstName = "Project",
+                        LastName = "Manager",
+                        DisplayName = "The PM"
+                    }, "Abc&123!");
+                }
+
+                if (!context.Users.Any(u => u.Email == "Developer@Mailinator.com"))
+                {
+                    userManager.Create(new ApplicationUser
+                    {
+                        UserName = "Developer@Mailinator.com",
+                        Email = "Developer@Mailinator.com",
+                        FirstName = "John",
+                        LastName = "Wick",
+                        DisplayName = "Ticket Worker"
+                    }, "Abc&123!");
+                }
+
+                if (!context.Users.Any(u => u.Email == "Submitter@Mailinator.com"))
+                {
+                    userManager.Create(new ApplicationUser
+                    {
+                        UserName = "Submitter@Mailinator.com",
+                        Email = "Submitter@Mailinator.com",
+                        FirstName = "Sub",
+                        LastName = "Mitter",
+                        DisplayName = "Ticket Creator"
+                    }, "Abc&123!");
+                }
                 if (!context.Users.Any(u => u.Email == "zuri@mailinator.com"))
                 {
                     userManager.Create(new ApplicationUser
@@ -70,7 +118,6 @@ namespace ACNbugtracker.Migrations
 
                     }, "Zuri@1234");
                 }
-
                 if (!context.Users.Any(u => u.Email == "josephine@mailinator.com"))
                 {
                     userManager.Create(new ApplicationUser
@@ -265,13 +312,62 @@ namespace ACNbugtracker.Migrations
 
                     }, "william&1234");
                 }
-            }
+
+            #region Role Assignment
 
             var userId = userManager.FindByEmail("mosesmwangi@mailinator.com").Id;
             userManager.AddToRole(userId, "Admin");
 
-            userId = userManager.FindByEmail("joeshmoe@mailinator.com").Id;
+            var pmId = userManager.FindByEmail("joeshmoe@mailinator.com").Id;
             userManager.AddToRole(userId, "ProjectManager");
+
+            var adminId = userManager.FindByEmail("Admin@Mailinator.com").Id;
+            userManager.AddToRole(adminId, "Admin");
+            
+            pmId = userManager.FindByEmail("ProjectManager@Mailinator.com").Id;
+            userManager.AddToRole(pmId, "ProjectManager");
+            
+            var subId = userManager.FindByEmail("Submitter@Mailinator.com").Id;
+            userManager.AddToRole(subId, "Submitter");
+            
+            var devId = userManager.FindByEmail("Developer@Mailinator.com").Id;
+            userManager.AddToRole(devId, "Developer");
+            #endregion
+
+            #region Project Creation
+            context.Projects.AddOrUpdate(
+               p => p.Name,
+                   new Project { Name = "Mos Blog", Description = "This is the Mos Blog project that is now out in the wild.", Created = DateTime.Now },
+                   new Project { Name = "Moses Portfolio", Description = "This is the Portfolio project that is now out in the wild.", Created = DateTime.Now },
+                   new Project { Name = "ACN BugTracker", Description = "This is the ACN BugTracker project that is now out in the wild.", Created = DateTime.Now }
+               );
+
+            context.SaveChanges();
+            #endregion
+
+            #region Project Assignment
+            var portfolioProjectId = context.Projects.FirstOrDefault(p => p.Name == "Moses Portfolio").Id;
+            var blogProjectId = context.Projects.FirstOrDefault(p => p.Name == "Mos Blog").Id;
+            var bugTrackerProjectId = context.Projects.FirstOrDefault(p => p.Name == "ACN BugTracker").Id;
+            
+            var projectHelper = new ProjectsHelper();
+
+            //Assign all three users to the Potfolio project
+            projectHelper.AddUserToProject(pmId, portfolioProjectId);
+            projectHelper.AddUserToProject(devId, portfolioProjectId);
+            projectHelper.AddUserToProject(subId, portfolioProjectId);
+            
+            //Assign all three users to the Blog project
+            projectHelper.AddUserToProject(pmId, blogProjectId);
+            projectHelper.AddUserToProject(devId, blogProjectId);
+            projectHelper.AddUserToProject(subId, blogProjectId);
+
+            //Assign all three users to the Blog project
+            projectHelper.AddUserToProject(pmId, bugTrackerProjectId);
+            projectHelper.AddUserToProject(devId, bugTrackerProjectId);
+            projectHelper.AddUserToProject(subId, bugTrackerProjectId);
+            #endregion
+
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
@@ -288,23 +384,113 @@ namespace ACNbugtracker.Migrations
 
             context.TicketStatuses.AddOrUpdate(
                 t => t.Name,
-                new TicketStatus { Name = "New/UnAssigned", Description = "" },
-                new TicketStatus { Name = "UnAssigned", Description = "" },
-                new TicketStatus { Name = "New/Assigned", Description = "" },
-                new TicketStatus { Name = "Assigned", Description = "" },
-                new TicketStatus { Name = "In Progress", Description = "" }
+                new TicketStatus { Name = "New / UnAssigned", Description = "New Ticket Not Assigned to any developer yet" },
+                new TicketStatus { Name = "UnAssigned", Description = "This is not a new ticket but it still has not been assigned to any developer" },
+                new TicketStatus { Name = "New / Assigned", Description = "This ticket has been newly assigned to a developer" },
+                new TicketStatus { Name = "Assigned", Description = "This is a new  ticket that has been reassigned to another developer" },
+                new TicketStatus { Name = "In Progress", Description = "This is an old ticket still in the process of bieng resolved" },
+                new TicketStatus { Name = "Completed", Description = "This is a ticket that has already been resolved" },
+                new TicketStatus { Name = "Archived", Description = "Already completed ticket that has been achived" }
                 );
 
             context.TicketTypes.AddOrUpdate(
                 t => t.Name,
-                    new TicketType { Name = "Bug / Defect", Description = "Typos,Error,Uresolved code" },
-                    new TicketType { Name = "New Functionality request", Description = "Client has added a new functionality not originaly mentioned in requirement/deliverables" },
-                    new TicketType { Name = "New Document Request", Description = "" },
-                    new TicketType { Name = "Training Request", Description = "Client still has not fully understood a function and need more training" },
-                    new TicketType { Name = "Complaint", Description = "General issue customer has found that needs resolution" }
+                new TicketType { Name = "Bug", Description = "An error has occurred that resulted in either the application crashing or the user seeing error information" },
+                new TicketType { Name = "Defect", Description = "An error has occurred that resulted in either a miscalculation or an in correct workflow" },
+                new TicketType { Name = "New Functionality request", Description = "Client has added a new functionality not originaly mentioned in requirement/deliverables" },
+                new TicketType { Name = "New Document Request", Description = "A client has called in asking for new documentation to be created for the existing application" },
+                new TicketType { Name = "Training Request", Description = "Client still has not fully understood a function and need more training" },
+                new TicketType { Name = "Complaint", Description = "A client has called in to make a general complaint about our application" },
+                new TicketType { Name = "Other", Description = "A call has been received that requires follow up but is outside the usual parameters for a request" }
                 );
+
+            context.SaveChanges();
             #endregion
 
+            #region Ticket creation          
+            context.Tickets.AddOrUpdate(
+               p => p.Title,
+                //1 unassigned Bug on the Blog project
+                //1 assigned Defect on the Blog project
+                new Ticket
+                {
+                    ProjectId = blogProjectId,
+                    OwnerUserId = subId,
+                    Title = "Seeded Ticket #1",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = blogProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #2",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                },
+
+                //1 unassigned Bug on the Portfolio project
+                //1 assigned Defect on the Portfolio project
+                new Ticket
+                {
+                    ProjectId = portfolioProjectId,
+                    OwnerUserId = subId,
+                    Title = "Seeded Ticket #3",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = portfolioProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #4",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                },
+
+                //1 unassigned Bug on the BugTracker
+                //1 assigned Defect on the BugTracker
+                
+                new Ticket
+                {
+                    ProjectId = bugTrackerProjectId,
+                    OwnerUserId = subId,
+                    Title = "Seeded Ticket #3",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+                new Ticket
+                {
+                    ProjectId = bugTrackerProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #4",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                });
+            #endregion
         }
+
     }
+    
 }
