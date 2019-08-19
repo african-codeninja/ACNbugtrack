@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
@@ -12,8 +12,13 @@ namespace ACNbugtracker.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        [StringLength(40, MinimumLength = 3, ErrorMessage = "The First Name must be between 3 and 40 characters long.")]
         public string FirstName { get; set; }
+
+        [StringLength(40, MinimumLength = 3, ErrorMessage = "The Last Name must be between 3 and 40 characters long.")]
         public string LastName { get; set; }
+
+        [StringLength(80, MinimumLength = 3, ErrorMessage = "The Display Name must be between 3 and 80 characters long.")]
         public string DisplayName { get; set; }
         public string AvatarUrl { get; set; }
 
@@ -83,7 +88,7 @@ namespace ACNbugtracker.Models
         public DbSet<TicketStatus> TicketStatuses { get; set; }
         public DbSet<TicketType> TicketTypes { get; set; }
         public DbSet<ProjectNotification> ProjectNotifications { get; set; }
-        //public DbSet<ToDoListItem> ToDoListItems { get; set; }
+        
 
         public DbSet<TicketHistory> TicketHistories { get; set; }
 
