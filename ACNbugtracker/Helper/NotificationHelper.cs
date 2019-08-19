@@ -1,88 +1,121 @@
 ﻿using ACNbugtracker.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
+using System.Web.Configuration;
 
 namespace ACNbugtracker.Helper
 {
     public class NotificationHelper
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
-        public void TriggerAssignmentNotifications(int ticketId, string oldDeveloper, string newDeveloper)
+        private static ApplicationDbContext db = new ApplicationDbContext();
+        public static void CreateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
-            //set up a few simple variables that tell me which situation is afoot
-            var newAssignment = string.IsNullOrEmpty(oldDeveloper) && !string.IsNullOrEmpty(newDeveloper);
-            var unAssignment = !string.IsNullOrEmpty(oldDeveloper) && string.IsNullOrEmpty(newDeveloper);
-            var reAssignment = (!string.IsNullOrEmpty(oldDeveloper) && !string.IsNullOrEmpty(newDeveloper)) && (oldDeveloper != newDeveloper);
+            //4 cases considered for this case scenarios for notifications
 
-            //Case 1: oldDeveloper = null and newDeveloper = null
-            //do nothing
-            //Case 2: oldDeveloper has a value and newDeveloper has the same value
-            //do nothing
-            //Case 3: oldDeveloper = null and newDeveloper has a value
-            //a new assignment has occurred, so newDeveloper must be informed
-            //case 4: oldDeveloper has a value and newDeveloper = null
-            //an unassignment. oldDeveloper must be notified
-            //Case 5: oldDeveloper has a value and newDeveloper has a different value
-            //a reassignment. both devs must be notified.
+            //1. No Change
+            //2. An Assignment - This means that the old AssignedToUserId was null and the current one is not
+            //3. An Unassignement - This means that the old AssignedToUserId had a value and the current one is null 
+            //4. A reassignment - The Ticket was assigned to someone and it is now assigned to someone else
 
-            if (newAssignment)
-            {
-                AddAssignmentNotification(ticketId, newDeveloper);
-            }
-            else if (unAssignment)
-            {
-                AddUnassignmentNotification(ticketId, oldDeveloper);
-            }
-            else if (reAssignment)
-            {
-                AddAssignmentNotification(ticketId, newDeveloper);
-                AddUnassignmentNotification(ticketId, oldDeveloper);
-            }
-        }
+            //Setting up Boolean variables to determine which case I am in
+            var noChange = (oldTicket.AssignedToUserId == newTicket.AssignedToUserId);
+            var assignment = (string.IsNullOrEmpty(oldTicket.AssignedToUserId));
+            var unassignment = (string.IsNullOrEmpty(newTicket.AssignedToUserId));
 
-        private void AddAssignmentNotification(int ticketId, string newDeveloper)
+            if (noChange)
+                return;
+
+            if (assignment)
+                GenerateAssignmentNofification(oldTicket, newTicket);
+            else if (unassignment)
+                GenerateUnAssignmentNotification(oldTicket, newTicket);
+            else
+            {
+                GenerateAssignmentNofification(oldTicket, newTicket);
+                GenerateUnAssignmentNotification(oldTicket, newTicket);
+            }
+        }   
+        
+
+        public static void GenerateUnAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
-            var properTicketId = db.Tickets.FirstOrDefault(t => t.Id == ticketId);
-            var newNotification = new TicketNotification
+            var notification = new TicketNotification
             {
-                Created = DateTime.UtcNow.ToLocalTime(),
-                TicketId = ticketId,
-                Read = true,
-                RecipientId = newDeveloper,
-                NotificationBoody = $"You have been assigned to ticket '{properTicketId.Title}'."
+                Created = DateTime.Now,
+                Subject = $"You were unassigned from Ticket Id {newTicket.Id} on {DateTime.Now}",
+                Read = false,
+                RecipientId = oldTicket.AssignedToUserId,
+                SenderId = HttpContext.Current.User.Identity.GetUserId(),
+                NotificationBoody = $"Please acknowledge that you have read this notification by marking it",
+                TicketId = newTicket.Id
             };
-            db.TicketNotifications.Add(newNotification);
+
+            db.TicketNotifications.Add(notification);
             db.SaveChanges();
         }
 
-        private void AddUnassignmentNotification(int ticketId, string oldDeveloper)
+        public static void GenerateAssignmentNofification(Ticket oldTicket, Ticket newTicket)
         {
-            var properTicketId = db.Tickets.FirstOrDefault(t => t.Id == ticketId);
-            var oldNotification = new TicketNotification
+            var notification = new TicketNotification
             {
-                Created = DateTime.UtcNow.ToLocalTime(),
-                TicketId = ticketId,
-                Read = true,
-                SenderId = oldDeveloper,
-                NotificationBoody = $"You have been unassigned from ticket '{properTicketId.Title}'."
+                Created = DateTime.Now,
+                Subject = $"You were assigned from Ticket Id {newTicket.Id} on {DateTime.Now}",
+                Read = false,
+                RecipientId = newTicket.AssignedToUserId,
+                SenderId = HttpContext.Current.User.Identity.GetUserId(),
+                NotificationBoody = $"Please acknowledge that you have read this notification by marking it",
+                TicketId = newTicket.Id
             };
-            db.TicketNotifications.Add(oldNotification);
+
+            db.TicketNotifications.Add(notification);
             db.SaveChanges();
         }
 
-        public ICollection<TicketNotification> ListUserNotifications(string userId)
+        private static void CreateChangeNotification(Ticket oldTicket, Ticket newTicket)
         {
-            var unreadNotifications = db.TicketNotifications.Where(t => t.SenderId == userId).ToList();
-            return (unreadNotifications);
-        }
+            var messageBody = new StringBuilder();
 
-        public ICollection<TicketNotification> ListUserUnreadNotifications(string userId)
-        {
-            var unreadNotifications = db.TicketNotifications.Where(t => t.Read && t.RecipientId == userId).ToList();
-            return (unreadNotifications);
+            foreach (var property in WebConfigurationManager.AppSettings["TrackedTicketProperties"].Split(','))
+            {
+                var oldValue = oldTicket.GetType().GetProperty(property).GetValue(oldTicket, null).ToString();
+                var newValue = newTicket.GetType().GetProperty(property).GetValue(newTicket, null).ToString();
+
+                if (oldValue != newValue)
+                {
+                    messageBody.AppendLine(new String('-', 45));
+                    messageBody.AppendLine($"A Change was made to property: {property}.");
+                    messageBody.AppendLine($"The Old value was: {oldValue.ToString()}");
+                    messageBody.AppendLine($"The new value is: {newValue.ToString()}");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(messageBody.ToString()))
+            {
+                var message = new StringBuilder();
+                message.AppendLine($"Changes were made to Ticket Id: {newTicket.Id} on {newTicket.Updated.GetValueOrDefault()}");
+                message.AppendLine(messageBody.ToString());
+                var senderId = HttpContext.Current.User.Identity.GetUserId();
+
+                var notification = new TicketNotification
+                {
+                    TicketId = newTicket.Id,
+                    Created = DateTime.Now,
+                    Subject = $"Ticket Id: {newTicket.Id} has changed",
+                    RecipientId = newTicket.AssignedToUserId,
+                    SenderId = senderId,
+                    NotificationBoody = message.ToString(),
+                    Read = false
+                };
+
+                db.TicketNotifications.Add(notification);
+                db.SaveChanges();
+            }
+
         }
+            
     }
 }
