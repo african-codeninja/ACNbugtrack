@@ -10,8 +10,8 @@ namespace ACNbugtracker.Helper
     public static class TicketDecisionHelper
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
-        public static UserRolesHelper rolesHelper = new UserRolesHelper();
-        public static ProjectsHelper projectHelper = new ProjectsHelper();
+        private static UserRolesHelper rolesHelper = new UserRolesHelper();
+        private static ProjectsHelper projectHelper = new ProjectsHelper();
 
         //public static bool TicketsDetailsViewableByUser(int ticketId)
         //{
@@ -87,12 +87,7 @@ namespace ACNbugtracker.Helper
                 default:
                     return false;
             }
-
-            return true;
-
         }
-
-
     }    
 
             ////Based on my role....can I edit this
