@@ -10,7 +10,7 @@ namespace ACNbugtracker.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        public static ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
             var users = db.Users.Select(userAttrib => new UserProfileViewModel
@@ -54,6 +54,11 @@ namespace ACNbugtracker.Controllers
         {
             ViewBag.Message = "Your Register page.";
 
+            return View();
+        }
+
+        public ActionResult DemoUser()
+        {
             return View();
         }
     }
