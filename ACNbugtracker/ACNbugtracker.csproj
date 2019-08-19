@@ -188,6 +188,7 @@
     </Compile>
     <Compile Include="Helper\AttachmentHelper.cs" />
     <Compile Include="Helper\DecisionHelper.cs" />
+    <Compile Include="Helper\HistoryHelper.cs" />
     <Compile Include="Helper\ImageUploadValidator.cs" />
     <Compile Include="Helper\NotificationHelper.cs" />
     <Compile Include="Helper\ProjectNotificationHelper.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Helper\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />
@@ -754,7 +756,21 @@
     <Content Include="images\flags\4x3\za.svg" />
     <Content Include="images\flags\4x3\zm.svg" />
     <Content Include="images\flags\4x3\zw.svg" />
+    <Content Include="images\Icons\doc.png" />
+    <Content Include="images\Icons\docx.png" />
+    <Content Include="images\Icons\html.png" />
+    <Content Include="images\Icons\jpg.png" />
+    <Content Include="images\Icons\logo2 copy.png" />
+    <Content Include="images\Icons\other.png" />
+    <Content Include="images\Icons\pdf.png" />
+    <Content Include="images\Icons\png.png" />
+    <Content Include="images\Icons\txt.png" />
+    <Content Include="images\Icons\xls.png" />
+    <Content Include="images\Icons\xlsx.png" />
+    <Content Include="images\Icons\xml.png" />
+    <Content Include="images\Icons\zip.png" />
     <Content Include="images\logo.png" />
+    <Content Include="images\logo2 copy.png" />
     <Content Include="images\logo2.png" />
     <Content Include="images\placeholder.png" />
     <Content Include="images\twitter_corner_black.png" />
@@ -921,9 +937,11 @@
     <Content Include="Views\Account\ResendEmailConfirmation.cshtml" />
     <Content Include="Views\Account\ConfirmationSent.cshtml" />
     <Content Include="Views\Tickets\Dashboard.cshtml" />
+    <Content Include="Views\Home\DemoUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Attachments\" />
     <Folder Include="Views\ProjectNotifications\" />
   </ItemGroup>
   <ItemGroup>
