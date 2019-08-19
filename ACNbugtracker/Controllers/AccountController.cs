@@ -175,10 +175,10 @@ namespace ACNbugtracker.Controllers
 
                 //}
 
-                if (ImageUploadValidator.IsWebFriendlyImage(image))
+                if (ImageUploadValidator.IsWebFriendlyImage(model.AvatarUrl))
                 {
-                    var fileName = Path.GetFileName(image.FileName);
-                    image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    var fileName = Path.GetFileName(model.AvatarUrl.FileName);
+                    model.AvatarUrl.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
                     user.AvatarUrl = "/Uploads/" + fileName;
                 }
 
