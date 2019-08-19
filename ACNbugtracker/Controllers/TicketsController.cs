@@ -4,20 +4,24 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ACNbugtracker.Helper;
 using ACNbugtracker.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ACNbugtracker.Controllers
 {
     public class TicketsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        public static UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+        public static ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper rolesHelper = new UserRolesHelper();
         private ProjectsHelper projectsHelper = new ProjectsHelper();
-
+        
         [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
         // GET: Tickets
         public ActionResult Index()
@@ -164,16 +168,23 @@ namespace ACNbugtracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId,Title,Description,Created,Updated")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "Id,AssignedToUserId,OwnerUserId,ProjectId,TicketTypeId,TicketStatusId,TicketPriorityId,Title,Description,Created")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                //Go out to the DB and get a copy of the Ticket before it is changed
+                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+                ticket.Updated = DateTime.UtcNow;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
+
+                //Now Call the NotificationHelper to determine if a Notification needs to be created
+                NotificationHelper.CreateAssignmentNotification(oldTicket, ticket);
+                HistoryHelper.RecordHistory(oldTicket, ticket);
+
+                return RedirectToAction("MyIndex");
+            }          
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
@@ -204,7 +215,7 @@ namespace ACNbugtracker.Controllers
             Ticket ticket = db.Tickets.Find(id);
             db.Tickets.Remove(ticket);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("MyIndex");
         }
 
         protected override void Dispose(bool disposing)
@@ -217,14 +228,59 @@ namespace ACNbugtracker.Controllers
         }
 
         //Get Assignticket page
-        public ActionResult AssignTicket()
+        public ActionResult AssignTicket(int? id)
         {
-            var myProjects = projectsHelper.ListUserProjects(User.Identity.GetUserId());
-            //Create a create view only for the tickets the submitter is on when we did the Manage projects
-            ViewBag.ProjectId = new SelectList(myProjects, "Id", "Name");
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
-            return View();
+            //var myProjects = projectsHelper.ListUserProjects(User.Identity.GetUserId());
+            ////Create a create view only for the tickets the submitter is on when we did the Manage projects
+            //ViewBag.ProjectId = new SelectList(myProjects, "Id", "Name");
+            //ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
+            //ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
+            //return View();
+
+            UserRolesHelper helper = new UserRolesHelper();
+
+            var ticket = db.Tickets.Find(id);
+
+            var users = helper.UsersInRole("DEVELOPER").ToList();
+
+            ViewBag.AssignedToUserId = new SelectList(users, "id", "FullName", ticket.AssignedToUserId);
+
+            return View(ticket);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AssignTicket(Ticket model)
+        {
+            var ticket = db.Tickets.Find(model.Id);
+
+            ticket.AssignedToUserId = model.AssignedToUserId;
+
+            db.SaveChanges();
+
+            var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
+
+            try
+            {
+                EmailService ems = new EmailService();
+                IdentityMessage msg = new IdentityMessage();
+                ApplicationUser user = db.Users.Find(model.AssignedToUserId);
+
+                msg.Body = "You Have been assigned a new Ticket." + Environment.NewLine +
+                            "Please click the following link to view the detail " +
+                            "<a href=\"" + callbackUrl + "\">New Ticket</a>";
+
+                msg.Destination = user.Email;
+                msg.Subject = "Invite to Household";
+
+                await ems.SendMailAsync(msg);
+            }
+            catch (Exception ex)
+            {
+                await Task.FromResult(0);
+            }
+
+            return RedirectToAction("MyIndex");
         }
 
     }
