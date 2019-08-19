@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ACNbugtracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ACNbugtracker.Controllers
 {
@@ -52,15 +53,16 @@ namespace ACNbugtracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticketComment.Created = DateTime.UtcNow.ToLocalTime();
+                ticketComment.AuthorId = User.Identity.GetUserId();
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
             }
 
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", ticketComment.AuthorId);
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "OwnerUserId", ticketComment.TicketId);
             return View(ticketComment);
         }
+
 
         // GET: TicketComments/Edit/5
         public ActionResult Edit(int? id)
