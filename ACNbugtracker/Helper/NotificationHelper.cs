@@ -116,6 +116,23 @@ namespace ACNbugtracker.Helper
             }
 
         }
+        public static int GetNewUserNotificationCount()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            return db.TicketNotifications.Where(t => t.RecipientId == userId && !t.Read).Count();
+        }
+
+        public static int GetAllUserNotificationCount()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            return db.TicketNotifications.Where(t => t.RecipientId == userId).Count();
+        }
+
+        public static List<TicketNotification> GetUnreadUserNotifications()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            return db.TicketNotifications.Where(t => t.RecipientId == userId && !t.Read).ToList();
+        }
             
     }
 }
