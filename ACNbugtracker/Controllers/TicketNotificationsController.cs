@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ACNbugtracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ACNbugtracker.Controllers
 {
@@ -19,6 +20,24 @@ namespace ACNbugtracker.Controllers
         {
             var ticketNotifications = db.TicketNotifications.Include(t => t.Recipient).Include(t => t.Sender).Include(t => t.Ticket);
             return View(ticketNotifications.ToList());
+        }
+
+        // GET: TicketNotifications
+        public ActionResult MyIndex()
+        {
+            var userId = User.Identity.GetUserId();
+            return View("Index",db.TicketNotifications.Where(t => t.RecipientId == userId).ToList());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MarkAsRead(int id)
+        {
+            var notification = db.TicketNotifications.Find(id);
+            notification.Read = true;
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: TicketNotifications/Details/5
