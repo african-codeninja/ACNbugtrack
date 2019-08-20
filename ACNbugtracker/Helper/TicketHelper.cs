@@ -11,11 +11,8 @@ using System.Web;
 
 namespace ACNbugtracker.Helper
 {
-    public class TicketHelper
-    {
-        public ApplicationDbContext db = new ApplicationDbContext();
-        public UserRolesHelper rolesHelper = new UserRolesHelper();
-
+    public class TicketHelper : CommonHelper
+    {      
         public bool IsDevOnTicket(string userId, int ticketId)
         {
             var ticket = db.Tickets.Find(ticketId);
@@ -69,7 +66,7 @@ namespace ACNbugtracker.Helper
         public int CountMyTickets(string userId)
         {
             var user = db.Users.Where(u => u.Id == userId).FirstOrDefault();
-            var userRole = rolesHelper.ListUserRoles(userId).FirstOrDefault();
+            var userRole = RolesHelper.ListUserRoles(userId).FirstOrDefault();
             var tix = 420;
             switch (userRole)
             {
@@ -94,7 +91,7 @@ namespace ACNbugtracker.Helper
         public int CountMyImmediateTickets(string userId)
         {
             var user = db.Users.Where(u => u.Id == userId).FirstOrDefault();
-            var userRole = rolesHelper.ListUserRoles(userId).FirstOrDefault();
+            var userRole = RolesHelper.ListUserRoles(userId).FirstOrDefault();
             var tix = 420;
             switch (userRole)
             {
