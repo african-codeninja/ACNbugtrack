@@ -9,10 +9,10 @@ using System.Web.Configuration;
 
 namespace ACNbugtracker.Helper
 {
-    public class NotificationHelper
+    public class NotificationHelper : CommonHelper
     {
-        private static ApplicationDbContext db = new ApplicationDbContext();
-        public static void CreateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
+        
+        public void CreateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             //4 cases considered for this case scenarios for notifications
 
@@ -41,7 +41,7 @@ namespace ACNbugtracker.Helper
         }   
         
 
-        public static void GenerateUnAssignmentNotification(Ticket oldTicket, Ticket newTicket)
+        public void GenerateUnAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             var notification = new TicketNotification
             {
@@ -58,7 +58,7 @@ namespace ACNbugtracker.Helper
             db.SaveChanges();
         }
 
-        public static void GenerateAssignmentNofification(Ticket oldTicket, Ticket newTicket)
+        public void GenerateAssignmentNofification(Ticket oldTicket, Ticket newTicket)
         {
             var notification = new TicketNotification
             {
@@ -75,7 +75,7 @@ namespace ACNbugtracker.Helper
             db.SaveChanges();
         }
 
-        private static void CreateChangeNotification(Ticket oldTicket, Ticket newTicket)
+        private void CreateChangeNotification(Ticket oldTicket, Ticket newTicket)
         {
             var messageBody = new StringBuilder();
 
