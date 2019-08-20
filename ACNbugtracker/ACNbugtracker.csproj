@@ -168,6 +168,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="SystemRole.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -187,9 +188,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\AttachmentHelper.cs" />
-    <Compile Include="Helper\DecisionHelper.cs" />
+    <Compile Include="Helper\CommonHelper.cs" />
+    <Compile Include="Helper\TicketDecisionHelper.cs" />
     <Compile Include="Helper\HistoryHelper.cs" />
     <Compile Include="Helper\ImageUploadValidator.cs" />
+    <Compile Include="Helper\NavHelper.cs" />
     <Compile Include="Helper\NotificationHelper.cs" />
     <Compile Include="Helper\ProjectNotificationHelper.cs" />
     <Compile Include="Helper\ProjectsHelper.cs" />
@@ -787,6 +790,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\ACNbugtracker - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\buttons.bootstrap4.min.js" />
     <Content Include="Scripts\buttons.colVis.js" />
