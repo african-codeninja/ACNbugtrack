@@ -13,6 +13,7 @@ namespace ACNbugtracker.Helper
         public UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
         public ApplicationDbContext db = new ApplicationDbContext();
+
         //takes the UserID and role name and confirms that they exist and have a role
         public bool IsUserInRole(string userId, string roleName)
         {
