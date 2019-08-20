@@ -14,7 +14,7 @@ namespace ACNbugtracker.Helper
         public UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
         public static ApplicationDbContext db = new ApplicationDbContext();
-        public static void RecordHistory(Ticket oldTicket, Ticket newTicket)
+        public void RecordHistory(Ticket oldTicket, Ticket newTicket)
         {
             foreach(var property in WebConfigurationManager.AppSettings["TrackedHistoryProperties"].Split(','))
             {
