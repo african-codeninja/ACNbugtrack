@@ -7,16 +7,13 @@ using System.Web;
 
 namespace ACNbugtracker.Helper
 {
-    public class ProjectNotificationHelper
-    {
-        public ApplicationDbContext db = new ApplicationDbContext();
-        public ProjectsHelper projectHelper = new ProjectsHelper();
-
+    public class ProjectNotificationHelper : CommonHelper
+    {      
         public void TriggerProjectAssignmentNotifications(List<ApplicationUser> oldProjectUsers, int projectId)
         {
             //want to compare the old project users to the return value of users on project project.Id
-            var newUsersOnProject = projectHelper.UsersOnProject(projectId);
-            var newUsersNotOnProject = projectHelper.UsersNotOnProject(projectId);
+            var newUsersOnProject = ProjectsHelper.UsersOnProject(projectId);
+            var newUsersNotOnProject = ProjectsHelper.UsersNotOnProject(projectId);
             foreach (var user in newUsersOnProject)
             {
                 if (!oldProjectUsers.Select(u => u.Id).Contains(user.Id))
