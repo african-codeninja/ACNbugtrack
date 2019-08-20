@@ -1,4 +1,4 @@
-﻿
+﻿@using ACNbugtracker.Helper
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="~/Content/flag-icon.min.css">
     <link rel="stylesheet" href="~/Content/cs-skin-elastic.css">
     <link rel="stylesheet" href="~/Content/dataTables.bootstrap4.min.css">
-    <link rel="Stylesheet" href="~/Content/buttons.bootstrap4.min.css"/>
+    <link rel="Stylesheet" href="~/Content/buttons.bootstrap4.min.css" />
     <link rel="stylesheet" href="~/Content/jqvmap.min.css">
 
 
@@ -108,9 +108,9 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>App Manager</a>
                         <ul class="sub-menu children dropdown-menu">
-                                <li><i class="fa fa-book"></i><a href="">Log Out</a></li>
-                            </ul>
-                        
+                            <li><i class="fa fa-book"></i><a href="">Log Out</a></li>
+                        </ul>
+
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -137,62 +137,56 @@
                             </form>
                         </div>
 
-                        <div class="dropdown for-notification">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bell"></i>
-                                <span class="count bg-danger">5</span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="notification">
-                                <p class="red">You have 3 Notification</p>
-                                <a class="dropdown-item media bg-flat-color-1" href="#">
-                                    <i class="fa fa-check"></i>
-                                    <p>Server #1 overloaded.</p>
-                                </a>
-                                
-                            </div>
-                        </div>
+                        <button class="btn btn-secondary dropdown-toggle" type="button">                               
+                            <i class="ti-email"></i>
+                            <span class="count bg-primary">@NotificationHelper.GetNewUserNotificationCount()</span>
+                        </button>
 
                         <div class="dropdown for-message">
                             <button class="btn btn-secondary dropdown-toggle" type="button"
                                     id="message"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="ti-email"></i>
-                                <span class="count bg-primary">9</span>
+                                <span class="count bg-primary">@NotificationHelper.GetAllUserNotificationCount()</span>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="message">
-                                <p class="red">You have 4 Mails</p>
-                                <a class="dropdown-item media bg-flat-color-1" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="~/images/avatar/1.jpg"></span>
-                                    <span class="message media-body">
-                                        <span class="name float-left">Jonathan Smith</span>
-                                        <span class="time float-right">Just now</span>
-                                        Hello, this is an example msg
-                                    </span>
-                                </a>
-                                <a class="dropdown-item media bg-flat-color-4" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="~/images/avatar/2.jpg"></span>
-                                    <span class="message media-body">
-                                        <span class="name float-left">Jack Sanders</span>
-                                        <span class="time float-right">5 minutes ago</span>
-                                        Lorem ipsum dolor sit amet, consectetur
-                                    </span>
-                                </a>
-                                <a class="dropdown-item media bg-flat-color-5" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="~/images/avatar/3.jpg"></span>
-                                    <span class="message media-body">
-                                        <span class="name float-left">Cheryl Wheeler</span>
-                                        <span class="time float-right">10 minutes ago</span>
-                                        <p>Hello, this is an example msg</p>
-                                    </span>
-                                </a>
-                                <a class="dropdown-item media bg-flat-color-3" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="~/images/avatar/4.jpg"></span>
-                                    <span class="message media-body">
-                                        <span class="name float-left">Rachel Santos</span>
-                                        <span class="time float-right">15 minutes ago</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                    </span>
-                                </a>
+                                <div class="content">
+                                    <ul>
+                                        @foreach (var notification in NotificationHelper.GetUnreadUserNotifications())
+                                        {
+                                        <li>
+                                            <hr size=3 />
+                                            @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("Id", notification.Id)
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" /><br />
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <span class="title">@notification.Subject</span>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12 text-center">
+                                                        <button type="submit" class="btn btn-sm btn-primary">Mark as read</button>
+                                                    </div>
+                                                </div>
+                                                <hr size=3 />
+                                            }
+                                        </li>
+                                        }
+                                    </ul>
+                                    <hr />
+                                    <div class="text-right">
+                                        <a href="@Url.Action("Index", "TicketNotifications")" class="ti-view-list">View All</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -246,14 +240,14 @@
         <!-- /header -->
         <!-- Header-->
 
-        
-            @RenderBody()
-            <div class="col-10">
-                <footer>
-                    <p>&copy; @DateTime.Now.Year - Moses Mbutha Mwangi</p>
-                </footer>
-            </div>
-        
+
+        @RenderBody()
+        <div class="col-10">
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Moses Mbutha Mwangi</p>
+            </footer>
+        </div>
+
     </div>
 
     <script src="~/Scripts/jquery.min.js"></script>
