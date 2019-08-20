@@ -942,6 +942,7 @@
     <Content Include="Views\Account\ConfirmationSent.cshtml" />
     <Content Include="Views\Tickets\Dashboard.cshtml" />
     <Content Include="Views\Home\DemoUser.cshtml" />
+    <Content Include="Views\TicketNotifications\MyIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
