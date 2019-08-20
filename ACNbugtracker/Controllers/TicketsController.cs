@@ -18,10 +18,13 @@ namespace ACNbugtracker.Controllers
     {
         public static UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
-        public static ApplicationDbContext db = new ApplicationDbContext();
+        public ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper rolesHelper = new UserRolesHelper();
         private ProjectsHelper projectsHelper = new ProjectsHelper();
-        
+        private NotificationHelper notificationHelper = new NotificationHelper();
+        private TicketDecisionHelper ticketDecisionHelper = new TicketDecisionHelper();
+        private HistoryHelper historyHelper = new HistoryHelper();
+
         [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
         // GET: Tickets
         public ActionResult Index()
@@ -82,7 +85,9 @@ namespace ACNbugtracker.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Ticket ticket = db.Tickets.Find(id);
+
             if (ticket == null)
             {
                 return HttpNotFound();
@@ -128,7 +133,7 @@ namespace ACNbugtracker.Controllers
         }
 
         // GET: Tickets/Edit/5
-        [Authorize(Roles = "Admin, Developer, Submitter, ProjectManager")]
+        //[Authorize(Roles = "Admin, Developer, Submitter, ProjectManager")]
         public ActionResult Edit(int? id)
         {         
             if (id == null)
@@ -145,10 +150,8 @@ namespace ACNbugtracker.Controllers
 
             var allowed = false;
             var userId = User.Identity.GetUserId();
-            
-            
 
-            if(TicketDecisionHelper.TicketIsEditableByUser(ticket))
+            if (ticketDecisionHelper.TicketIsEditableByUser(ticket))
             {
                 ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
                 ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
@@ -168,7 +171,7 @@ namespace ACNbugtracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,AssignedToUserId,OwnerUserId,ProjectId,TicketTypeId,TicketStatusId,TicketPriorityId,Title,Description,Created")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketTypeId,TicketStatusId,TicketPriorityId,OwnerUserId,AssignedToUserId,Title,Description,Created,Updated")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -180,11 +183,12 @@ namespace ACNbugtracker.Controllers
                 db.SaveChanges();
 
                 //Now Call the NotificationHelper to determine if a Notification needs to be created
-                NotificationHelper.CreateAssignmentNotification(oldTicket, ticket);
-                HistoryHelper.RecordHistory(oldTicket, ticket);
+                notificationHelper.CreateAssignmentNotification(oldTicket, ticket);
+                //historyHelper.RecordHistory(oldTicket, ticket);
 
                 return RedirectToAction("MyIndex");
-            }          
+            }
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
