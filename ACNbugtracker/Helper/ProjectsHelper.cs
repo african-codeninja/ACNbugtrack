@@ -9,8 +9,9 @@ namespace ACNbugtracker.Helper
 {
     public class ProjectsHelper
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        public UserRolesHelper rolesHelper = new UserRolesHelper();
+        public ApplicationDbContext db = new ApplicationDbContext();
+
+        private UserRolesHelper RolesHelper = new UserRolesHelper();
 
         public List<string> UserInRoleOnProject(int projectId, string roleName)
         {
@@ -18,7 +19,7 @@ namespace ACNbugtracker.Helper
 
             foreach (var user in UsersOnProject(projectId).ToList())
             {
-                if (rolesHelper.IsUserInRole(user.Id, roleName))
+                if (RolesHelper.IsUserInRole(user.Id, roleName))
                 {
                     people.Add(user.FullName);
                 }
@@ -96,7 +97,7 @@ namespace ACNbugtracker.Helper
         public ICollection<Ticket> ListUserTickets(string userId)
         {
             var userTickets = new List<Ticket>();
-            var userRole = rolesHelper.ListUserRoles(userId).FirstOrDefault();
+            var userRole = RolesHelper.ListUserRoles(userId).FirstOrDefault();
             switch (userRole)
             {
                 case "Submitter":
