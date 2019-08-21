@@ -68,6 +68,27 @@ namespace ACNbugtracker.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+        // POST: /Account/DemoLogin
+        [AllowAnonymous]
+        [HttpPost]        
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DemoLoginAsync(string demoEmail)
+        {
+            var email = WebConfigurationManager.AppSettings[demoEmail];
+            var password = WebConfigurationManager.AppSettings["DemoUserPassword"];
+
+            var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
+
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToAction("Index", "Home");
+                case SignInStatus.Failure:
+                default:
+                    return RedirectToAction("Login","Account");
+            }
+        }
+                    
 
         //
         // POST: /Account/Login
