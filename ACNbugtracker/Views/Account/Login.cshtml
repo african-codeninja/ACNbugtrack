@@ -41,18 +41,14 @@
         <div class="sufee-login d-flex align-content-center flex-wrap">
             <div class="container">
                 <div class="login-content">
-                    @*<div class="login-logo">
-                        <a href="@Url.Action("Index")">
-                            <img class="align-content" src="~/images/logo.png" alt="African Code Ninjas">
-                        </a>
-                    </div>*@
                     <div class="login-form">
-
                         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
-                            <h4>LOG INTO THE BUG TRACKER</h4>
-                            <hr />
+                            <div class="col-sm-12 bg-flat-color-2 text-center">
+                                <h3>LOG INTO THE ACN BUG TRACKER</h3>
+                            </div>
+                            
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -71,15 +67,17 @@
                                 <label class="pull-right">
                                     @Html.ActionLink("Forgot your password?","ForgotPassword" , "Account")
                                 </label>
-
                             </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Sign in</button>
+                                        <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30"><span>Sign in</span></button>
                                     </div>
-                                    <div class="register-link m-t-15 text-center">
-                                        <p>Don't have account ? <a href="@Url.Action("register")"> Sign Up Here</a></p>
-                                        <p>Login as a demo user<a href="@Url.Action("DemoUser")"> Demo Login</a></p>
+                                    <div class="">
+                                        <button class="btn btn-warning btn-flat m-b-30 m-t-30"><span><a href="@Url.Action("register")">Don't have account? Sign Up Here</a></span></button>
                                     </div>
+                                    <p></p>
+                                    <div class="">
+                                        <button class="btn btn-danger btn-flat m-b-30 m-t-30"><span><a href="@Url.Action("DemoUser","Home")">Want Login as a Demo user?</a></span></button>
+                                    </div>                             
                             <p>                        
                         </p>
                         }
