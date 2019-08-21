@@ -119,7 +119,7 @@ namespace ACNbugtracker.Controllers
             {
                 ticket.Created = DateTime.Now;
                 ticket.OwnerUserId = User.Identity.GetUserId();//whoever is logged in
-                ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New/Unassigned").Id;
+                ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New / Unassigned").Id;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -151,7 +151,7 @@ namespace ACNbugtracker.Controllers
             var allowed = false;
             var userId = User.Identity.GetUserId();
 
-            if (ticketDecisionHelper.TicketIsEditableByUser(ticket))
+            if (TicketDecisionHelper.TicketIsEditableByUser(ticket))
             {
                 ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
                 ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
@@ -183,8 +183,8 @@ namespace ACNbugtracker.Controllers
                 db.SaveChanges();
 
                 //Now Call the NotificationHelper to determine if a Notification needs to be created
-                notificationHelper.CreateAssignmentNotification(oldTicket, ticket);
-                //historyHelper.RecordHistory(oldTicket, ticket);
+                NotificationHelper.CreateAssignmentNotification(oldTicket, ticket);
+                HistoryHelper.RecordHistory(oldTicket, ticket);
 
                 return RedirectToAction("MyIndex");
             }
