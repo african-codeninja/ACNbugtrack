@@ -9,12 +9,11 @@ using System.Web.Configuration;
 
 namespace ACNbugtracker.Helper
 {
-    public class HistoryHelper
+    public class HistoryHelper : CommonHelper
     {
         public UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
-        public static ApplicationDbContext db = new ApplicationDbContext();
-        public void RecordHistory(Ticket oldTicket, Ticket newTicket)
+        public static void RecordHistory(Ticket oldTicket, Ticket newTicket)
         {
             foreach(var property in WebConfigurationManager.AppSettings["TrackedHistoryProperties"].Split(','))
             {
@@ -38,4 +37,6 @@ namespace ACNbugtracker.Helper
             db.SaveChanges();
         }
     }
+
+
 }
