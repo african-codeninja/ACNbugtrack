@@ -12,7 +12,7 @@ namespace ACNbugtracker.Helper
     public class NotificationHelper : CommonHelper
     {
         
-        public void CreateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
+        public static void CreateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             //4 cases considered for this case scenarios for notifications
 
@@ -41,7 +41,7 @@ namespace ACNbugtracker.Helper
         }   
         
 
-        public void GenerateUnAssignmentNotification(Ticket oldTicket, Ticket newTicket)
+        public static void GenerateUnAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             var notification = new TicketNotification
             {
@@ -58,7 +58,7 @@ namespace ACNbugtracker.Helper
             db.SaveChanges();
         }
 
-        public void GenerateAssignmentNofification(Ticket oldTicket, Ticket newTicket)
+        public static void GenerateAssignmentNofification(Ticket oldTicket, Ticket newTicket)
         {
             var notification = new TicketNotification
             {
@@ -75,7 +75,7 @@ namespace ACNbugtracker.Helper
             db.SaveChanges();
         }
 
-        private void CreateChangeNotification(Ticket oldTicket, Ticket newTicket)
+        private static void CreateChangeNotification(Ticket oldTicket, Ticket newTicket)
         {
             var messageBody = new StringBuilder();
 
