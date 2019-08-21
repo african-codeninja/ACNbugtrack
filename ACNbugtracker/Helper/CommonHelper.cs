@@ -10,8 +10,8 @@ namespace ACNbugtracker.Helper
     public abstract class CommonHelper
     {
         public static ApplicationDbContext db = new ApplicationDbContext();
-        protected UserRolesHelper RolesHelper = new UserRolesHelper();
-        protected ProjectsHelper ProjectsHelper = new ProjectsHelper();     
+        public static UserRolesHelper RolesHelper = new UserRolesHelper();
+        public static ProjectsHelper ProjectsHelper = new ProjectsHelper();     
         protected ApplicationUser CurrentUser = null;
         protected SystemRole CurrentRole = SystemRole.None;
 
