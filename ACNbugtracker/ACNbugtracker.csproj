@@ -218,6 +218,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Attachments\bald-head-147977_640.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -790,6 +791,8 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="Attachments\Applying EmailService %282%29.docx" />
+    <Content Include="Attachments\BlogPostsControllerWalkthrough %281%29.pdf" />
     <None Include="Properties\PublishProfiles\ACNbugtracker - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\buttons.bootstrap4.min.js" />
@@ -946,7 +949,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Attachments\" />
     <Folder Include="Views\ProjectNotifications\" />
   </ItemGroup>
   <ItemGroup>
