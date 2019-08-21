@@ -166,13 +166,13 @@ namespace ACNbugtracker.Controllers
         {
             foreach (var project in projectHelper.ListUserProjects(userId).ToList())
             {
-                projectHelper.RemoveUserFromProject(userId, project.Id);
+                ProjectsHelper.RemoveUserFromProject(userId, project.Id);
             }
             if (projects != null)
             {
                 foreach (var projectId in projects)
                 {
-                    projectHelper.AddUserToProject(userId, projectId);
+                    ProjectsHelper.AddUserToProject(userId, projectId);
                 }
             }
             return RedirectToAction("UserIndex");
@@ -186,7 +186,7 @@ namespace ACNbugtracker.Controllers
             //Step 1: Remove all users from the project
             foreach (var user in projectHelper.UsersOnProject(projectId).ToList())
             {
-                projectHelper.RemoveUserFromProject(user.Id, projectId);
+                ProjectsHelper.RemoveUserFromProject(user.Id, projectId);
             }
 
             //Step 2: Adds back all the selected PM's
@@ -194,7 +194,7 @@ namespace ACNbugtracker.Controllers
             {
                 foreach (var projectManagerId in ProjectManagers)
                 {
-                    projectHelper.AddUserToProject(projectManagerId, projectId);
+                    ProjectsHelper.AddUserToProject(projectManagerId, projectId);
                 }
             }
 
@@ -203,7 +203,7 @@ namespace ACNbugtracker.Controllers
             {
                 foreach (var developerId in Developers)
                 {
-                    projectHelper.AddUserToProject(developerId, projectId);
+                    ProjectsHelper.AddUserToProject(developerId, projectId);
                 }
             }
 
@@ -212,7 +212,7 @@ namespace ACNbugtracker.Controllers
             {
                 foreach (var submitterId in Submitters)
                 {
-                    projectHelper.AddUserToProject(submitterId, projectId);
+                    ProjectsHelper.AddUserToProject(submitterId, projectId);
                 }
             }
 
@@ -221,7 +221,7 @@ namespace ACNbugtracker.Controllers
 
         public ActionResult RemoveProjectUser(string userId, int projectId)
         {
-            projectHelper.RemoveUserFromProject(userId, projectId);
+            ProjectsHelper.RemoveUserFromProject(userId, projectId);
 
             return RedirectToAction("Details", "Projects", new { id = projectId });
         }
