@@ -1,7 +1,205 @@
-﻿
-@{
-    ViewBag.Title = "DemoUser";
+﻿@{
+    Layout = null;
 }
+@model ACNbugtracker.Models.LoginViewModel
 
-<h2>DemoUser</h2>
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
 
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Code Ninja Admin - HTML5 Admin Template</title>
+    <meta name="description" content="ACN Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+
+
+    <link rel="stylesheet" href="~/content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/themify-icons.css">
+    <link rel="stylesheet" href="~/Content/flag-icon.min.css">
+    <link rel="stylesheet" href="~/Content/cs-skin-elastic.css">
+
+    <link rel="stylesheet" href="~/Content/style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+
+
+</head>
+<body class="bg-dark">
+    <p></p>
+    <div class="row text-center">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 bg-light text-center">
+            @*<button type="button" class="btn btn-primary btn-lg btn-block"><h1>WELCOME TO THE AFRICAN CODE NINJAS BUGTRACKER</h1></button>*@
+            <h1>WELCOME TO THE AFRICAN CODE NINJAS BUGTRACKER</h1>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="col-md-12">
+        <p></p>
+        <div class="col-lg-3 col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title mb-3">Demo Admin</strong>
+                </div>
+                <div class="card-body">
+                    <div class="mx-auto d-block">
+                        <a href=""><img class="rounded-circle mx-auto d-block" src="/images/admin.jpg" alt="Card image cap"></a>
+                        <a href=""><h3 class="text-sm-center mt-2 mb-1">Administrator</h3></a>
+                    </div>
+                    @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("DemoEmail", "DemoAdminEmail")
+                        <hr>
+                        <div class="card-text text-sm-center">
+                            <div class="col-sm-12">
+                                <ol>
+                                    <h4>The Admin is allowed to:</h4>
+                                    <li>Assign User Roles</li>
+                                    <li>View All projects and their own projetcs</li>
+                                    <li>Create, Edit and Achive Projects</li>
+                                    <li>View Ticket Details</li>
+                                    <li>Assign Users to Tickets</li>
+                                    <li>Edit Ticket Type, Title and Description</li>
+                                    <li>Edit Ticket Priority and Status</li>
+                                    <li>Edit and Delete Ticket Comments and Attachemnts</li>
+                                    <li>View Ticket Histories</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Login As Administrator</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title mb-3">Demo Project Manager</strong>
+                </div>
+                <div class="card-body">
+                    <div class="mx-auto d-block">
+                        <a href=""><img class="rounded-circle mx-auto d-block" src="/images/admin.jpg" alt="Card image cap"></a>
+                        <a href=""><h3 class="text-sm-center mt-2 mb-1">Project Manager</h3></a>
+                    </div>
+                    @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("DemoEmail", "DemoProjectManagerEmail")
+                        <hr>
+                        <div class="card-text text-sm-center">
+                            <div class="col-sm-12">
+                                <ol>
+                                    <h4>The Admin is allowed to:</h4>
+                                    <li>Assign User Roles</li>
+                                    <li>View All projects and their own projetcs</li>
+                                    <li>Create, Edit and Achive Projects</li>
+                                    <li>View Ticket Details</li>
+                                    <li>Assign Users to Tickets</li>
+                                    <li>Edit Ticket Type, Title and Description</li>
+                                    <li>Edit Ticket Priority and Status</li>
+                                    <li>Edit and Delete Ticket Comments and Attachemnts</li>
+                                    <li>View Ticket Histories</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Login As Project Manager</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title mb-3">Demo Developer</strong>
+                </div>
+                <div class="card-body">
+                    <div class="mx-auto d-block">
+                        <a href=""><img class="rounded-circle mx-auto d-block" src="/images/admin.jpg" alt="Card image cap"></a>
+                        <a href=""><h3 class="text-sm-center mt-2 mb-1">Developer</h3></a>
+                    </div>
+                    @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("DemoEmail", "DemoADeveloperEmail")
+                        <hr>
+                        <div class="card-text text-sm-center">
+                            <div class="col-sm-12">
+                                <ol>
+                                    <h4>The Admin is allowed to:</h4>
+                                    <li>Assign User Roles</li>
+                                    <li>View All projects and their own projetcs</li>
+                                    <li>Create, Edit and Achive Projects</li>
+                                    <li>View Ticket Details</li>
+                                    <li>Assign Users to Tickets</li>
+                                    <li>Edit Ticket Type, Title and Description</li>
+                                    <li>Edit Ticket Priority and Status</li>
+                                    <li>Edit and Delete Ticket Comments and Attachemnts</li>
+                                    <li>View Ticket Histories</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Login as Developer</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title mb-3">Demo Submitter</strong>
+                </div>
+                <div class="card-body">
+                    <div class="mx-auto d-block">
+                        <a href=""><img class="rounded-circle mx-auto d-block" src="/images/admin.jpg" alt="Card image cap"></a>
+                        <a href=""><h3 class="text-sm-center mt-2 mb-1">Submitter</h3></a>
+                    </div>
+                    @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("DemoEmail", "DemoSubmitterEmail")
+                        <hr>
+                        <div class="card-text text-sm-center">
+                            <div class="col-sm-12">
+                                <ol>
+                                    <h4>The Submitter is allowed to:</h4>
+                                    <li>Create Tickets Entries</li>
+                                    <li>View ticket Entries to projects they belong to</li>
+                                    <li>View tickets they have created</li>
+                                    <li>View Ticket Details to tickets they have created</li>
+                                    <li>Edit Ticket Type, Title and Description to tickets they have created</li>
+                                    <li>Edit Ticket Priority to tickets they have created</li>
+                                    <li>Edit and Delete thier own Ticket Comments and Attachemnts</li>
+                                    <li>View Ticket Histories to tickets they have created</li>
+                                    <li>Note: Cannot be Assigned to Tickets</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Login as Submitter</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <script src="~/Scripts/jquery.min.js"></script>
+        <script src="~/Scripts/popper.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/main.js"></script>
+    </div>
+</body>
+
+</html>
