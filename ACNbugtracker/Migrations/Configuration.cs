@@ -8,6 +8,7 @@ namespace ACNbugtracker.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Web.Configuration;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ACNbugtracker.Models.ApplicationDbContext>
     {
@@ -312,6 +313,54 @@ namespace ACNbugtracker.Migrations
 
                     }, "william&1234");
                 }
+            //Introduce my Demo users
+            if (!context.Users.Any(u => u.Email == "DemoAdmin@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoAdmin@Mailinator.com",
+                    Email = "DemoAdmin@Mailinator.com",
+                    FirstName = "DemoAdmin",
+                    LastName = "DemoAdministrator",
+                    DisplayName = "The Demo Admin"
+                },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
+            }
+
+            if (!context.Users.Any(u => u.Email == "DemoProjectManager@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoProjectManager@Mailinator.com",
+                    Email = "DemoProjectManager@Mailinator.com",
+                    FirstName = "DemoPM",
+                    LastName = "Manager",
+                    DisplayName = "The Demo PM"
+                },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
+            }
+
+            if (!context.Users.Any(u => u.Email == "DemoDeveloper@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoDeveloper@Mailinator.com",
+                    Email = "DemoDeveloper@Mailinator.com",
+                    FirstName = "DemoDev",
+                    LastName = "Developer",
+                    DisplayName = "Developer"
+                },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
+            }
+
+            if (!context.Users.Any(u => u.Email == "DemoSubmitter@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoSubmitter@Mailinator.com",
+                    Email = "DemoSubmitter@Mailinator.com",
+                    FirstName = "DemoSubmit",
+                    LastName = "Submitter",
+                    DisplayName = "Submitter"
+                },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
+            }
 
             #region Role Assignment
 
@@ -323,15 +372,28 @@ namespace ACNbugtracker.Migrations
 
             var adminId = userManager.FindByEmail("Admin@Mailinator.com").Id;
             userManager.AddToRole(adminId, "Admin");
-            
+
+            adminId = userManager.FindByEmail("DemoAdmin@Mailinator.com").Id;
+            userManager.AddToRole(adminId, "Admin");
+
+            pmId = userManager.FindByEmail("DemoProjectManager@Mailinator.com").Id;
+            userManager.AddToRole(pmId, "ProjectManager");
+
             pmId = userManager.FindByEmail("ProjectManager@Mailinator.com").Id;
             userManager.AddToRole(pmId, "ProjectManager");
             
             var subId = userManager.FindByEmail("Submitter@Mailinator.com").Id;
             userManager.AddToRole(subId, "Submitter");
-            
+
+            subId = userManager.FindByEmail("DemoSubmitter@Mailinator.com").Id;
+            userManager.AddToRole(subId, "Submitter");
+
             var devId = userManager.FindByEmail("Developer@Mailinator.com").Id;
             userManager.AddToRole(devId, "Developer");
+
+            devId = userManager.FindByEmail("DemoDeveloper@Mailinator.com").Id;
+            userManager.AddToRole(devId, "Developer");
+
             #endregion
 
             #region Project Creation
@@ -353,19 +415,19 @@ namespace ACNbugtracker.Migrations
             var projectHelper = new ProjectsHelper();
 
             //Assign all three users to the Potfolio project
-            projectHelper.AddUserToProject(pmId, portfolioProjectId);
-            projectHelper.AddUserToProject(devId, portfolioProjectId);
-            projectHelper.AddUserToProject(subId, portfolioProjectId);
+            ProjectsHelper.AddUserToProject(pmId, portfolioProjectId);
+            ProjectsHelper.AddUserToProject(devId, portfolioProjectId);
+            ProjectsHelper.AddUserToProject(subId, portfolioProjectId);
             
             //Assign all three users to the Blog project
-            projectHelper.AddUserToProject(pmId, blogProjectId);
-            projectHelper.AddUserToProject(devId, blogProjectId);
-            projectHelper.AddUserToProject(subId, blogProjectId);
+            ProjectsHelper.AddUserToProject(pmId, blogProjectId);
+            ProjectsHelper.AddUserToProject(devId, blogProjectId);
+            ProjectsHelper.AddUserToProject(subId, blogProjectId);
 
             //Assign all three users to the Blog project
-            projectHelper.AddUserToProject(pmId, bugTrackerProjectId);
-            projectHelper.AddUserToProject(devId, bugTrackerProjectId);
-            projectHelper.AddUserToProject(subId, bugTrackerProjectId);
+            ProjectsHelper.AddUserToProject(pmId, bugTrackerProjectId);
+            ProjectsHelper.AddUserToProject(devId, bugTrackerProjectId);
+            ProjectsHelper.AddUserToProject(subId, bugTrackerProjectId);
             #endregion
 
 
