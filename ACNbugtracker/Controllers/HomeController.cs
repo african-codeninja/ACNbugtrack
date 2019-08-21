@@ -11,6 +11,7 @@ namespace ACNbugtracker.Controllers
     public class HomeController : Controller
     {
         public static ApplicationDbContext db = new ApplicationDbContext();
+        //Checks who the user is and displays their information
         public ActionResult Index()
         {
             var users = db.Users.Select(userAttrib => new UserProfileViewModel
@@ -24,9 +25,6 @@ namespace ACNbugtracker.Controllers
             }).ToList();
 
             return View(users);
-            //ViewBag.Users = new List(User);
-
-            //return View();
         }
 
         public ActionResult About()
