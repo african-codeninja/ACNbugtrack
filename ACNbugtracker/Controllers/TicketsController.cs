@@ -133,7 +133,7 @@ namespace ACNbugtracker.Controllers
         }
 
         // GET: Tickets/Edit/5
-        //[Authorize(Roles = "Admin, Developer, Submitter, ProjectManager")]
+        [Authorize(Roles = "Admin, Developer, Submitter, ProjectManager")]
         public ActionResult Edit(int? id)
         {         
             if (id == null)
@@ -148,12 +148,13 @@ namespace ACNbugtracker.Controllers
                 return HttpNotFound();
             }
 
-            var allowed = false;
             var userId = User.Identity.GetUserId();
+
+            var projectDevelopers = projectsHelper.UserWithRoleOnProject(ticket.ProjectId, "Developer");
 
             if (TicketDecisionHelper.TicketIsEditableByUser(ticket))
             {
-                ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
+                ViewBag.AssignedToUserId = new SelectList(projectDevelopers, "Id", "FirstName", ticket.AssignedToUserId);
                 ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
                 ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
                 ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
