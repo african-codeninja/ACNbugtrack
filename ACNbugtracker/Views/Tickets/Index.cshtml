@@ -5,12 +5,16 @@
 }
 
 
-<div class="col-md-12">
-    @if (User.IsInRole("Submitter"))
-    {
-        @Html.ActionLink("CREATE NEW", "Create")
-    }
-</div>
+    <div class="col-md-12">
+        <p></p>
+        @if (User.IsInRole("Submitter"))
+        {
+        <div class="alert alert-info" role="alert">
+            <h3>@Html.ActionLink("CREATE NEW TICKET", "Create")</h3>
+        </div>
+            
+        }
+    </div>
 <div class="content mt-3">
     <div class="animated fadeIn">
         <div class="row">
