@@ -133,6 +133,13 @@ namespace ACNbugtracker.Helper
             var userId = HttpContext.Current.User.Identity.GetUserId();
             return db.TicketNotifications.Where(t => t.RecipientId == userId && !t.Read).ToList();
         }
-            
+
+        public static List<TicketNotification> GetreadUserNotifications()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            return db.TicketNotifications.Where(t => t.RecipientId == userId && t.Read).ToList();
+        }
+
+
     }
 }
