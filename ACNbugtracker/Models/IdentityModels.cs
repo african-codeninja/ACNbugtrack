@@ -91,7 +91,5 @@ namespace ACNbugtracker.Models
         
 
         public DbSet<TicketHistory> TicketHistories { get; set; }
-
-        //public System.Data.Entity.DbSet<ACNbugtracker.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
