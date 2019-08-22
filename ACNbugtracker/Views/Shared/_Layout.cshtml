@@ -1,4 +1,6 @@
 ﻿@using ACNbugtracker.Helper
+@using ACNbugtracker.Models
+@using Microsoft.AspNet.Identity
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -26,13 +28,23 @@
     <link rel="stylesheet" href="~/Content/dataTables.bootstrap4.min.css">
     <link rel="Stylesheet" href="~/Content/buttons.bootstrap4.min.css" />
     <link rel="stylesheet" href="~/Content/jqvmap.min.css">
-
+    <link href="~/Content/datatables.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="~/Content/style.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+   
+    <style>
+        body {
+            background-image: url('../../images/Appbackground.jpg');
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -94,8 +106,6 @@
 
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "projects")">Manage User Projects</a></li>
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("MyProjectsIndex", "Projects")">Project Index</a></li>
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects", "Admin")">Manage User Projects</a></li>
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("ManageProjects", "Admin")">Manage User Projects</a></li>
 
                             </ul>
                         </li>
@@ -103,200 +113,238 @@
                     <li>
 
                         <h3 class="menu-title">User Profile</h3>
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                        {
+                        <li class="menu-item-has-children dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>App Manager</a>
+                            <ul class="sub-menu children dropdown-menu">
+                                <li><i class="fa fa-book"></i><a href="@Url.Action("userAdminIndex", "Account")">User Profile Management</a></li>
+                                <li><i class="fa fa-book"></i><a href="">Log Out</a></li>
+                            </ul>
 
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>App Manager</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-book"></i><a href="">Log Out</a></li>
-                        </ul>
+                        </li>
+                    }
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </nav>
+        </aside><!-- /#left-panel -->
+        <!-- Left Panel -->
+        <!-- Right Panel -->
 
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </aside><!-- /#left-panel -->
-    <!-- Left Panel -->
-    <!-- Right Panel -->
+        <div id="right-panel" class="right-panel">
 
-    <div id="right-panel" class="right-panel">
+            <!-- Header-->
+            <header id="header" class="header">
 
-        <!-- Header-->
-        <header id="header" class="header">
+                <div class="header-menu">
 
-            <div class="header-menu">
-
-                <div class="col-sm-7">
-                    <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                    <div class="header-left">
-                        <button class="search-trigger"><i class="fa fa-search"></i></button>
-                        <div class="form-inline">
-                            <form class="search-form">
-                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
-                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
-                            </form>
-                        </div>
-
-                        <button class="btn btn-secondary dropdown-toggle" type="button">                               
-                            <i class="ti-email"></i>
-                            <span class="count bg-primary">@NotificationHelper.GetNewUserNotificationCount()</span>
-                        </button>
-
-                        <div class="dropdown for-message">
-                            <button class="btn btn-secondary dropdown-toggle" type="button"
-                                    id="message"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="ti-email"></i>
-                                <span class="count bg-primary">@NotificationHelper.GetAllUserNotificationCount()</span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="message">
-                                <div class="content">
-                                    <ul>
-                                        @foreach (var notification in NotificationHelper.GetUnreadUserNotifications().ToList())
-                                        {
-                                        <li>
-                                            <hr size=3 />
-                                            @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                    <div class="col-sm-7">
+                        <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
+                        <div class="header-left">
+                            <button class="search-trigger"><i class="fa fa-search"></i></button>
+                            <div class="form-inline">
+                                <form class="search-form">
+                                    <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
+                                    <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+                                </form>
+                            </div>
+                            <div class="dropdown for-notification">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="count bg-danger">@NotificationHelper.GetAllUserNotificationCount()</span>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="message">
+                                    <div class="content">
+                                        <ul>
+                                            @foreach (var notification in NotificationHelper.GetreadUserNotifications().ToList())
                                             {
-                                                @Html.AntiForgeryToken()
-                                                @Html.Hidden("Id", notification.Id)
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" /><br />
-                                                    </div>
-                                                </div>
-                                                <br />
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <span class="title">@notification.Subject</span>
-                                                    </div>
-                                                </div>
-                                                <br />
-                                                <div class="row">
-                                                    <div class="col-md-12 text-center">
-                                                        <button type="submit" class="btn btn-sm btn-primary">Mark as read</button>
-                                                    </div>
-                                                </div>
-                                                <hr size=3 />
+                                                <li>
+                                                    <hr size=6 />
+                                                    @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                                                    {
+                                                        @Html.AntiForgeryToken();
+                                                        @Html.Hidden("Id", notification.Id);
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" /><br />
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <span class="title">@notification.Subject</span>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-center">
+                                                                <button type="submit" class="btn btn-sm btn-primary">Mark as read</button>
+                                                            </div>
+                                                        </div>
+                                                        <hr size=6 />
+                                                    }
+                                                </li>
                                             }
-                                        </li>
-                                        }
-                                    </ul>
-                                    <hr />
-                                    <div class="text-right">
-                                        <a href="@Url.Action("Index", "TicketNotifications")" class="ti-view-list">View All</a>
+                                        </ul>
+                                        <hr />
+                                        <div class="text-right">
+                                            <a href="@Url.Action("Index", "TicketNotifications")" class="ti-view-list">View All</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown for-message">
+                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        id="message"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="ti-email"></i>
+                                    <span class="count bg-primary">@NotificationHelper.GetNewUserNotificationCount()</span>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="message">
+                                    <div class="content">
+                                        <ul>
+                                            @foreach (var notification in NotificationHelper.GetUnreadUserNotifications().ToList())
+                                            {
+                                                <li>
+                                                    <hr size=6 />
+                                                    @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                                                    {
+                                                        @Html.AntiForgeryToken();
+                                                        @Html.Hidden("Id", notification.Id);
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" /><br />
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <span class="title">@notification.Subject</span>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row" >
+                                                            <div class="col-md-12 text-center">
+                                                                <button type="submit" class="btn btn-sm btn-primary">Mark as read</button>
+                                                            </div>
+                                                        </div>
+                                                        <hr size=6 />
+                                                    }
+                                                </li>
+                                            }
+                                        </ul>
+                                        <hr />
+                                        <div class="text-right">
+                                            <a href="@Url.Action("Index", "TicketNotifications")" class="ti-view-list">View All</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    @{
+                        ApplicationUser user = null;
+                        var userId = User.Identity.GetUserId();
+                        var db = new ApplicationDbContext();
+                        if (!string.IsNullOrEmpty(userId))
+                        {
+                            user = db.Users.Find(userId);
+                        }
+                    }
+                    @if (user != null && user.AvatarUrl != null)
+                    {
 
-                <div class="col-sm-5">
-                    <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="/images/admin.jpg" alt="User Avatar">
-                        </a>
-                        <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
-
-                            @using (Html.BeginForm("LogOff", "Account"))
-                            {
-                                @Html.AntiForgeryToken()
-                                <button type="submit">Logout</button>
-                                @*<a class="nav-link" href="#"><i class="fa fa-power-off"></i> Logout</a>*@
-                            }
-                        </div>
-                    </div>
-
-                    <div class="language-select dropdown" id="language-select">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="language" aria-haspopup="true" aria-expanded="true">
-                            <i class="flag-icon flag-icon-us"></i>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="language">
-                            <div class="dropdown-item">
-                                <span class="flag-icon flag-icon-fr"></span>
-                            </div>
-                            <div class="dropdown-item">
-                                <i class="flag-icon flag-icon-es"></i>
-                            </div>
-                            <div class="dropdown-item">
-                                <i class="flag-icon flag-icon-us"></i>
-                            </div>
-                            <div class="dropdown-item">
-                                <i class="flag-icon flag-icon-it"></i>
+                        <div class="col-sm-5">
+                            <div class="user-area dropdown float-right">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img class="user-avatar rounded-circle" src="@user.AvatarUrl" alt="@user.FullName" data-lock-picture="@user.AvatarUrl" />
+                                </a>
+                                <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
+                                    <span class="name">@user.FullName</span>
+                                    <span class="name">@user.DisplayName</span>
+                                    <span class="role"></span>
+                                </div>
+                                <div class="user-menu dropdown-menu">
+                                   <!--Removed some links that were not bieng used-->
+                                    @using (Html.BeginForm("LogOff", "Account"))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit">Logout</button>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
-
+                    }
                 </div>
+
+            </header>
+            <!-- /header -->
+            <!-- Header-->
+
+
+            @RenderBody()
+            <div class="col-10">
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - Moses Mbutha Mwangi</p>
+                </footer>
             </div>
 
-        </header>
-        <!-- /header -->
-        <!-- Header-->
-
-
-        @RenderBody()
-        <div class="col-10">
-            <footer>
-                <p>&copy; @DateTime.Now.Year - Moses Mbutha Mwangi</p>
-            </footer>
         </div>
 
-    </div>
+        <script src="~/Scripts/jquery.min.js"></script>
+        <script src="~/Scripts/popper.min.js"></script>
+        <script src="~/Scripts/popper.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/main.js"></script>
 
-    <script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/popper.min.js"></script>
-    <script src="~/Scripts/popper.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/main.js"></script>
+        <script src="~/Scripts/Chart.bundle.min.js"></script>
+        <script src="~/Scripts/dashboard.js"></script>
+        <script src="~/Scripts/widgets.js"></script>
+        <script src="~/Scripts/jquery.vmap.min.js"></script>
+        <script src="~/Scripts/jquery.vmap.sampledata.js"></script>
+        <script src="~/Scripts/jquery.vmap.world.js"></script>
+        <script src="~/Scripts/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+        <script src="~/Scripts/dataTables.buttons.min.js"></script>
+        <script src="~/Scripts/buttons.bootstrap4.min.js"></script>
+        <script src="~/Scripts/jszip.min.js"></script>
+        <script src="~/Scripts/buttons.html5.min.js"></script>
+        <script src="~/Scripts/buttons.print.min.js"></script>
+        <script src="~/Scripts/buttons.colVis.js"></script>
+        <script src="~/Scripts/datatables-init.js"></script>
+        <script src="~/Scripts/datatables.min.js"></script>
 
-    <script src="~/Scripts/Chart.bundle.min.js"></script>
-    <script src="~/Scripts/dashboard.js"></script>
-    <script src="~/Scripts/widgets.js"></script>
-    <script src="~/Scripts/jquery.vmap.min.js"></script>
-    <script src="~/Scripts/jquery.vmap.sampledata.js"></script>
-    <script src="~/Scripts/jquery.vmap.world.js"></script>
-    <script src="~/Scripts/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
-    <script src="~/Scripts/dataTables.buttons.min.js"></script>
-    <script src="~/Scripts/buttons.bootstrap4.min.js"></script>
-    <script src="~/Scripts/jszip.min.js"></script>
-    <script src="~/Scripts/buttons.html5.min.js"></script>
-    <script src="~/Scripts/buttons.print.min.js"></script>
-    <script src="~/Scripts/buttons.colVis.js"></script>
-    <script src="~/Scripts/datatables-init.js"></script>
-
-
-    @*@Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")*@
-    @RenderSection("scripts", required: false)
-
-    <script>
-        (function ($) {
-            "use strict";
-
-            jQuery('#vmap').vectorMap({
-                map: 'world_en',
-                backgroundColor: null,
-                color: '#ffffff',
-                hoverOpacity: 0.7,
-                selectedColor: '#1de9b6',
-                enableZoom: true,
-                showTooltip: true,
-                values: sample_data,
-                scaleColors: ['#1de9b6', '#03a9f5'],
-                normalizeFunction: 'polynomial'
-            });
-        })(jQuery);
-    </script>
+        @*@Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")*@
 
 
+        <script>
+            (function ($) {
+                "use strict";
 
-</body>
+                jQuery('#vmap').vectorMap({
+                    map: 'world_en',
+                    backgroundColor: null,
+                    color: '#ffffff',
+                    hoverOpacity: 0.7,
+                    selectedColor: '#1de9b6',
+                    enableZoom: true,
+                    showTooltip: true,
+                    values: sample_data,
+                    scaleColors: ['#1de9b6', '#03a9f5'],
+                    normalizeFunction: 'polynomial'
+                });
+            })(jQuery);
+        </script>
+
+        <script>
+            jQuery('#myTable').DataTable( {
+            dom: 'Bfrtip', buttons: ['colvis', 'excel', 'pdf', 'print'],
+                            
+            } );
+        </script>            
+        @RenderSection("scripts", required: false)
+
+    </body>
 
 </html>
