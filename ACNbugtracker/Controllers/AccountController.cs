@@ -171,6 +171,15 @@ namespace ACNbugtracker.Controllers
         {
             return View();
         }
+        // Get: /Account/UserAdminIndex
+        public ActionResult UserAdminIndex()
+        {
+            return View();
+        }
+        public ActionResult UserEdit()
+        {
+            return View();
+        }
 
         //
         // POST: /Account/Register
