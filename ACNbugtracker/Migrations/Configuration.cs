@@ -67,6 +67,7 @@ namespace ACNbugtracker.Migrations
                         Email = "Admin@Mailinator.com",
                         FirstName = "Admin",
                         LastName = "Administrator",
+                        AvatarUrl = "/Uploads/leonardo-admin.png",
                         DisplayName = "The Admin"
                     }, "Abc&123!");
                 }
@@ -79,6 +80,7 @@ namespace ACNbugtracker.Migrations
                         Email = "ProjectManager@Mailinator.com",
                         FirstName = "Project",
                         LastName = "Manager",
+                        AvatarUrl = "/Uploads/Raphael-PM.png",
                         DisplayName = "The PM"
                     }, "Abc&123!");
                 }
@@ -91,6 +93,7 @@ namespace ACNbugtracker.Migrations
                         Email = "Developer@Mailinator.com",
                         FirstName = "John",
                         LastName = "Wick",
+                        AvatarUrl = "/Uploads/Donatello-developer.png",
                         DisplayName = "Ticket Worker"
                     }, "Abc&123!");
                 }
@@ -103,6 +106,7 @@ namespace ACNbugtracker.Migrations
                         Email = "Submitter@Mailinator.com",
                         FirstName = "Sub",
                         LastName = "Mitter",
+                        AvatarUrl = "/Uploads/Michelangelo-submitter.png",
                         DisplayName = "Ticket Creator"
                     }, "Abc&123!");
                 }
@@ -322,6 +326,7 @@ namespace ACNbugtracker.Migrations
                     Email = "DemoAdmin@Mailinator.com",
                     FirstName = "DemoAdmin",
                     LastName = "DemoAdministrator",
+                    AvatarUrl = "/Uploads/leonardo-admin.png",
                     DisplayName = "The Demo Admin"
                 },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
             }
@@ -334,6 +339,7 @@ namespace ACNbugtracker.Migrations
                     Email = "DemoProjectManager@Mailinator.com",
                     FirstName = "DemoPM",
                     LastName = "Manager",
+                    AvatarUrl = "/Uploads/Raphael-PM.png",
                     DisplayName = "The Demo PM"
                 },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
             }
@@ -346,6 +352,7 @@ namespace ACNbugtracker.Migrations
                     Email = "DemoDeveloper@Mailinator.com",
                     FirstName = "DemoDev",
                     LastName = "Developer",
+                    AvatarUrl = "/Uploads/Donatello-developer.png",
                     DisplayName = "Developer"
                 },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
             }
@@ -358,6 +365,7 @@ namespace ACNbugtracker.Migrations
                     Email = "DemoSubmitter@Mailinator.com",
                     FirstName = "DemoSubmit",
                     LastName = "Submitter",
+                    AvatarUrl = "/Uploads/Michelangelo-submitter.png",
                     DisplayName = "Submitter"
                 },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
             }
@@ -526,7 +534,7 @@ namespace ACNbugtracker.Migrations
 
                 //1 unassigned Bug on the BugTracker
                 //1 assigned Defect on the BugTracker
-                
+
                 new Ticket
                 {
                     ProjectId = bugTrackerProjectId,
