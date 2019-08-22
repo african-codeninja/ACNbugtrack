@@ -13,6 +13,7 @@ namespace ACNbugtracker.Helper
 
         private UserRolesHelper RolesHelper = new UserRolesHelper();
 
+        //Previous implementation of is user in project
         public List<string> UserInRoleOnProject(int projectId, string roleName)
         {
             var people = new List<string>();
@@ -22,6 +23,20 @@ namespace ACNbugtracker.Helper
                 if (RolesHelper.IsUserInRole(user.Id, roleName))
                 {
                     people.Add(user.FullName);
+                }
+            }
+            return people;
+        }
+
+        public List<ApplicationUser> UserWithRoleOnProject(int projectId, string roleName)
+        {
+            var people = new List<ApplicationUser>();
+
+            foreach (var user in UsersOnProject(projectId).ToList())
+            {
+                if (RolesHelper.IsUserInRole(user.Id, roleName))
+                {
+                    people.Add(user);
                 }
             }
             return people;
