@@ -168,6 +168,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Helper\TicketHistoryHelper.cs" />
     <Compile Include="SystemRole.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -219,6 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Attachments\bald-head-147977_640.png" />
+    <Content Include="Content\ACN styling.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -227,6 +229,8 @@
     <Content Include="Content\buttons.bootstrap4.min.css" />
     <Content Include="Content\cs-skin-elastic.css" />
     <Content Include="Content\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\datatables.css" />
+    <Content Include="Content\datatables.min.css" />
     <Content Include="Content\flag-icon.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -242,6 +246,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\admin.jpg" />
+    <Content Include="images\Appbackground.jpg" />
     <Content Include="images\avatar\1.jpg" />
     <Content Include="images\avatar\2.jpg" />
     <Content Include="images\avatar\3.jpg" />
@@ -807,6 +812,8 @@
     <Content Include="Scripts\datatables-init.js" />
     <Content Include="Scripts\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\dataTables.buttons.min.js" />
+    <Content Include="Scripts\datatables.js" />
+    <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -839,11 +846,15 @@
     <Content Include="Uploads\bald-head-147977_640.png" />
     <Content Include="Uploads\bald-head-149857_640.png" />
     <Content Include="Uploads\cartoon-1890438_640.jpg" />
+    <Content Include="Uploads\Donatello-developer.png" />
     <Content Include="Uploads\goaty-149860_640.png" />
     <Content Include="Uploads\kaiser-40048_640.png" />
+    <Content Include="Uploads\leonardo-admin.png" />
     <Content Include="Uploads\man-1721463_640.png" />
     <Content Include="Uploads\man-3357275_640.png" />
     <Content Include="Uploads\man-3414477_640.png" />
+    <Content Include="Uploads\Michelangelo-submitter.png" />
+    <Content Include="Uploads\Raphael-PM.png" />
     <Content Include="Uploads\secondlife-1625903_640.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -946,6 +957,7 @@
     <Content Include="Views\Tickets\Dashboard.cshtml" />
     <Content Include="Views\Home\DemoUser.cshtml" />
     <Content Include="Views\TicketNotifications\MyIndex.cshtml" />
+    <Content Include="Views\Account\UserEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
