@@ -14,11 +14,12 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ACNbugtracker.Controllers
 {
+    [Authorize]
     public class TicketsController : Controller
     {
         public static UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
-        public ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper rolesHelper = new UserRolesHelper();
         private ProjectsHelper projectsHelper = new ProjectsHelper();
         private NotificationHelper notificationHelper = new NotificationHelper();
@@ -99,6 +100,7 @@ namespace ACNbugtracker.Controllers
         [Authorize(Roles = "Submitter")]
         public ActionResult Create()
         {
+            //making sure I create ticket to projects I belong to
             //var userId = User.Identity.GetUserId();
             var myProjects = projectsHelper.ListUserProjects(User.Identity.GetUserId());
             //Create a create view only for the tickets the submitter is on when we did the Manage projects
@@ -117,12 +119,13 @@ namespace ACNbugtracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                ticket.Created = DateTime.Now;
+                ticket.Created = DateTime.Now;//set the time of the created ticket
                 ticket.OwnerUserId = User.Identity.GetUserId();//whoever is logged in
-                ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New / Unassigned").Id;
+                //setting ticket status to a defualt value New/Unassigned
+                ticket.TicketStatusId = db.TicketStatuses.AsNoTracking().FirstOrDefault(t => t.Name == "New / Unassigned").Id;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MyIndex");
             }
 
             
@@ -152,7 +155,7 @@ namespace ACNbugtracker.Controllers
 
             var projectDevelopers = projectsHelper.UserWithRoleOnProject(ticket.ProjectId, "Developer");
 
-            if (TicketDecisionHelper.TicketIsEditableByUser(ticket))
+            if (ticketDecisionHelper.TicketIsEditableByUser(ticket))
             {
                 ViewBag.AssignedToUserId = new SelectList(projectDevelopers, "Id", "FirstName", ticket.AssignedToUserId);
                 ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
@@ -184,8 +187,8 @@ namespace ACNbugtracker.Controllers
                 db.SaveChanges();
 
                 //Now Call the NotificationHelper to determine if a Notification needs to be created
-                NotificationHelper.CreateAssignmentNotification(oldTicket, ticket);
-                HistoryHelper.RecordHistory(oldTicket, ticket);
+                notificationHelper.CreateAssignmentNotification(oldTicket, ticket);
+                historyHelper.RecordHistory(oldTicket, ticket);
 
                 return RedirectToAction("MyIndex");
             }
