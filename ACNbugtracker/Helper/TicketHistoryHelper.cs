@@ -65,7 +65,7 @@ namespace ACNbugtracker.Helper
             db.SaveChanges();
         }
 
-        public static string GetHistoryDataFromId(string id, string property)
+        public string GetHistoryDataFromId(string id, string property)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -92,7 +92,7 @@ namespace ACNbugtracker.Helper
             return data;
         }
 
-        public static string GetPropertyName(string property)
+        public string GetPropertyName(string property)
         {
             var data = property;
             switch (property)
