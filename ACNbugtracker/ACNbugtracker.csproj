@@ -168,7 +168,10 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\ChartsController.cs" />
+    <Compile Include="Helper\LinkHelper.cs" />
     <Compile Include="Helper\TicketHistoryHelper.cs" />
+    <Compile Include="ChartViewModels\MorrisBarChart.cs" />
     <Compile Include="SystemRole.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -961,6 +964,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Charts\" />
     <Folder Include="Views\ProjectNotifications\" />
   </ItemGroup>
   <ItemGroup>
