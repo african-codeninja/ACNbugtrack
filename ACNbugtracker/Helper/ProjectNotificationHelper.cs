@@ -9,7 +9,7 @@ namespace ACNbugtracker.Helper
 {
     public class ProjectNotificationHelper : CommonHelper
     {      
-        public static void TriggerProjectAssignmentNotifications(List<ApplicationUser> oldProjectUsers, int projectId)
+        public void TriggerProjectAssignmentNotifications(List<ApplicationUser> oldProjectUsers, int projectId)
         {
             //want to compare the old project users to the return value of users on project project.Id
             var newUsersOnProject = ProjectsHelper.UsersOnProject(projectId);
@@ -33,7 +33,7 @@ namespace ACNbugtracker.Helper
 
         }
 
-        public static void AddProjectAssignmentNotification(int projectId, string newUser)
+        public void AddProjectAssignmentNotification(int projectId, string newUser)
         {
             var properProjectName = db.Projects.FirstOrDefault(t => t.Id == projectId).Name;
             var newNotification = new ProjectNotification
@@ -48,7 +48,7 @@ namespace ACNbugtracker.Helper
             db.SaveChanges();
         }
 
-        public static void AddProjectUnassignmentNotification(int projectId, string oldUser)
+        public void AddProjectUnassignmentNotification(int projectId, string oldUser)
         {
             var properProjectName = db.Projects.FirstOrDefault(t => t.Id == projectId).Name;
             var oldNotification = new ProjectNotification
