@@ -7,6 +7,7 @@
     var roleHelper = new UserRolesHelper();
 }
 
+
 <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
@@ -27,90 +28,154 @@
 </div>
 <!--Counting All tickets for Admin and My Ticket for partcular User-->
 <div class="col-lg-6">
-    
-            <div class="card">
-                <div class="card-body">
-                    <div class="stat-widget-one">
-                        <div class="stat-icon dib"><i class="ti-layout-grid2 text-warning border-warning"></i></div>
-                        <div class="stat-content dib">
 
-                            <div class="stats-info">
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <div class="stat-text"><h4>TOTAL TICKETS</h4></div>
-                                }
-                                else
-                                {
-                                    <h4>MY TICKETS</h4>
-                                }
-                                @{
-                                    var db = new ApplicationDbContext();
-                                    var ticketHelper = new TicketHelper();
-                                    var user = User.Identity.GetUserId();
-                                    <p>@ticketHelper.CountMyTickets(user)</p>
-                                }
-                            </div>
-                            <div class="stats-link">
-                                <a href="@Url.Action("Index", "Tickets")">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-                            </div>
-                        </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="stat-widget-one">
+                <div class="stat-icon dib"><i class="ti-layout-grid2 text-warning border-warning"></i></div>
+                <div class="stat-content dib">
+
+                    <div class="stats-info">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="stat-text"><h4>TOTAL TICKETS</h4></div>
+                        }
+                        else
+                        {
+                            <h4>MY TICKETS</h4>
+                        }
+                        @{
+                            var db = new ApplicationDbContext();
+                            var ticketHelper = new TicketHelper();
+                            var user = User.Identity.GetUserId();
+                            <p>@ticketHelper.CountMyTickets(user)</p>
+                        }
+                    </div>
+                    <div class="stats-link">
+                        <a href="@Url.Action("Index", "Tickets")">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                     </div>
                 </div>
             </div>
-    
+        </div>
+    </div>
+
 </div>
 <!--Counting All IMMEDIATE tickets for Admin and My Ticket for partcular User-->
 <div class="col-lg-6">
-    
-            <div class="card">
-                <div class="card-body">
-                    <div class="stat-widget-one">
-                        <div class="stat-icon dib"><i class="ti-link text-danger border-danger"></i></div>
-                        <div class="stat-content dib">
 
-                            <div class="stats-info">
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <div class="stat-text"><h4>TOTAL IMMEDIATE TICKETS</h4></div>
-                                }
-                                else
-                                {
-                                    <h4>MY IMMEDIATE TICKETS</h4>
-                                }
-                                @{
-                                    var db1 = new ApplicationDbContext();
-                                    var ticketHelper1 = new TicketHelper();
-                                    var user1 = User.Identity.GetUserId();
-                                    <p>@ticketHelper.CountMyImmediateTickets(user)</p>
-                                }
-                            </div>
-                            <div class="stats-link">
-                                <a href="@Url.Action("Index", "Tickets")">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-                            </div>
-                        </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="stat-widget-one">
+                <div class="stat-icon dib"><i class="ti-link text-danger border-danger"></i></div>
+                <div class="stat-content dib">
+
+                    <div class="stats-info">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="stat-text"><h4>TOTAL IMMEDIATE TICKETS</h4></div>
+                        }
+                        else
+                        {
+                            <h4>MY IMMEDIATE TICKETS</h4>
+                        }
+                        @{
+                            var db1 = new ApplicationDbContext();
+                            var ticketHelper1 = new TicketHelper();
+                            var user1 = User.Identity.GetUserId();
+                            <p>@ticketHelper.CountMyImmediateTickets(user)</p>
+                        }
+                    </div>
+                    <div class="stats-link">
+                        <a href="@Url.Action("Index", "Tickets")">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                     </div>
                 </div>
             </div>
-       
-</div>
+        </div>
+    </div>
 
+</div>
+<style>
+    .chart275 {
+        height: 275px;
+    }
+</style>
 
 <div class="col-md-12">
-    
-        <div class="card">
-            <div class="card-header bg-secondary">
-                <strong class="card-title text-light"><h2>The Bug tracker</h2></strong>
-            </div>
-            <div class="card-body text-white bg-primary">
-                <p class="card-text text-light">
-                    <h3>
-                        Fully designed and developed a multi-functional issue tracker web application,
-                        implementing enhanced roles & security, which also used a Code First Relational
-                        database designed and modeled in SQL Server. Technologies used include: .Net
-                        Framework v. 4.6.1, MVC5, C#, LINQ, SQL, Entity Framework, jQuery DataTables
-                    </h3>
-                </p>
-            </div>
+
+    <div class="card">
+        <div class="card-header bg-secondary">
+            <strong class="card-title text-light"><h2>The Bug tracker</h2></strong>
         </div>
-    
+        <div class="card-body text-white bg-primary">
+            <p class="card-text text-light">
+                <h3>
+                    Fully designed and developed a multi-functional issue tracker web application,
+                    implementing enhanced roles & security, which also used a Code First Relational
+                    database designed and modeled in SQL Server. Technologies used include: .Net
+                    Framework v. 4.6.1, MVC5, C#, LINQ, SQL, Entity Framework, jQuery DataTables
+                </h3>
+            </p>
+        </div>
+    </div>
+
 </div>
+
+<div class="col-md-6">
+    <div class="card border border-primary">
+        <div class="card-header">
+            <strong class="card-title">Bar Graph</strong>
+        </div>
+        <div class="card-body">
+            <div id="RealMorrisBarChart" class="chart275"></div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="card border border-primary">
+        <div class="card-header">
+            <strong class="card-title">Donut Graph</strong>
+        </div>
+        <div class="card-body">
+            <div id="RealMorrisDonutChart" class="chart275"></div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    
+    <script type="text/javascript">
+           $(function(){
+                var url='@Url.Action("GetJsonMorrisData","Charts")';
+               $.post(url).then(function(response){
+                    new Morris.Bar({
+                        element:'RealMorrisBarChart',
+                        data: response,
+                        gridTextSize: 10,
+                        xLabelAngle: 65,
+                        xkey: 'label',
+                        ykeys: ['value'],
+                        labels: ['Ticket Count'],
+                        resize: true
+                    });
+                });
+           });
+    </script>
+
+    <script type="text/javascript">
+           $(function(){
+                var url='@Url.Action("GetJsonMorrisData","Charts")';
+                $.post(url).then(function(response){
+                    new Morris.Donut({
+                        element:'RealMorrisDonutChart',
+                        data: response,
+                        gridTextSize: 10,
+                        xkey: 'label',
+                        ykeys: ['value'],
+                        labels: ['Ticket Count'],
+                        resize: true
+                    });
+                });
+            });
+    </script>
+}
