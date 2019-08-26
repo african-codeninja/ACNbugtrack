@@ -9,7 +9,7 @@ namespace ACNbugtracker.Helper
 {
     public class TicketDecisionHelper : CommonHelper
     {
-        public static bool TicketsDetailsViewableByUser(int ticketId)
+        public bool TicketsDetailsViewableByUser(int ticketId)
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
 
@@ -33,7 +33,7 @@ namespace ACNbugtracker.Helper
 
         }
 
-        public static bool TicketIsEditableByUser(Ticket ticket)
+        public bool TicketIsEditableByUser(Ticket ticket)
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
 
@@ -65,7 +65,7 @@ namespace ACNbugtracker.Helper
             }
         }
 
-        public static bool TicketTypeIsEditableByUser(string userId, int ticketId)
+        public bool TicketTypeIsEditableByUser(string userId, int ticketId)
         {
             userId = HttpContext.Current.User.Identity.GetUserId();
 
@@ -88,7 +88,7 @@ namespace ACNbugtracker.Helper
             return true;
         }
 
-        public static bool TicketsTypeIsEditableByUser(string userId, int ticketId)
+        public bool TicketsTypeIsEditableByUser(string userId, int ticketId)
         {
             userId = HttpContext.Current.User.Identity.GetUserId();
 
