@@ -1,6 +1,10 @@
 ﻿@using ACNbugtracker.Helper
 @using ACNbugtracker.Models
 @using Microsoft.AspNet.Identity
+
+@{
+    var noteHelper = new NotificationHelper();
+}
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -20,6 +24,7 @@
     <link rel="shortcut icon" href="favicon.ico">
 
     <script src="~/Scripts/popper.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/font-awesome.min.css">
     <link rel="stylesheet" href="~/Content/themify-icons.css">
@@ -36,11 +41,13 @@
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
-   
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+
     <style>
         body {
             background-image: url('../../images/Appbackground.jpg');
-            background-repeat: no-repeat;
+            /*background-repeat: no-repeat;*/
             background-size: 100%;
         }
     </style>
@@ -88,11 +95,19 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Ticket Management</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-book"></i><a href="@Url.Action("MyIndex","Tickets")">Tickets Home</a></li>
+                            @if (User.IsInRole("Submitter"))
+                            {
+                                <li><i class="fa fa-ticket"></i><a href="@Url.Action("Create", "Tickets")">Create Ticket</a></li>
+                            }
                             @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                             {
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "TicketComments")">Tickets Comments</a></li>
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "TicketNotifications")">Ticket Notifications</a></li>
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "TicketHistories")">Ticket Histories</a></li>
+                            }
+                            @if (User.IsInRole("Submitter"))
+                            {
+                                <li><i class="fa fa-book"></i><a href="@Url.Action("Create", "Tickets")">Create Ticket</a></li>
                             }
                         </ul>
                     </li>
@@ -151,19 +166,19 @@
                             <div class="dropdown for-notification">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-bell"></i>
-                                    <span class="count bg-danger">@NotificationHelper.GetAllUserNotificationCount()</span>
+                                    <span class="count bg-danger">@noteHelper.GetAllUserNotificationCount()</span>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="message">
                                     <div class="content">
                                         <ul>
-                                            @foreach (var notification in NotificationHelper.GetreadUserNotifications().ToList())
-                                            {
+                                            @*@foreach (var notification in noteHelper.GetreadUserNotifications().ToList())
+                                                {
                                                 <li>
                                                     <hr size=6 />
                                                     @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
                                                     {
                                                         @Html.AntiForgeryToken();
-                                                        @Html.Hidden("Id", notification.Id);
+                                                            @Html.Hidden("Id", notification.Id);
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" /><br />
@@ -184,12 +199,7 @@
                                                         <hr size=6 />
                                                     }
                                                 </li>
-                                            }
-                                        </ul>
-                                        <hr />
-                                        <div class="text-right">
-                                            <a href="@Url.Action("Index", "TicketNotifications")" class="ti-view-list">View All</a>
-                                        </div>
+                                                }*@
                                     </div>
                                 </div>
                             </div>
@@ -198,12 +208,12 @@
                                         id="message"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="ti-email"></i>
-                                    <span class="count bg-primary">@NotificationHelper.GetNewUserNotificationCount()</span>
+                                    <span class="count bg-primary">@noteHelper.GetNewUserNotificationCount()</span>
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="message">
+                                <div id="dropdown-notification" class="dropdown-menu" aria-labelledby="message">
                                     <div class="content">
                                         <ul>
-                                            @foreach (var notification in NotificationHelper.GetUnreadUserNotifications().ToList())
+                                            @foreach (var notification in noteHelper.GetUnreadUserNotifications())
                                             {
                                                 <li>
                                                     <hr size=6 />
@@ -223,7 +233,7 @@
                                                             </div>
                                                         </div>
                                                         <br />
-                                                        <div class="row" >
+                                                        <div class="row">
                                                             <div class="col-md-12 text-center">
                                                                 <button type="submit" class="btn btn-sm btn-primary">Mark as read</button>
                                                             </div>
@@ -235,7 +245,7 @@
                                         </ul>
                                         <hr />
                                         <div class="text-right">
-                                            <a href="@Url.Action("Index", "TicketNotifications")" class="ti-view-list">View All</a>
+                                            <a href="@Url.Action("Index", "TicketNotifications")">View All</a>
                                         </div>
                                     </div>
                                 </div>
@@ -265,7 +275,7 @@
                                     <span class="role"></span>
                                 </div>
                                 <div class="user-menu dropdown-menu">
-                                   <!--Removed some links that were not bieng used-->
+                                    <!--Removed some links that were not bieng used-->
                                     @using (Html.BeginForm("LogOff", "Account"))
                                     {
                                         @Html.AntiForgeryToken()
@@ -299,10 +309,10 @@
 
         <script src="~/Scripts/Chart.bundle.min.js"></script>
         <script src="~/Scripts/dashboard.js"></script>
-        <script src="~/Scripts/widgets.js"></script>
-        <script src="~/Scripts/jquery.vmap.min.js"></script>
+        @*<script src="~/Scripts/widgets.js"></script>*@
+        @*<script src="~/Scripts/jquery.vmap.min.js"></script>*@
         <script src="~/Scripts/jquery.vmap.sampledata.js"></script>
-        <script src="~/Scripts/jquery.vmap.world.js"></script>
+        @*<script src="~/Scripts/jquery.vmap.world.js"></script>*@
         <script src="~/Scripts/jquery.dataTables.min.js"></script>
         <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
         <script src="~/Scripts/dataTables.buttons.min.js"></script>
@@ -314,6 +324,11 @@
         <script src="~/Scripts/datatables-init.js"></script>
         <script src="~/Scripts/datatables.min.js"></script>
 
+        <!--Morris chats reference-->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+        <!---End of  Morris chart referencing-->
         @*@Scripts.Render("~/bundles/jquery")
             @Scripts.Render("~/bundles/bootstrap")*@
 
@@ -338,11 +353,12 @@
         </script>
 
         <script>
-            jQuery('#myTable').DataTable( {
-            dom: 'Bfrtip', buttons: ['colvis', 'excel', 'pdf', 'print'],
-                            
-            } );
-        </script>            
+            jQuery('#myTable').DataTable({
+                dom: 'Bfrtip', buttons: ['colvis', 'excel', 'pdf', 'print'],
+
+            });
+        </script>
+    
         @RenderSection("scripts", required: false)
 
     </body>
