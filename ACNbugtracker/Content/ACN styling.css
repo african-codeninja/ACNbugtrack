@@ -1,3 +1,7 @@
 ﻿.card-body {
     height: 300px;
 }
+
+#dropdown-notification{    
+    min-width: 30rem;   
+}
