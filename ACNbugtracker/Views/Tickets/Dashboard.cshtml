@@ -1,5 +1,4 @@
 ﻿@using ACNbugtracker.Helper
-@using ACNbugtracker.Models
 @model ACNbugtracker.Models.Ticket
 
 <!DOCTYPE html>
@@ -145,7 +144,10 @@
                                                     <!--Top Row for Entire Diplay-->
                                                     <div class="rom">
                                                         <div class="col-12">
-                                                            @if (TicketDecisionHelper.TicketIsEditableByUser(Model))
+                                                            @{ 
+                                                                var tHelper = new TicketDecisionHelper();
+                                                            }
+                                                            @if (tHelper.TicketIsEditableByUser(Model))
                                                             {
                                                                 using (Html.BeginForm("Create", "TicketAttachment", FormMethod.Post, new { enctype = "Multipart/form-data" }))
                                                                 {
