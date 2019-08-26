@@ -951,11 +951,12 @@ p:focus {
 
 a,
 button {
-  text-decoration: none;
-  outline: none !important;
-  color: #878787;
-  -webkit-transition: all 0.25s ease;
-  transition: all 0.25s ease; }
+    text-decoration: none;
+    outline: none !important;
+    color: #000eab;
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+}
 
 a:focus,
 a:hover {
