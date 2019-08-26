@@ -67,7 +67,7 @@ namespace ACNbugtracker.Helper
         {
             var user = db.Users.Where(u => u.Id == userId).FirstOrDefault();
             var userRole = RolesHelper.ListUserRoles(userId).FirstOrDefault();
-            var tix = 420;
+            var tix = 0;
             switch (userRole)
             {
                 case "Admin":
@@ -92,7 +92,7 @@ namespace ACNbugtracker.Helper
         {
             var user = db.Users.Where(u => u.Id == userId).FirstOrDefault();
             var userRole = RolesHelper.ListUserRoles(userId).FirstOrDefault();
-            var tix = 420;
+            var tix = 0;
             switch (userRole)
             {
                 case "Admin":
