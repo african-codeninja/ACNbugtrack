@@ -12,7 +12,7 @@ namespace ACNbugtracker.Helper
     public class NotificationHelper : CommonHelper
     {
         
-        public static void CreateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
+        public void CreateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             //4 cases considered for this case scenarios for notifications
 
@@ -41,7 +41,7 @@ namespace ACNbugtracker.Helper
         }   
         
 
-        public static void GenerateUnAssignmentNotification(Ticket oldTicket, Ticket newTicket)
+        public void GenerateUnAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             var notification = new TicketNotification
             {
@@ -58,7 +58,7 @@ namespace ACNbugtracker.Helper
             db.SaveChanges();
         }
 
-        public static void GenerateAssignmentNofification(Ticket oldTicket, Ticket newTicket)
+        public void GenerateAssignmentNofification(Ticket oldTicket, Ticket newTicket)
         {
             var notification = new TicketNotification
             {
@@ -75,7 +75,7 @@ namespace ACNbugtracker.Helper
             db.SaveChanges();
         }
 
-        private static void CreateChangeNotification(Ticket oldTicket, Ticket newTicket)
+        private void CreateChangeNotification(Ticket oldTicket, Ticket newTicket)
         {
             var messageBody = new StringBuilder();
 
@@ -116,28 +116,28 @@ namespace ACNbugtracker.Helper
             }
 
         }
-        public static int GetNewUserNotificationCount()
+        public int GetNewUserNotificationCount()
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
             return db.TicketNotifications.Where(t => t.RecipientId == userId && !t.Read).Count();
         }
 
-        public static int GetAllUserNotificationCount()
+        public int GetAllUserNotificationCount()
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
             return db.TicketNotifications.Where(t => t.RecipientId == userId).Count();
         }
 
-        public static List<TicketNotification> GetUnreadUserNotifications()
+        public List<TicketNotification> GetUnreadUserNotifications()
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
-            return db.TicketNotifications.Where(t => t.RecipientId == userId && !t.Read).ToList();
+            return db.TicketNotifications.Include("Sender").Where(t => t.RecipientId == userId && !t.Read).ToList();
         }
 
-        public static List<TicketNotification> GetreadUserNotifications()
+        public List<TicketNotification> GetreadUserNotifications()
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
-            return db.TicketNotifications.Where(t => t.RecipientId == userId && t.Read).ToList();
+            return db.TicketNotifications.Include("Sender").Where(t => t.RecipientId == userId && t.Read).ToList();
         }
 
 
