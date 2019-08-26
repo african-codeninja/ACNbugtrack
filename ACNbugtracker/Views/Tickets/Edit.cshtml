@@ -13,14 +13,14 @@
                 @Html.HiddenFor(model => model.Created)
                 @Html.HiddenFor(model => model.OwnerUserId)
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header card-block bg-success">
                         <strong>TICKET EDIT</strong>
                         @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                         {
                             <small>AND TICKET ASSIGNMENT FOR DEVELOPERS/PROJECT MANAGERS</small>
                         }
                     </div>
-                    <div class="card-body card-block">
+                    <div class="card-body text-white bg-primary">
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.TicketTypeId, "TICKET TYPE", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -64,7 +64,7 @@
                 </div>
             }
         <div>
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "MyIndex")
             @section Scripts {
                 @Scripts.Render("~/bundles/jqueryval")
             }
