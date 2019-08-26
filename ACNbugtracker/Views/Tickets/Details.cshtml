@@ -3,6 +3,10 @@
 @using ACNbugtracker.Helper
 @using ACNbugtracker.Models
 
+@{ 
+    var ticketDecision = new TicketDecisionHelper();
+    var ticketHistory = new TicketHistoryHelper();
+}
 <!DOCTYPE html>
 
 <div class="col-lg-12">
@@ -117,7 +121,7 @@
                                 <div class="rom">
                                     <div class="col-md-12">
                                         <div class="col-md-12">
-                                            @if (TicketDecisionHelper.TicketIsEditableByUser(Model))
+                                            @if (ticketDecision.TicketIsEditableByUser(Model))
                                             {
 
                                                 using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
@@ -306,13 +310,13 @@
                                         @if (history.PropertyName == "AssignedToUserId" && history.OldValue == null)
                                         {
                                             <p class="lead">
-                                                "@TicketHistoryHelper.GetHistoryDataFromId(history.NewValue ?? "", history.PropertyName)" was set as the initial Assigned Developer.
+                                                "@ticketHistory.GetHistoryDataFromId(history.NewValue ?? "", history.PropertyName)" was set as the initial Assigned Developer.
                                             </p>
                                         }
                                         else
                                         {
                                             <p class="lead">
-                                                The @TicketHistoryHelper.GetPropertyName(history.PropertyName) was changed from "@TicketHistoryHelper.GetHistoryDataFromId(history.OldValue ?? "", history.PropertyName)" to "@TicketHistoryHelper.GetHistoryDataFromId(history.NewValue ?? "", history.PropertyName)".
+                                                The @ticketHistory.GetPropertyName(history.PropertyName) was changed from "@ticketHistory.GetHistoryDataFromId(history.OldValue ?? "", history.PropertyName)" to "@ticketHistory.GetHistoryDataFromId(history.NewValue ?? "", history.PropertyName)".
                                             </p>
                                         }
                                     </div>
