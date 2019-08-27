@@ -164,42 +164,25 @@
                                 </form>
                             </div>
                             <div class="dropdown for-notification">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-bell"></i>
-                                    <span class="count bg-danger">@noteHelper.GetAllUserNotificationCount()</span>
-                                </button>
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-bell"></i>
+                                        <span class="count bg-danger">@noteHelper.GetAdminNotificationCount()</span>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-bell"></i>
+                                        <span class="count bg-danger">@noteHelper.GetAllUserNotificationCount()</span>
+                                    </button>
+
+                                }
                                 <div class="dropdown-menu" aria-labelledby="message">
                                     <div class="content">
-                                        <ul>
-                                            @*@foreach (var notification in noteHelper.GetreadUserNotifications().ToList())
-                                                {
-                                                <li>
-                                                    <hr size=6 />
-                                                    @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
-                                                    {
-                                                        @Html.AntiForgeryToken();
-                                                            @Html.Hidden("Id", notification.Id);
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" /><br />
-                                                            </div>
-                                                        </div>
-                                                        <br />
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <span class="title">@notification.Subject</span>
-                                                            </div>
-                                                        </div>
-                                                        <br />
-                                                        <div class="row">
-                                                            <div class="col-md-12 text-center">
-                                                                <button type="submit" class="btn btn-sm btn-primary">Mark as read</button>
-                                                            </div>
-                                                        </div>
-                                                        <hr size=6 />
-                                                    }
-                                                </li>
-                                                }*@
+
                                     </div>
                                 </div>
                             </div>
@@ -216,37 +199,40 @@
                                             @foreach (var notification in noteHelper.GetUnreadUserNotifications())
                                             {
                                                 <li>
-                                                    <hr size=6 />
                                                     @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
                                                     {
                                                         @Html.AntiForgeryToken();
                                                         @Html.Hidden("Id", notification.Id);
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <img src="@notification.Sender.AvatarUrl" alt="@notification.Sender.Email" class="img-circle" width="25" /><br />
-                                                            </div>
-                                                        </div>
-                                                        <br />
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <span class="title">@notification.Subject</span>
-                                                            </div>
-                                                        </div>
-                                                        <br />
+                                                        <a class="dropdown-item media bg-flat-color-1" href="#">
+                                                            <span class="photo media-left"><img alt="@notification.Sender.Email" src="@notification.Sender.AvatarUrl"></span>
+                                                            <span class="message media-body">
+                                                                <span class="name float-left">@notification.Sender.FullName</span>
+                                                                <span class="time float-right">Just now</span>
+                                                                <p>@notification.Subject</p>
+                                                            </span>
+                                                        </a>
                                                         <div class="row">
                                                             <div class="col-md-12 text-center">
                                                                 <button type="submit" class="btn btn-sm btn-primary">Mark as read</button>
                                                             </div>
                                                         </div>
-                                                        <hr size=6 />
                                                     }
                                                 </li>
                                             }
                                         </ul>
                                         <hr />
-                                        <div class="text-right">
-                                            <a href="@Url.Action("Index", "TicketNotifications")">View All</a>
-                                        </div>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <div class="text-right">
+                                                <a href="@Url.Action("Index", "TicketNotifications")">View All</a>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="text-right">
+                                                <a href="@Url.Action("MyIndex", "TicketNotifications")">View All</a>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
