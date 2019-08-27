@@ -962,6 +962,7 @@
     <Content Include="Views\TicketNotifications\MyIndex.cshtml" />
     <Content Include="Views\Account\UserEdit.cshtml" />
     <Content Include="Views\ProjectNotifications\Create.cshtml" />
+    <Content Include="Views\ProjectNotifications\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
