@@ -961,11 +961,11 @@
     <Content Include="Views\Home\DemoUser.cshtml" />
     <Content Include="Views\TicketNotifications\MyIndex.cshtml" />
     <Content Include="Views\Account\UserEdit.cshtml" />
+    <Content Include="Views\ProjectNotifications\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Charts\" />
-    <Folder Include="Views\ProjectNotifications\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
