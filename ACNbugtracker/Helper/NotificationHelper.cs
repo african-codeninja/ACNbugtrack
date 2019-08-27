@@ -128,6 +128,12 @@ namespace ACNbugtracker.Helper
             return db.TicketNotifications.Where(t => t.RecipientId == userId).Count();
         }
 
+        public int GetAdminNotificationCount()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            return db.TicketNotifications.Count();
+        }
+
         public List<TicketNotification> GetUnreadUserNotifications()
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
