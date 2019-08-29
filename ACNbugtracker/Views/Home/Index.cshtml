@@ -84,8 +84,10 @@
                             var user1 = User.Identity.GetUserId();
                             <p>@ticketHelper.CountMyImmediateTickets(user)</p>
                         }
+                        <br />
+
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -93,6 +95,7 @@
 
 </div>
 <style>
+
     .chart275 {
         height: 275px;
     }
@@ -118,30 +121,63 @@
 
 </div>
 
-<div class="col-md-6">
-    <div class="card border border-primary">
-        <div class="card-header">
-            <strong class="card-title">Bar Graph</strong>
-        </div>
+<div class="col-lg-6">
+    <div class="card">
         <div class="card-body">
-            <div id="RealMorrisBarChart" class="chart275"></div>
+            <h4 class="mb-3">3D Bar Chart</h4>
+            <div id="Fusion3dBarChartType" class="chart275"></div>
         </div>
     </div>
-</div>
+</div><!-- /# column -->
 
-<div class="col-md-6">
-    <div class="card border border-primary">
-        <div class="card-header">
-            <strong class="card-title">Donut Graph</strong>
-        </div>
+<div class="col-lg-6">
+    <div class="card">
         <div class="card-body">
-            <div id="RealMorrisDonutChart" class="chart275"></div>
+            <h4 class="mb-3">3D Pie Chart </h4>
+            <div id="Fusion3dPieChartType" class="chart275"></div>
         </div>
     </div>
-</div>
+</div><!-- /# column -->
+
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mb-3">3D BarChart: Tickets By Type</h4>
+            <div id="Fusion3dBarChart" class="chart275"></div>
+        </div>
+    </div>
+</div><!-- /# column -->
+
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mb-3">3d Pie Chart: Ticket Count</h4>
+            <div id="Fusion3dPieChart" class="chart275"></div>
+        </div>
+    </div>
+</div><!-- /# column -->
+
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mb-3">3D BarChart: Roles Assigned</h4>
+            <div id="Fusion3dBarChartUsers" class="chart275"></div>
+        </div>
+    </div>
+</div><!-- /# column -->
+
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mb-3">3d Pie Chart: Ticket Count</h4>
+            <div id="Fusion3dPieChartUsers" class="chart275"></div>
+        </div>
+    </div>
+</div><!-- /# column -->
+
 
 @section scripts{
-    
+
     <script type="text/javascript">
            $(function(){
                 var url='@Url.Action("GetJsonMorrisData","Charts")';
@@ -176,4 +212,162 @@
                 });
             });
     </script>
+
+    <script>
+      $(function(){
+         var url='@Url.Action("GetJsonFusionData","Charts")';
+         $.post(url).then(function(response){
+             var revenueChart = new FusionCharts({
+                 type:'column3d',
+                 renderAt:'Fusion3dBarChart',
+                 width:'100%',
+                 height:'100%',
+                 dataFormat:'json',
+                 dataSource:{
+                     'chart':{
+                         caption:'Ticket Counts by Type',
+                         subCaption:'',
+                         xAxisName:'Ticket Types',
+                         yAxisName:'Count',
+                         numberSuffix:'',
+                         theme:'fusion'
+                     },
+                     'data': response
+                 }
+             }).render();
+         });
+      });
+    </script>
+
+    <script>
+      $(function(){
+         var url='@Url.Action("GetJsonFusionData","Charts")';
+         $.post(url).then(function(response){
+             var ticketChart = new FusionCharts({
+                 type:"pie3d",
+                 renderAt:"Fusion3dPieChart",
+                 width:"100%",
+                 height:"100%",
+                 dataFormat:"json",
+                 dataSource:{
+                     "chart":{
+                         caption:"Ticket Counts by Type",
+                         subCaption:"",
+                         xAxisName:"Ticket Statuses",
+                         yAxisName:"Count",
+                         numberSuffix:"",
+                         theme:"fusion"
+                     },
+                     "data": response
+                 }
+             }).render();
+         });
+      });
+    </script>
+
+    <script>
+      $(function(){
+         var url='@Url.Action("GetJsonFusionDataTypes","Charts")';
+         $.post(url).then(function(response){
+             var revenueChart = new FusionCharts({
+                 type:'column3d',
+                 renderAt:'Fusion3dBarChartType',
+                 width:'100%',
+                 height:'100%',
+                 dataFormat:'json',
+                 dataSource:{
+                     'chart':{
+                         caption:'Ticket Counts by Status',
+                         subCaption:'',
+                         xAxisName:'Status',
+                         yAxisName:'Count',
+                         numberSuffix:'',
+                         theme:'fusion'
+                     },
+                     'data': response
+                 }
+             }).render();
+         });
+      });
+    </script>
+
+    <script>
+      $(function(){
+         var url='@Url.Action("GetJsonFusionDataTypes","Charts")';
+         $.post(url).then(function(response){
+             var ticketChart = new FusionCharts({
+                 type:"pie3d",
+                 renderAt:"Fusion3dPieChartType",
+                 width:"100%",
+                 height:"100%",
+                 dataFormat:"json",
+                 dataSource:{
+                     "chart":{
+                         caption:"Ticket Counts by Status",
+                         subCaption:"",
+                         xAxisName:"Status",
+                         yAxisName:"Count",
+                         numberSuffix:"",
+                         theme:"fusion"
+                     },
+                     "data": response
+                 }
+             }).render();
+         });
+      });
+    </script>
+
+    <script>
+      $(function(){
+         var url='@Url.Action("GetJsonFusionProjectUsers","Charts")';
+         $.post(url).then(function(response){
+             var revenueChart = new FusionCharts({
+                 type:'column3d',
+                 renderAt:'Fusion3dBarChartUsers',
+                 width:'100%',
+                 height:'100%',
+                 dataFormat:'json',
+                 dataSource:{
+                     'chart':{
+                         caption:'Personel to Projects',
+                         subCaption:'',
+                         xAxisName:'Projects',
+                         yAxisName:'People Assigned',
+                         numberSuffix:'',
+                         theme:'fusion'
+                     },
+                     'data': response
+                 }
+             }).render();
+         });
+      });
+    </script>
+
+    <script>
+      $(function(){
+         var url='@Url.Action("GetJsonFusionDataRoles","Charts")';
+         $.post(url).then(function(response){
+             var ticketChart = new FusionCharts({
+                 type:"pie3d",
+                 renderAt:"Fusion3dPieChartUsers",
+                 width:"100%",
+                 height:"100%",
+                 dataFormat:"json",
+                 dataSource:{
+                     "chart":{
+                         caption:"Types of Roles",
+                         subCaption:"",
+                         xAxisName:"Roles",
+                         yAxisName:"People Assigned",
+                         numberSuffix:"",
+                         theme:"fusion"
+                     },
+                     "data": response
+                 }
+             }).render();
+         });
+      });
+    </script>
+
+
 }
