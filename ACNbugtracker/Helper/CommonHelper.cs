@@ -13,21 +13,21 @@ namespace ACNbugtracker.Helper
         protected UserRolesHelper RolesHelper = new UserRolesHelper();
         protected ProjectsHelper ProjectsHelper = new ProjectsHelper();
         protected ApplicationUser CurrentUser = null;
-        protected String CurrentRoles = "";
         protected SystemRole CurrentRole = SystemRole.None;
 
         protected CommonHelper()
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
-            //if (userId != null)
-            //    CurrentUser = db.Users.Find(userId);
 
-            //var stringRole = RolesHelper.ListUserRoles(userId).FirstOrDefault();
+            if (userId != null)
+                CurrentUser = db.Users.Find(userId);
 
-            //if (!string.IsNullOrEmpty(stringRole))
-            //    CurrentRole = (SystemRole)Enum.Parse(typeof(SystemRole), stringRole);
-            CurrentUser = db.Users.Find(userId);
-            CurrentRoles = RolesHelper.ListUserRoles(CurrentUser.Id).FirstOrDefault();
+            //"Submitter" ==> SystemRole.Submitter
+            var stringRole = RolesHelper.ListUserRoles(userId).FirstOrDefault();
+
+            if (!string.IsNullOrEmpty(stringRole))
+                CurrentRole = (SystemRole)Enum.Parse(typeof(SystemRole), stringRole);
+
         }
 
     }
