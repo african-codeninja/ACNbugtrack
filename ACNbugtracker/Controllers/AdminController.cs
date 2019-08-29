@@ -1,5 +1,6 @@
 ﻿using ACNbugtracker.Helper;
 using ACNbugtracker.Models;
+using ACNbugtracker.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace ACNbugtracker.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -19,7 +20,7 @@ namespace ACNbugtracker.Controllers
         // GET: Admin
         public ActionResult UserIndex()
         {
-            var users = db.Users.Select(userAttrib => new UserProfileViewModel
+            var users = db.Users.Select(userAttrib => new Models.UserProfileViewModel
             {
                 Id = userAttrib.Id,
                 FirstName = userAttrib.FirstName,
@@ -31,6 +32,34 @@ namespace ACNbugtracker.Controllers
 
             return View(users);
         }
+
+        // GET: Admin2       
+        public ActionResult UserIndex2()
+        {
+            var roles = db.Roles.ToList();
+            var projects = db.Projects;
+            var users = db.Users.Select(u => new UserIndexViewModel
+            {
+                Id = u.Id,
+                FullName = u.LastName + ", " + u.FirstName,
+                Email = u.Email,
+                AvatarUrl = u.AvatarUrl
+            }).ToList();
+
+            foreach (var user in users)
+            {
+                user.CurrentRole = new SelectList(roles, "Name", "Name", rolesHelper.ListUserRoles(user.Id).FirstOrDefault());
+                user.CurrentProjects = new MultiSelectList(projects, "Id", "Name", projectHelper.ListUserProjects(user.Id).Select(p => p.Id));
+            }
+
+            return View(users);
+        }
+
+        public ActionResult Permissions()
+        {
+            return View();
+        }
+    
         //Get Function
         [HttpGet]
         public ActionResult ManageUserRole(string userId)
@@ -72,7 +101,7 @@ namespace ACNbugtracker.Controllers
 
         public ActionResult ManageUsers()
         {
-            var users = db.Users.Select(userAttrib => new UserProfileViewModel
+            var users = db.Users.Select(userAttrib => new Models.UserProfileViewModel
             {
                 Id = userAttrib.Id,
                 FirstName = userAttrib.FirstName,
@@ -91,7 +120,7 @@ namespace ACNbugtracker.Controllers
         [HttpGet]
         public ActionResult ManageRoles()
         {
-            var users = db.Users.Select(userAttrib => new UserProfileViewModel
+            var users = db.Users.Select(userAttrib => new Models.UserProfileViewModel
             {
                 Id = userAttrib.Id,
                 FirstName = userAttrib.FirstName,
