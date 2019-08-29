@@ -13,8 +13,10 @@ using Microsoft.AspNet.Identity;
 
 namespace ACNbugtracker.Controllers
 {
+    [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
     public class TicketAttachmentsController : Controller
     {
+        
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketAttachments
