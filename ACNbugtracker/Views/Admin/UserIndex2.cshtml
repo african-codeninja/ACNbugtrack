@@ -1,0 +1,90 @@
+﻿@using ACNbugtracker.Models;
+@using ACNbugtracker.Helper;
+@using ACNbugtracker.ViewModels
+
+@model IEnumerable<UserIndexViewModel>
+@{
+    var roleHelper = new UserRolesHelper();
+
+    var projectHelper = new ProjectsHelper();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserIndex2</title>
+</head>
+<body>
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">User Index</strong>
+                        </div>
+                        <div class="card-body">
+                            <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.AvatarUrl)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.FullName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Email)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("Current Role")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("Current Project(s)")
+                                        </th>
+
+                                        @*<th></th>*@
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var user in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src="@user.AvatarUrl" width="60" />
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => user.FullName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => user.Email)
+                                            </td>
+                                            <td>
+                                                @Html.DropDownList("CurrentRole", user.CurrentRole, "NONE")
+                                            </td>
+
+                                            <td>
+                                                @Html.DropDownList("CurrentProjects", user.CurrentProjects)
+                                            </td>
+
+                                            @*<td>
+                                                @Html.ActionLink("Manage Role", "ManageUserRole", "Admin", new { userId = user.Id }, null) |
+                                                @Html.ActionLink("Manage Projects", "ManageUserProjects", "Admin", new { userId = user.Id }, null)
+                                            </td>*@
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @Html.ActionLink("Back To Dashboard", "Dashboard", "Home")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
