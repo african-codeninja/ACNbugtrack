@@ -16,12 +16,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ACN Bug Tracer Admin - HTML5 Admin Template</title>
-    <meta name="description" content="ACN Admin - HTML5 Admin Template">
+    <title>African Code Ninjas Bug Tracking Software</title>
+    <meta name="Bug Tracker for Software Developers" content="ACN African Code Ninjas Bug Trackers">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="apple-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="~/favicon.ico">
 
     <script src="~/Scripts/popper.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
@@ -42,16 +42,6 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-
-
-    <style>
-        body {
-            background-image: url('../../images/Appbackground.jpg');
-            /*background-repeat: no-repeat;*/
-            background-size: 100%;
-        }
-    </style>
-
 </head>
 
 <body>
@@ -81,7 +71,7 @@
                         <li class="menu-item-has-children dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-laptop"></i>User Administration</a>
                             <ul class="sub-menu children dropdown-menu">
-                                <li><i class="fa fa-id-badge"></i><a href="@Url.Action("UserIndex","Admin")">Project Users</a></li>
+                                <li><i class="fa fa-id-badge"></i><a href="@Url.Action("UserIndex","Admin")">User Index</a></li>
                                 @*<li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageUser","Admin")">Manage Users</a></li>*@
                                 <li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageRoles","Admin")">Manage User Roles</a></li>
                                 @*<li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageUserRole","Admin")">Manage User Projects</a></li>*@
@@ -99,7 +89,7 @@
                             {
                                 <li><i class="fa fa-ticket"></i><a href="@Url.Action("Create", "Tickets")">Create Ticket</a></li>
                             }
-                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                            @if (User.IsInRole("Admin"))
                             {
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "TicketComments")">Tickets Comments</a></li>
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "TicketNotifications")">Ticket Notifications</a></li>
@@ -127,18 +117,14 @@
                     }
                     <li>
 
-                        <h3 class="menu-title">User Profile</h3>
-                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                        {
-                        <li class="menu-item-has-children dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user"></i>App Manager</a>
-                            <ul class="sub-menu children dropdown-menu">
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("userAdminIndex", "Account")">User Profile Management</a></li>
-                                <li><i class="fa fa-book"></i><a href="">Log Out</a></li>
+                        <h3 class="menu-title">App Manager</h3>                                                                 
+                                @using (Html.BeginForm("LogOff", "Account"))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-link"><i class="fa fa-power-off"></i>&nbsp; Log Out</button>
+                                }
                             </ul>
-
                         </li>
-                    }
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </nav>
@@ -265,7 +251,7 @@
                                     @using (Html.BeginForm("LogOff", "Account"))
                                     {
                                         @Html.AntiForgeryToken()
-                                        <button type="submit">Logout</button>
+                                        <button type="submit" class="btn btn-link"><i class="fa fa-power-off"></i>&nbsp; Log Out</button>                                   
                                     }
                                 </div>
                             </div>
