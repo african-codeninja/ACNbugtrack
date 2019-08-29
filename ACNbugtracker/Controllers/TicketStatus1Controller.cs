@@ -10,6 +10,7 @@ using ACNbugtracker.Models;
 
 namespace ACNbugtracker.Controllers
 {
+    [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
     public class TicketStatus1Controller : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
