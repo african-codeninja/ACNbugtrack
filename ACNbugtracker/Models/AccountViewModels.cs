@@ -66,17 +66,20 @@ namespace ACNbugtracker.Models
     public class RegisterViewModel
     {
         [Required]
-        [MaxLength(30),MinLength(1)]
+        [MaxLength(50, ErrorMessage = "First Name cannot be greater than 50 characters")]
+        [MinLength(1, ErrorMessage = "First Name is required")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
-        [MaxLength(30), MinLength(1)]
+        [MaxLength(50, ErrorMessage = "Last Name cannot be greater than 50 characters")]
+        [MinLength(1, ErrorMessage = "Last Name is required")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required]
-        [MaxLength(30), MinLength(1)]
+        [MaxLength(20, ErrorMessage = "Display Name cannot be greater than 20 characters")]
+        [MinLength(2)]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
         
@@ -84,6 +87,7 @@ namespace ACNbugtracker.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
 
         public HttpPostedFileBase AvatarUrl { get; set; }
 
