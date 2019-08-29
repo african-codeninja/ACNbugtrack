@@ -242,6 +242,7 @@
     <Content Include="Content\flag-icon.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fusiondesign.css" />
     <Content Include="Content\jqvmap.css" />
     <Content Include="Content\jqvmap.min.css" />
     <Content Include="Content\style.css" />
@@ -826,11 +827,16 @@
     <Content Include="Scripts\dataTables.buttons.min.js" />
     <Content Include="Scripts\datatables.js" />
     <Content Include="Scripts\datatables.min.js" />
+    <Content Include="Scripts\fusioncharts.js" />
+    <Content Include="Scripts\fusioncharts.theme.fusion.js" />
+    <Content Include="Scripts\fusiondesign.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-fusioncharts.js" />
+    <Content Include="Scripts\jquery-fusioncharts.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.min.js" />
