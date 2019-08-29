@@ -101,238 +101,241 @@
                             }
                         </ul>
                     </li>
-                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                    {
-                        <h3 class="menu-title">Project Management</h3>
-
-                        <li class="menu-item-has-children dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Project Administration</a>
-                            <ul class="sub-menu children dropdown-menu">
-
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "projects")">Manage User Projects</a></li>
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("MyProjectsIndex", "Projects")">Project Index</a></li>
-
-                            </ul>
-                        </li>
-                    }
-                    <li>
-
-                        <h3 class="menu-title">App Manager</h3>                                                                 
+                    
+                    <h3 class="menu-title">Utilities</h3><!-- /.menu-title -->
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>App Manager</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li>
+                                <i class="menu-icon fa fa-sign-in"></i>
                                 @using (Html.BeginForm("LogOff", "Account"))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="btn btn-link"><i class="fa fa-power-off"></i>&nbsp; Log Out</button>
                                 }
-                            </ul>
-                        </li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </nav>
-        </aside><!-- /#left-panel -->
-        <!-- Left Panel -->
-        <!-- Right Panel -->
 
-        <div id="right-panel" class="right-panel">
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </aside><!-- /#left-panel -->
+    <!-- Left Panel -->
+    <!-- Right Panel -->
 
-            <!-- Header-->
-            <header id="header" class="header">
+    <div id="right-panel" class="right-panel">
 
-                <div class="header-menu">
+        <!-- Header-->
+        <header id="header" class="header">
 
-                    <div class="col-sm-7">
-                        <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                        <div class="header-left">
-                            <button class="search-trigger"><i class="fa fa-search"></i></button>
-                            <div class="form-inline">
-                                <form class="search-form">
-                                    <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
-                                    <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
-                                </form>
-                            </div>
-                            <div class="dropdown for-notification">
+            <div class="header-menu">
 
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-bell"></i>
-                                        <span class="count bg-danger">@noteHelper.GetAdminNotificationCount()</span>
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-bell"></i>
-                                        <span class="count bg-danger">@noteHelper.GetAllUserNotificationCount()</span>
-                                    </button>
+                <div class="col-sm-7">
+                    <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
+                    <div class="header-left">
+                        <button class="search-trigger"><i class="fa fa-search"></i></button>
+                        <div class="form-inline">
+                            <form class="search-form">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
+                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+                            </form>
+                        </div>
+                        <div class="dropdown for-notification">
 
-                                }
-                                <div class="dropdown-menu" aria-labelledby="message">
-                                    <div class="content">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dropdown for-message">
-                                <button class="btn btn-secondary dropdown-toggle" type="button"
-                                        id="message"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="ti-email"></i>
-                                    <span class="count bg-primary">@noteHelper.GetNewUserNotificationCount()</span>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="count bg-danger">@noteHelper.GetAdminNotificationCount()</span>
                                 </button>
-                                <div id="dropdown-notification" class="dropdown-menu" aria-labelledby="message">
-                                    <div class="content">
-                                        <ul>
-                                            @foreach (var notification in noteHelper.GetUnreadUserNotifications())
-                                            {
-                                                <li>
-                                                    @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
-                                                    {
-                                                        @Html.AntiForgeryToken();
-                                                        @Html.Hidden("Id", notification.Id);
-                                                        <a class="dropdown-item media bg-flat-color-1" href="#">
-                                                            <span class="photo media-left"><img alt="@notification.Sender.Email" src="@notification.Sender.AvatarUrl"></span>
-                                                            <span class="message media-body">
-                                                                <span class="name float-left">@notification.Sender.FullName</span>
-                                                                <span class="time float-right">Just now</span>
-                                                                <p>@notification.Subject</p>
-                                                            </span>
-                                                        </a>
-                                                        <div class="row">
-                                                            <div class="col-md-12 text-center">
-                                                                <button type="submit" class="btn btn-sm btn-primary">Mark as read</button>
-                                                            </div>
-                                                        </div>
-                                                    }
-                                                </li>
-                                            }
-                                        </ul>
-                                        <hr />
-                                        @if (User.IsInRole("Admin"))
-                                        {
-                                            <div class="text-right">
-                                                <a href="@Url.Action("Index", "TicketNotifications")">View All</a>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="text-right">
-                                                <a href="@Url.Action("MyIndex", "TicketNotifications")">View All</a>
-                                            </div>
-                                        }
-                                    </div>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="count bg-danger">@noteHelper.GetAllUserNotificationCount()</span>
+                                </button>
+
+                            }
+                            <div class="dropdown-menu" aria-labelledby="message">
+                                <div class="content">
+
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @{
-                        ApplicationUser user = null;
-                        var userId = User.Identity.GetUserId();
-                        var db = new ApplicationDbContext();
-                        if (!string.IsNullOrEmpty(userId))
-                        {
-                            user = db.Users.Find(userId);
-                        }
-                    }
-                    @if (user != null && user.AvatarUrl != null)
-                    {
-
-                        <div class="col-sm-5">
-                            <div class="user-area dropdown float-right">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img class="user-avatar rounded-circle" src="@user.AvatarUrl" alt="@user.FullName" data-lock-picture="@user.AvatarUrl" />
-                                </a>
-                                <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
-                                    <span class="name">@user.FullName</span>
-                                    <span class="name">@user.DisplayName</span>
-                                    <span class="role"></span>
-                                </div>
-                                <div class="user-menu dropdown-menu">
-                                    <!--Removed some links that were not bieng used-->
-                                    @using (Html.BeginForm("LogOff", "Account"))
+                        <div class="dropdown for-message">
+                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                    id="message"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ti-email"></i>
+                                <span class="count bg-primary">@noteHelper.GetNewUserNotificationCount()</span>
+                            </button>
+                            <div id="dropdown-notification" class="dropdown-menu" aria-labelledby="message">
+                                <div class="content">
+                                    <ul>
+                                        @foreach (var notification in noteHelper.GetUnreadUserNotifications())
+                                        {
+                                            <li>
+                                                @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                                                {
+                                                    @Html.AntiForgeryToken();
+                                                    @Html.Hidden("Id", notification.Id);
+                                                    <a class="dropdown-item media bg-flat-color-1" href="#">
+                                                        <span class="photo media-left"><img alt="@notification.Sender.Email" src="@notification.Sender.AvatarUrl"></span>
+                                                        <span class="message media-body">
+                                                            <span class="name float-left">@notification.Sender.FullName</span>
+                                                            <span class="time float-right">Just now</span>
+                                                            <p>@notification.Subject</p>
+                                                        </span>
+                                                    </a>
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <button type="submit" class="btn btn-sm btn-primary">Mark as read</button>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </li>
+                                        }
+                                    </ul>
+                                    <hr />
+                                    @if (User.IsInRole("Admin"))
                                     {
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-link"><i class="fa fa-power-off"></i>&nbsp; Log Out</button>                                   
+                                        <div class="text-right">
+                                            <a href="@Url.Action("Index", "TicketNotifications")">View All</a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-right">
+                                            <a href="@Url.Action("MyIndex", "TicketNotifications")">View All</a>
+                                        </div>
                                     }
                                 </div>
                             </div>
                         </div>
-                    }
+                    </div>
                 </div>
+                @{
+                    ApplicationUser user = null;
+                    var userId = User.Identity.GetUserId();
+                    var db = new ApplicationDbContext();
+                    if (!string.IsNullOrEmpty(userId))
+                    {
+                        user = db.Users.Find(userId);
+                    }
+                }
+                @if (user != null && user.AvatarUrl != null)
+                {
 
-            </header>
-            <!-- /header -->
-            <!-- Header-->
-
-
-            @RenderBody()
-            <div class="col-10">
-                <footer>
-                    <p>&copy; @DateTime.Now.Year - Moses Mbutha Mwangi</p>
-                </footer>
+                    <div class="col-sm-5">
+                        <div class="user-area dropdown float-right">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="user-avatar rounded-circle" src="@user.AvatarUrl" alt="@user.FullName" data-lock-picture="@user.AvatarUrl" />
+                            </a>
+                            <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
+                                <span class="name">@user.FullName</span>
+                                <span class="name">@user.DisplayName</span>
+                                <span class="role"></span>
+                            </div>
+                            <div class="user-menu dropdown-menu">
+                                <!--Removed some links that were not bieng used-->
+                                @using (Html.BeginForm("LogOff", "Account"))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-link"><i class="fa fa-power-off"></i>&nbsp; Log Out</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
 
+        </header>
+        <!-- /header -->
+        <!-- Header-->
+
+
+        @RenderBody()
+        <div class="col-10">
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Moses Mbutha Mwangi</p>
+            </footer>
         </div>
 
-        <script src="~/Scripts/jquery.min.js"></script>
-        <script src="~/Scripts/popper.min.js"></script>
-        <script src="~/Scripts/popper.js"></script>
-        <script src="~/Scripts/bootstrap.min.js"></script>
-        <script src="~/Scripts/main.js"></script>
+    </div>
 
-        <script src="~/Scripts/Chart.bundle.min.js"></script>
-        <script src="~/Scripts/dashboard.js"></script>
-        @*<script src="~/Scripts/widgets.js"></script>*@
-        @*<script src="~/Scripts/jquery.vmap.min.js"></script>*@
-        <script src="~/Scripts/jquery.vmap.sampledata.js"></script>
-        @*<script src="~/Scripts/jquery.vmap.world.js"></script>*@
-        <script src="~/Scripts/jquery.dataTables.min.js"></script>
-        <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
-        <script src="~/Scripts/dataTables.buttons.min.js"></script>
-        <script src="~/Scripts/buttons.bootstrap4.min.js"></script>
-        <script src="~/Scripts/jszip.min.js"></script>
-        <script src="~/Scripts/buttons.html5.min.js"></script>
-        <script src="~/Scripts/buttons.print.min.js"></script>
-        <script src="~/Scripts/buttons.colVis.js"></script>
-        <script src="~/Scripts/datatables-init.js"></script>
-        <script src="~/Scripts/datatables.min.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/popper.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/main.js"></script>
 
-        <!--Morris chats reference-->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-        <!---End of  Morris chart referencing-->
-        @*@Scripts.Render("~/bundles/jquery")
-            @Scripts.Render("~/bundles/bootstrap")*@
+    <script src="~/Scripts/Chart.bundle.min.js"></script>
+    <script src="~/Scripts/dashboard.js"></script>
+    @*<script src="~/Scripts/widgets.js"></script>*@
+    @*<script src="~/Scripts/jquery.vmap.min.js"></script>*@
+    <script src="~/Scripts/jquery.vmap.sampledata.js"></script>
+    @*<script src="~/Scripts/jquery.vmap.world.js"></script>*@
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/buttons.bootstrap4.min.js"></script>
+    <script src="~/Scripts/jszip.min.js"></script>
+    <script src="~/Scripts/buttons.html5.min.js"></script>
+    <script src="~/Scripts/buttons.print.min.js"></script>
+    <script src="~/Scripts/buttons.colVis.js"></script>
+    <script src="~/Scripts/datatables-init.js"></script>
+    <script src="~/Scripts/datatables.min.js"></script>
+
+    <!--Morris chats reference-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <!---End of  Morris chart referencing-->
+    <!--Fusion Chart Reference-->
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+
+    <script type="text/javascript" src="https://rawgit.com/fusioncharts.com/fusioncharts-jquery-plugin/develop/dist/fusioncharts.jqueryplugin.min.js"></script>
+                    
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+
+    <script src="~/Scripts/fusioncharts.js"></script>
+    <script src="~/Scripts/fusioncharts.theme.fusion.js"></script>
+    <!--Fusion Chart Reference-->
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")*@
 
 
-        <script>
-            (function ($) {
-                "use strict";
+    <script>
+        (function ($) {
+            "use strict";
 
-                jQuery('#vmap').vectorMap({
-                    map: 'world_en',
-                    backgroundColor: null,
-                    color: '#ffffff',
-                    hoverOpacity: 0.7,
-                    selectedColor: '#1de9b6',
-                    enableZoom: true,
-                    showTooltip: true,
-                    values: sample_data,
-                    scaleColors: ['#1de9b6', '#03a9f5'],
-                    normalizeFunction: 'polynomial'
-                });
-            })(jQuery);
-        </script>
-
-        <script>
-            jQuery('#myTable').DataTable({
-                dom: 'Bfrtip', buttons: ['colvis', 'excel', 'pdf', 'print'],
-
+            jQuery('#vmap').vectorMap({
+                map: 'world_en',
+                backgroundColor: null,
+                color: '#ffffff',
+                hoverOpacity: 0.7,
+                selectedColor: '#1de9b6',
+                enableZoom: true,
+                showTooltip: true,
+                values: sample_data,
+                scaleColors: ['#1de9b6', '#03a9f5'],
+                normalizeFunction: 'polynomial'
             });
-        </script>
-    
-        @RenderSection("scripts", required: false)
+        })(jQuery);
+    </script>
 
-    </body>
+    <script>
+        jQuery('#myTable').DataTable({
+            dom: 'Bfrtip', buttons: ['colvis', 'excel', 'pdf', 'print'],
+
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
 
 </html>
