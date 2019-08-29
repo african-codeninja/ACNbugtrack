@@ -4,47 +4,54 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">TICKET COMMENTS DETAILS</strong>
+            </div>
+            <div class="card-body">
+                <div>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Author.FirstName)
+                        </dt>
 
-<div>
-    <h4>TicketComment</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Author.FirstName)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Author.FirstName)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Author.FirstName)
-        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Ticket.OwnerUser.FullName)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Ticket.OwnerUserId)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Ticket.OwnerUser.FullName)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Ticket.OwnerUserId)
-        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CommentBody)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CommentBody)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CommentBody)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CommentBody)
-        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Created)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Created)
+                        </dd>
+                        <p>
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                            @Html.ActionLink("Back to List", "Index")
+                        </p>
+                    </dl>
+                </div>  
+            </div>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
