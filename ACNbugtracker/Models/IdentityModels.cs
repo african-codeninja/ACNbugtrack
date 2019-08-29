@@ -22,7 +22,7 @@ namespace ACNbugtracker.Models
         public string DisplayName { get; set; }
         public string AvatarUrl { get; set; }
 
-
+        [NotMapped]
         public string FullName
         {
             get
@@ -49,11 +49,8 @@ namespace ACNbugtracker.Models
         public ApplicationUser()
         {
             Projects = new HashSet<Project>();
-
             TicketAttachments = new HashSet<TicketAttachment>();
-
             TicketComments = new HashSet<TicketComment>();
-
             TicketHistories = new HashSet<TicketHistory>();
         }
 
@@ -91,5 +88,6 @@ namespace ACNbugtracker.Models
         
 
         public DbSet<TicketHistory> TicketHistories { get; set; }
+
     }
 }
