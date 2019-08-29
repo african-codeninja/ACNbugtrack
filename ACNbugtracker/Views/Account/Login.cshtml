@@ -14,12 +14,12 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Code Ninja Admin - HTML5 Admin Template</title>
-        <meta name="description" content="ACN Admin - HTML5 Admin Template">
+        <title>African Code Ninja</title>
+        <meta name="Bug fixing software web app" content="ACN Bugtraker">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="apple-touch-icon" href="apple-icon.png">
-        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="shortcut icon" href="~/favicon.ico">
 
 
         <link rel="stylesheet" href="~/content/bootstrap.min.css">
@@ -47,17 +47,14 @@
                             @Html.AntiForgeryToken()
                             <div class="col-sm-12 bg-flat-color-2 text-center">
                                 <h3>LOG INTO THE ACN BUG TRACKER</h3>
-                            </div>
-                            
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            </div><br />
+                            <hr />
                             <div class="form-group">
-                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" , placeholder = "Email"})
                                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
-                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" , placeholder = "Password"})
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                             </div>
                             <div class="checkbox">
