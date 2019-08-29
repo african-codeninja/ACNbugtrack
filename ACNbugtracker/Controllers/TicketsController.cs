@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ACNbugtracker.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
     public class TicketsController : Controller
     {
         public static UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
