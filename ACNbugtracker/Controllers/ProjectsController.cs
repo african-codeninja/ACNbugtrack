@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace ACNbugtracker.Controllers
 {
+    [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
