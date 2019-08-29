@@ -14,12 +14,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Code Ninja Admin - HTML5 Admin Template</title>
+   <title>African Code Ninja</title>
     <meta name="description" content="ACN Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="apple-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="~/favicon.ico">
 
 
     <link rel="stylesheet" href="~/content/bootstrap.min.css">
@@ -52,33 +52,17 @@
                 <div class="card-header">
                     <strong class="card-title mb-3">Demo Admin</strong>
                 </div>
-                <div class="card-body" >
+                <div class="card-body">
                     <div class="mx-auto d-block">
-                        <a href=""><img class="rounded-circle mx-auto d-block" src="/Uploads/leonardo-admin.png" alt="Card image cap" height="150px"></a>
+                        <a href=""><img class="rounded-circle mx-auto d-block" src="~/images/admin-icon.jpg" alt="Card image cap" height="150px"></a>
                         <a href=""><h3 class="text-sm-center mt-2 mb-1">Administrator</h3></a>
                     </div>
+                    <hr />
                     @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.Hidden("DemoEmail", "DemoAdminEmail")
-                        <hr>
-                        <div class="card-text text-sm-center">
-                            <div class="col-sm-12" style="height: 300px">
-                                <ol>
-                                    <h4>The Admin is allowed to:</h4>
-                                    <li>Assign User Roles</li>
-                                    <li>View All projects and their own projetcs</li>
-                                    <li>Create, Edit and Achive Projects</li>
-                                    <li>View Ticket Details</li>
-                                    <li>Assign Users to Tickets</li>
-                                    <li>Edit Ticket Type, Title and Description</li>
-                                    <li>Edit Ticket Priority and Status</li>
-                                    <li>Edit and Delete Ticket Comments and Attachemnts</li>
-                                    <li>View Ticket Histories</li>                             
-                                </ol>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Login As Administrator</button>
+                        @Html.Hidden("DemoEmail", "DemoAdminEmail")                        
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Login As Administrator</button>                      
                     }
                 </div>
             </div>
@@ -91,29 +75,14 @@
                 </div>
                 <div id="dmcard" class="card-body">
                     <div class="mx-auto d-block">
-                        <a href=""><img class="rounded-circle mx-auto d-block" src="/Uploads/Raphael-PM.png" alt="Card image cap" height="150px></a>
+                        <a href=""><img class="rounded-circle mx-auto d-block" src="~/images/pm-icon.png" alt="Card image cap" height="150px></a>
                         <a href=""><h3 class="text-sm-center mt-2 mb-1">Project Manager</h3></a>
                     </div>
+                    <hr />
                     @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.Hidden("DemoEmail", "DemoProjectManagerEmail")
-                        <hr>
-                        <div class="card-text text-sm-center">
-                            <div class="col-sm-12" style="height: 300px">
-                                <ol>
-                                    <h4>The Project Manager is allowed to:</h4>
-                                    <li>View All projects and their own projetcs</li>
-                                    <li>Create, Edit and Achive Projects</li>
-                                    <li>View Ticket Details for Projects they belong to</li>
-                                    <li>Assign Developers to Tickets</li>
-                                    <li>Edit Ticket Type, Title and Description to projects they belong to</li>
-                                    <li>Edit Ticket Priority and Status</li>
-                                    <li>Edit and Delete Ticket Comments and Attachemnts in projects they belong to</li>
-                                    <li>View Ticket Histories for projects they belong to</li>                                  
-                                </ol>
-                            </div>
-                        </div>
+                        @Html.Hidden("DemoEmail", "DemoProjectManagerEmail")                      
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Login As Project Manager</button>
                     }
                 </div>
@@ -127,28 +96,14 @@
                 </div>
                 <div id="democard" class="card-body">
                     <div class="mx-auto d-block">
-                        <a href=""><img class="rounded-circle mx-auto d-block" src="/Uploads/Donatello-developer.png" alt="Card image cap" height="150px></a>
+                        <a href=""><img class="rounded-circle mx-auto d-block" src="/images/dev-icon.png" alt="Card image cap" height="150px></a>
                         <a href=""><h3 class="text-sm-center mt-2 mb-1">Developer</h3></a>
                     </div>
+                    <hr />
                     @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.Hidden("DemoEmail", "DemoADeveloperEmail")
-                        <hr>
-                        <div class="card-text text-sm-center">
-                            <div class="col-sm-12" style="height: 300px">
-                                <ol>
-                                    <h4>The Developer is allowed to:</h4>
-                                    <li>View All projects and their own projetcs</li>
-                                    <li>Create, Edit and Achive Projects</li>
-                                    <li>View Ticket Details to tickets they are assigned to</li>
-                                    <li>Edit Ticket Type, Title and Description</li>
-                                    <li>Edit Ticket Priority to tickets assigned to them</li>
-                                    <li>Edit and Delete their own ticket Comments and Attachemnts</li>
-                                    <li>View Ticket Histories</li>                                  
-                                </ol>
-                            </div>
-                        </div>
+                        @Html.Hidden("DemoEmail", "DemoADeveloperEmail")                       
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Login as Developer</button>
                     }
                 </div>
@@ -162,30 +117,14 @@
                 </div>
                 <div id="submitcard" class="card-body">
                     <div class="mx-auto d-block">
-                        <a href=""><img class="rounded-circle mx-auto d-block" src="/Uploads/Michelangelo-submitter.png" alt="Card image cap" height="150px></a>
+                        <a href=""><img class="rounded-circle mx-auto d-block" src="/images/sub-icon.png" alt="Card image cap" height="150px></a>
                         <a href=""><h3 class="text-sm-center mt-2 mb-1">Submitter</h3></a>
                     </div>
+                    <hr />
                     @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.Hidden("DemoEmail", "DemoSubmitterEmail")
-                        <hr>
-                        <div class="card-text text-sm-center">
-                            <div class="col-sm-12" style="height: 300px">
-                                <ol>
-                                    <h4>The Submitter is allowed to:</h4>
-                                    <li>Create Tickets Entries</li>
-                                    <li>View ticket Entries to projects they belong to</li>
-                                    <li>View tickets they have created</li>
-                                    <li>View Ticket Details to tickets they have created</li>
-                                    <li>Edit Ticket Type, Title and Description to tickets they have created</li>
-                                    <li>Edit Ticket Priority to tickets they have created</li>
-                                    <li>Edit and Delete thier own Ticket Comments and Attachemnts</li>
-                                    <li>View Ticket Histories to tickets they have created</li>
-                                    <li>Note: Cannot be Assigned to Tickets</li>
-                                </ol>
-                            </div>
-                        </div>
+                        @Html.Hidden("DemoEmail", "DemoSubmitterEmail")                                            
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Login as Submitter</button>
                     }
                 </div>
