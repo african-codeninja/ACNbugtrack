@@ -8,10 +8,11 @@ using System.Windows.Documents;
 
 namespace ACNbugtracker.Controllers
 {
-        public class HomeController : Controller
+    public class HomeController : Controller
     {
         public static ApplicationDbContext db = new ApplicationDbContext();
-        //Checks who the user is and displays their information 
+        //Checks who the user is and displays their information
+        [Authorize]
         public ActionResult Index()
         {
             var users = db.Users.Select(userAttrib => new UserProfileViewModel
