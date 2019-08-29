@@ -1,74 +1,87 @@
-﻿@model ACNbugtracker.Models.TicketNotification
+﻿@model IEnumerable<ACNbugtracker.Models.TicketNotification>
 
-@{
-    ViewBag.Title = "MyIndex";
-}
+<div class="col-lg-12">
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="alert alert-danger" role="alert">
+            @Html.ActionLink("CREAT NEW TICKET NOTIFICATION", "Create")
+        </div>
+    }
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header bg-success">
+                <strong class="card-title text-light">TICKET NOTIFICATION</strong>
+            </div>
+            <div class="card-body text-white bg-primary">
+                <table class="table">
+                    <thead class="thead-dark text-light">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Recipient.FirstName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Sender.FirstName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Ticket.OwnerUser.FirstName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Created)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Subject)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NotificationBoody)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Read)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Recipient.FirstName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Sender.FirstName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ticket.OwnerUserId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Subject)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NotificationBoody)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Read)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div class="alert alert-danger" role="alert">
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
-<h2>MyIndex</h2>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <h4>TicketNotification</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Recipient.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Recipient.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Sender.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sender.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Ticket.OwnerUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Ticket.OwnerUserId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Subject)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Subject)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NotificationBoody)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NotificationBoody)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Read)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Read)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
