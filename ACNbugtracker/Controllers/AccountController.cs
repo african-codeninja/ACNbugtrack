@@ -197,21 +197,20 @@ namespace ACNbugtracker.Controllers
                     DisplayName = model.DisplayName,
                     UserName = model.Email,
                     Email = model.Email,
-                    AvatarUrl = WebConfigurationManager.AppSettings["DefaultAvatar"]
+                    AvatarUrl = "/Uploads/default-avatar.png"
                 };
 
-                //if(model.AvatarUrl != null && ImageHelpers.IsWebFrendlyImage(model))
-                //{
-
-                //}
-
-                if (ImageUploadValidator.IsWebFriendlyImage(model.AvatarUrl))
+                if (model.AvatarUrl != null)
                 {
-                    var fileName = Path.GetFileName(model.AvatarUrl.FileName);
-                    model.AvatarUrl.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
-                    user.AvatarUrl = "/Uploads/" + fileName;
+                    if (ImageUploadValidator.IsWebFriendlyImage(model.AvatarUrl))
+                    {
+                        var fileName = Path.GetFileName(model.AvatarUrl.FileName);
+                        model.AvatarUrl.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                        user.AvatarUrl = "/Uploads/" + fileName;
+                    }
+                    
                 }
-
+                
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -266,6 +265,7 @@ namespace ACNbugtracker.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
+
                 if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
@@ -343,7 +343,7 @@ namespace ACNbugtracker.Controllers
                 return View(model);
             }
             var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+            if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
