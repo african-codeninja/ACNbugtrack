@@ -100,7 +100,7 @@
                                                 @Html.DisplayFor(modelItem => item.Updated)
                                             </td>
                                             <td>
-                                                @if (linkHelper.UserCanAddTickets())
+                                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                                                 {
                                                     @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                                                 }
