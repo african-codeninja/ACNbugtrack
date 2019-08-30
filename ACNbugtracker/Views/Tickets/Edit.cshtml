@@ -8,19 +8,16 @@
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
-                @Html.HiddenFor(model => model.Id)
-                @Html.HiddenFor(model => model.ProjectId)
-                @Html.HiddenFor(model => model.Created)
-                @Html.HiddenFor(model => model.OwnerUserId)
+               
                 <div class="card">
-                    <div class="card-header card-block bg-success">
+                    <div class="card-header card-block">
                         <strong>TICKET EDIT</strong>
                         @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                         {
                             <small>AND TICKET ASSIGNMENT FOR DEVELOPERS/PROJECT MANAGERS</small>
                         }
                     </div>
-                    <div class="card-body text-white bg-primary">
+                    <div class="card-body">
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.TicketTypeId, "TICKET TYPE", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -38,7 +35,7 @@
                             @Html.DropDownList("TicketStatusId", null, "--Select New status--", htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
                         </div>
-                        @if(User.IsInRole("ProjectManager"))
+                        @if (User.IsInRole("ProjectManager"))
                         {
                             <div class="form-group">
                                 @Html.LabelFor(model => model.AssignedToUserId, "TICKET ASSIGNMENT", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -46,6 +43,7 @@
                                 @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })
                             </div>
                         }
+                       
                         <div class="form-group">
                             @Html.LabelFor(model => model.Title, "TICKET TITLE", htmlAttributes: new { @class = "control-label col-md-2" })
                             @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
