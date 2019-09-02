@@ -21,11 +21,12 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <strong class="card-title">PROJECTS THAT I AM ON</strong>
+                <strong class="card-title">Projects and related personel</strong>
             </div>
             <div class="card-body">
                 <table class="table table-bordered">
-                    <tr>
+                    <thead>
+                      <tr>
                         <th>
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
@@ -42,7 +43,7 @@
                             @Html.DisplayName("Submitter(s)")
                         </th>
                         <th></th>
-                    </tr>
+                      </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
@@ -64,14 +65,14 @@
                                     @foreach (var user in projectHelper.UserInRoleOnProject(item.Id, "Developer"))
                                     {
                                         @user <br />
-                                        <br />
+                                        
                                     }
                                 </td>
                                 <td>
                                     @foreach (var user in projectHelper.UserInRoleOnProject(item.Id, "Submitter"))
                                     {
                                         @user <br />
-                                        <br />
+                                        
                                     }
                                 </td>
                                 <td>
