@@ -161,7 +161,7 @@ namespace ACNbugtracker.Controllers
             return RedirectToAction("ManageRoles");
         }
         [HttpGet]
-        public ActionResult ManageProjects(string userId)
+        public ActionResult RoleDetailsView(string userId)
         {
             //var users = db.Users.Find(userId);
 
@@ -183,9 +183,23 @@ namespace ACNbugtracker.Controllers
         //Get Function
         public ActionResult ManageUserProjects(string userId, string projectId)
         {
+            var users = db.Users.Select(userAttrib => new Models.UserProfileViewModel
+            {
+                Id = userAttrib.Id,
+                FirstName = userAttrib.FirstName,
+                LastName = userAttrib.LastName,
+                DisplayName = userAttrib.DisplayName,
+                AvatarUrl = userAttrib.AvatarUrl,
+                Email = userAttrib.Email
+            }).ToList();
+
             var myProjects = projectHelper.ListUserProjects(userId).Select(p => p.Id);
+
+            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
             ViewBag.Projects = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
-            return View();
+
+
+            return View(users);                  
         }
 
         //post
@@ -206,7 +220,59 @@ namespace ACNbugtracker.Controllers
             }
             return RedirectToAction("UserIndex");
 
-        }      
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ManageSubmiterProjects(int projectId, List<string> Submitters)
+        //{
+        //    //Step 1: Remove all users from the project
+            
+        //    //Step 4:Adds back all the selected Submittters
+        //    if (Submitters != null)
+        //    {
+        //        foreach (var submitterId in Submitters)
+        //        {
+        //            ProjectsHelper.AddUserToProject(submitterId, projectId);
+        //        }
+        //    }
+
+        //    return RedirectToAction("RoleDetailsView", "Projects", new { id = projectId });
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ManageDeveloperProjects(int projectId, List<string> Developers)
+        //{
+        //    //Step 1: Remove all users from the project
+            
+        //    //Step 3: Adds all the selected Developers
+        //    if (Developers != null)
+        //    {
+        //        foreach (var developerId in Developers)
+        //        {
+        //            ProjectsHelper.AddUserToProject(developerId, projectId);
+        //        }
+        //    }          
+        //    return RedirectToAction("RoleDetailsView", "Projects", new { id = projectId });
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ManageProjectManagerProjects(int projectId, List<string> ProjectManagers)
+        //{
+        //    //Step 1: Remove all users from the project
+            
+        //    //Step 2: Adds back all the selected PM's
+        //    if (ProjectManagers != null)
+        //    {
+        //        foreach (var projectManagerId in ProjectManagers)
+        //        {
+        //            ProjectsHelper.AddUserToProject(projectManagerId, projectId);
+        //        }
+        //    }       
+        //    return RedirectToAction("RoleDetailsView", "Projects", new { id = projectId });
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -215,7 +281,10 @@ namespace ACNbugtracker.Controllers
             //Step 1: Remove all users from the project
             foreach (var user in projectHelper.UsersOnProject(projectId).ToList())
             {
-                ProjectsHelper.RemoveUserFromProject(user.Id, projectId);
+                if(user == null)
+                {                
+                    ProjectsHelper.RemoveUserFromProject(user.Id, projectId);
+                }
             }
 
             //Step 2: Adds back all the selected PM's
