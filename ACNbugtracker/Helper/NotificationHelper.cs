@@ -63,7 +63,7 @@ namespace ACNbugtracker.Helper
             var notification = new TicketNotification
             {
                 Created = DateTime.Now,
-                Subject = $"You were assigned from Ticket Id {newTicket.Id} on {DateTime.Now}",
+                Subject = $"You were assigned to Ticket Id {newTicket.Id} on {DateTime.Now}",
                 Read = false,
                 RecipientId = newTicket.AssignedToUserId,
                 SenderId = HttpContext.Current.User.Identity.GetUserId(),
@@ -110,12 +110,13 @@ namespace ACNbugtracker.Helper
                     NotificationBoody = message.ToString(),
                     Read = false
                 };
-
                 db.TicketNotifications.Add(notification);
                 db.SaveChanges();
             }
+            
 
         }
+
         public int GetNewUserNotificationCount()
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
