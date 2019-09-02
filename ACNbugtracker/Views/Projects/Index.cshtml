@@ -56,7 +56,7 @@
                             <strong class="card-title">Projects that ACN is currently working on</strong>
                         </div>
                         <div class="card-body">
-                            <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                            <table id="bootstrap-data-table-export" class="table table-striped table-bordered table-responsive-sm">
                                 <thead>
                                     <tr>
                                         <!--1-->
@@ -119,9 +119,9 @@
                                             {
                                                 @Html.ActionLink("EDIT", "Edit", new { id = item.Id }) <br />
                                                 @Html.ActionLink("ASSIGN", "Details", new { id = item.Id }) <br />
-                                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })<br />
                                             }
-                                           
+
                                             @if (User.IsInRole("Submitter"))
                                             {
                                                 @Html.ActionLink("Create Ticket", "Create", "Tickets", new { projectId = item.Id }, null)
