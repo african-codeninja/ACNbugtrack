@@ -182,14 +182,25 @@ namespace ACNbugtracker.Controllers
                 //Go out to the DB and get a copy of the Ticket before it is changed
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
+                db.Tickets.Attach(ticket);
+                db.Entry(ticket).Property(x => x.TicketStatusId).IsModified = true;
+                db.Entry(ticket).Property(x => x.TicketTypeId).IsModified = true;
+                db.Entry(ticket).Property(x => x.TicketPriorityId).IsModified = true;
+                db.Entry(ticket).Property(x => x.Title).IsModified = true;
+                db.Entry(ticket).Property(x => x.Description).IsModified = true;
+
+                if(ticket.AssignedToUserId != null)
+                    db.Entry(ticket).Property(x => x.AssignedToUserId).IsModified = true;
+
+
                 ticket.Updated = DateTime.UtcNow;
-                db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
 
                 //Now Call the NotificationHelper to determine if a Notification needs to be created
+                notificationHelper.GenerateAssignmentNofification(oldTicket, ticket);
                 notificationHelper.CreateAssignmentNotification(oldTicket, ticket);
                 historyHelper.RecordHistory(oldTicket, ticket);
-
+               
                 return RedirectToAction("MyIndex");
             }
             ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
