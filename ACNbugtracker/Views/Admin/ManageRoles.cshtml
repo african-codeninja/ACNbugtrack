@@ -11,33 +11,6 @@
 
 
 <br />
-<div class="col-md-12">
-    <div class="card">
-        <div class="card-header ">
-            <strong class="card-title">MANAGE ROLES FOR MULTIPLE USERS</strong>
-        </div>
-        <div class="card-body">
-
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-                <div class="row">
-                    <div class="col-md-offset-2 col-md-5">
-                        @Html.ListBox("Users", null, htmlAttributes: new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-offset-1 col-md-3">
-                        @Html.DropDownList("RoleName", null, "--Select Role--", htmlAttributes: new { @class = "form-control" })
-                    </div>
-                </div>
-                <br />
-                <div class="form-group">
-                    <button type="submit" value="Assign" btn btn-primary">Assign the User a Role Now</button>
-                </div>
-            }
-        </div>
-    </div>
-</div>
-
 <div class="content mt-3">
     <div class="animated fadeIn">
         <div class="row">
@@ -48,7 +21,7 @@
                         <strong class="card-title">Data Table</strong>
                     </div>
                     <div class="card-body">
-                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered table-responsive-sm">
                             <thead>
                                 <tr class="card-header">
                                     <th><strong class="card-title text-light">Email</strong></th>
@@ -81,3 +54,30 @@
         </div>
     </div>
  </div>
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header ">
+            <strong class="card-title">MANAGE ROLES FOR MULTIPLE USERS</strong>
+        </div>
+        <div class="card-body">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-5">
+                        @Html.ListBox("Users", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-offset-1 col-md-3">
+                        @Html.DropDownList("RoleName", null, "--Select Role--", htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <button type="submit" value="Assign" btn btn-primary">Assign the User a Role Now</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
