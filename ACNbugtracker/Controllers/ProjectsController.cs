@@ -68,6 +68,39 @@ namespace ACNbugtracker.Controllers
             return View(project);
         }
 
+        // GET: Projects/Details/5
+        public ActionResult RoleDetailsView(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Project project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+
+            //Give my details view a Multiselect of available PM's
+            //Keep an eye out for 'Magic Strings' throughout your application..
+            //Magic Strings are hard coded strings that should be handled differently...
+
+
+            var allProjectManagers = rolesHelper.UsersInRole("ProjectManager");
+            var currentProjectManagers = projectsHelper.UserInRoleOnProject(project.Id, "ProjectManager");
+            ViewBag.ProjectManagers = new MultiSelectList(allProjectManagers, "Id", "FullNameWithEmail", currentProjectManagers);
+
+            var allSubmitters = rolesHelper.UsersInRole("Submitter");
+            var currentSubmitters = projectsHelper.UserInRoleOnProject(project.Id, "Submitter");
+            ViewBag.Submitters = new MultiSelectList(allSubmitters, "Id", "FullNameWithEmail", currentSubmitters);
+
+            var allDevelopers = rolesHelper.UsersInRole("Developer");
+            var currentDevelopers = projectsHelper.UserInRoleOnProject(project.Id, "Developer");
+            ViewBag.Developers = new MultiSelectList(allDevelopers, "Id", "FullNameWithEmail", currentDevelopers);
+
+            return View(project);
+        }
+
 
         // GET: Projects/Create
         public ActionResult Create()
