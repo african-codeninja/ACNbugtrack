@@ -23,25 +23,17 @@
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="~/favicon.ico">
 
-    <script src="~/Scripts/popper.js"></script>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
-    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
-    <link rel="stylesheet" href="~/Content/themify-icons.css">
-    <link rel="stylesheet" href="~/Content/flag-icon.min.css">
-    <link rel="stylesheet" href="~/Content/cs-skin-elastic.css">
-    <link rel="stylesheet" href="~/Content/dataTables.bootstrap4.min.css">
-    <link rel="Stylesheet" href="~/Content/buttons.bootstrap4.min.css" />
-    <link rel="stylesheet" href="~/Content/jqvmap.min.css">
-    <link href="~/Content/datatables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/themify-icons.css">
+    <link rel="stylesheet" href="/Content/flag-icon.min.css">
+    <link rel="stylesheet" href="/Content/cs-skin-elastic.css">
+    <link rel="stylesheet" href="/Content/jqvmap.min.css">
 
     <link rel="stylesheet" href="~/Content/style.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
-
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 </head>
 
 <body>
@@ -56,7 +48,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="./"><img src="~/images/logo2 Copy.png" alt=""></a>
+                <a class="navbar-brand" href="@Url.Action("Index","Home") "><img src="~/images/logo2 Copy.png" alt=""></a>
                 @*<a class="navbar-brand" href="./"><img src="~/images/logo2 Copy.png" alt=""></a>*@
             </div>
 
@@ -74,7 +66,7 @@
                                 <li><i class="fa fa-id-badge"></i><a href="@Url.Action("UserIndex","Admin")">User Index</a></li>
                                 @*<li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageUser","Admin")">Manage Users</a></li>*@
                                 <li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageRoles","Admin")">Manage User Roles</a></li>
-                                @*<li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageUserRole","Admin")">Manage User Projects</a></li>*@
+                                <li><i class="fa fa-id-badge"></i><a href="@Url.Action("ManageUserProjects","Admin")">Manage User Projects</a></li>
 
                             </ul>
                         </li>
@@ -95,14 +87,24 @@
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "TicketNotifications")">Ticket Notifications</a></li>
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "TicketHistories")">Ticket Histories</a></li>
                             }
-                            @if (User.IsInRole("Submitter"))
-                            {
-                                <li><i class="fa fa-book"></i><a href="@Url.Action("Create", "Tickets")">Create Ticket</a></li>
-                            }
+                            
                         </ul>
                     </li>
-                    
-                    <h3 class="menu-title">Utilities</h3><!-- /.menu-title -->
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    {
+                        <h3 class="menu-title">Project Management</h3>
+
+                        <li class="menu-item-has-children dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Project Administration</a>
+                            <ul class="sub-menu children dropdown-menu">
+
+                                <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "projects")">Manage User Projects</a></li>
+                                <li><i class="fa fa-book"></i><a href="@Url.Action("MyProjectsIndex", "Projects")">Project Index</a></li>
+                            </ul>
+                        </li>
+                    }
+                    <li>
+                        <h3 class="menu-title">Utilities</h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>App Manager</a>
                         <ul class="sub-menu children dropdown-menu">
@@ -149,6 +151,13 @@
                                     <i class="fa fa-bell"></i>
                                     <span class="count bg-danger">@noteHelper.GetAdminNotificationCount()</span>
                                 </button>
+                                <div class="dropdown-menu" aria-labelledby="message">
+                                    <div class="content">
+                                        <div class="text-right">
+                                            <a href="@Url.Action("Index", "TicketNotifications")">Click to see all your noficiations</a>
+                                        </div>
+                                    </div>
+                                </div>
                             }
                             else
                             {
@@ -156,13 +165,14 @@
                                     <i class="fa fa-bell"></i>
                                     <span class="count bg-danger">@noteHelper.GetAllUserNotificationCount()</span>
                                 </button>
-
-                            }
-                            <div class="dropdown-menu" aria-labelledby="message">
-                                <div class="content">
-
+                                <div class="dropdown-menu" aria-labelledby="message">
+                                    <div class="content">
+                                        <div class="text-right">
+                                            <a href="@Url.Action("MyIndex", "TicketNotifications")">Click to see all your noficiations</a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         </div>
                         <div class="dropdown for-message">
                             <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -265,28 +275,25 @@
 
     </div>
 
-    <script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/popper.min.js"></script>
-    <script src="~/Scripts/popper.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/main.js"></script>
+    <script src="/Scripts/jquery.min.js"></script>
+    <script src="/Scripts/popper.js"></script>
+    <script src="/Scripts/popper.min.js"></script>
+    <script src="/Scripts/bootstrap.min.js"></script>
+    <script src="/Scripts/main.js"></script>
 
-    <script src="~/Scripts/Chart.bundle.min.js"></script>
-    <script src="~/Scripts/dashboard.js"></script>
-    @*<script src="~/Scripts/widgets.js"></script>*@
-    @*<script src="~/Scripts/jquery.vmap.min.js"></script>*@
-    <script src="~/Scripts/jquery.vmap.sampledata.js"></script>
-    @*<script src="~/Scripts/jquery.vmap.world.js"></script>*@
-    <script src="~/Scripts/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
-    <script src="~/Scripts/dataTables.buttons.min.js"></script>
-    <script src="~/Scripts/buttons.bootstrap4.min.js"></script>
-    <script src="~/Scripts/jszip.min.js"></script>
-    <script src="~/Scripts/buttons.html5.min.js"></script>
-    <script src="~/Scripts/buttons.print.min.js"></script>
-    <script src="~/Scripts/buttons.colVis.js"></script>
-    <script src="~/Scripts/datatables-init.js"></script>
-    <script src="~/Scripts/datatables.min.js"></script>
+    <script src="/Scripts/dashboard.js"></script>
+    <script src="/Scripts/jquery.dataTables.min.js"></script>
+    <script src="/Scripts/dataTables.bootstrap4.min.js"></script>
+    <script src="/Scripts/dataTables.buttons.min.js"></script>
+    <script src="/Scripts/buttons.bootstrap4.min.js"></script>
+    <script src="/Scripts/jszip.min.js"></script>
+    <script src="/Scripts/buttons.html5.min.js"></script>
+    <script src="/Scripts/buttons.print.min.js"></script>
+    <script src="/Scripts/buttons.colVis.js"></script>
+    <script src="/Scripts/datatables-init.js"></script>
+    <script src="/Scripts/jquery.roadmap.js"></script>
+    <script src="/Scripts/jquery.roadmap.min.js"></script>
+
 
     <!--Morris chats reference-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -296,43 +303,14 @@
     <!--Fusion Chart Reference-->
     <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
 
-    <script type="text/javascript" src="https://rawgit.com/fusioncharts.com/fusioncharts-jquery-plugin/develop/dist/fusioncharts.jqueryplugin.min.js"></script>
-                    
+    @*<script type="text/javascript" src="https://rawgit.com/fusioncharts.com/fusioncharts-jquery-plugin/develop/dist/fusioncharts.jqueryplugin.min.js"></script>*@
+
     <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 
     <script src="~/Scripts/fusioncharts.js"></script>
     <script src="~/Scripts/fusioncharts.theme.fusion.js"></script>
     <!--Fusion Chart Reference-->
 
-    @*@Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")*@
-
-
-    <script>
-        (function ($) {
-            "use strict";
-
-            jQuery('#vmap').vectorMap({
-                map: 'world_en',
-                backgroundColor: null,
-                color: '#ffffff',
-                hoverOpacity: 0.7,
-                selectedColor: '#1de9b6',
-                enableZoom: true,
-                showTooltip: true,
-                values: sample_data,
-                scaleColors: ['#1de9b6', '#03a9f5'],
-                normalizeFunction: 'polynomial'
-            });
-        })(jQuery);
-    </script>
-
-    <script>
-        jQuery('#myTable').DataTable({
-            dom: 'Bfrtip', buttons: ['colvis', 'excel', 'pdf', 'print'],
-
-        });
-    </script>
 
     @RenderSection("scripts", required: false)
 
