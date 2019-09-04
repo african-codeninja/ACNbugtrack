@@ -59,264 +59,264 @@ namespace ACNbugtracker.Migrations
                 }, "Abc&123");
             }
 
-                if (!context.Users.Any(u => u.Email == "Admin@Mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "Admin@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        UserName = "Admin@Mailinator.com",
-                        Email = "Admin@Mailinator.com",
-                        FirstName = "Admin",
-                        LastName = "Administrator",
-                        AvatarUrl = "/Uploads/leonardo-admin.png",
-                        DisplayName = "The Admin"
-                    }, "Abc&123!");
-                }
+                    UserName = "Admin@Mailinator.com",
+                    Email = "Admin@Mailinator.com",
+                    FirstName = "Admin",
+                    LastName = "Administrator",
+                    AvatarUrl = "/Uploads/leonardo-admin.png",
+                    DisplayName = "The Admin"
+                }, "Abc&123!");
+            }
 
-                if (!context.Users.Any(u => u.Email == "ProjectManager@Mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "ProjectManager@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        UserName = "ProjectManager@Mailinator.com",
-                        Email = "ProjectManager@Mailinator.com",
-                        FirstName = "Project",
-                        LastName = "Manager",
-                        AvatarUrl = "/Uploads/Raphael-PM.png",
-                        DisplayName = "The PM"
-                    }, "Abc&123!");
-                }
+                    UserName = "ProjectManager@Mailinator.com",
+                    Email = "ProjectManager@Mailinator.com",
+                    FirstName = "Project",
+                    LastName = "Manager",
+                    AvatarUrl = "/Uploads/Raphael-PM.png",
+                    DisplayName = "The PM"
+                }, "Abc&123!");
+            }
 
-                if (!context.Users.Any(u => u.Email == "Developer@Mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "Developer@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        UserName = "Developer@Mailinator.com",
-                        Email = "Developer@Mailinator.com",
-                        FirstName = "John",
-                        LastName = "Wick",
-                        AvatarUrl = "/Uploads/Donatello-developer.png",
-                        DisplayName = "Ticket Worker"
-                    }, "Abc&123!");
-                }
+                    UserName = "Developer@Mailinator.com",
+                    Email = "Developer@Mailinator.com",
+                    FirstName = "John",
+                    LastName = "Wick",
+                    AvatarUrl = "/Uploads/Donatello-developer.png",
+                    DisplayName = "Ticket Worker"
+                }, "Abc&123!");
+            }
 
-                if (!context.Users.Any(u => u.Email == "Submitter@Mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "Submitter@Mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        UserName = "Submitter@Mailinator.com",
-                        Email = "Submitter@Mailinator.com",
-                        FirstName = "Sub",
-                        LastName = "Mitter",
-                        AvatarUrl = "/Uploads/Michelangelo-submitter.png",
-                        DisplayName = "Ticket Creator"
-                    }, "Abc&123!");
-                }
-                if (!context.Users.Any(u => u.Email == "zuri@mailinator.com"))
+                    UserName = "Submitter@Mailinator.com",
+                    Email = "Submitter@Mailinator.com",
+                    FirstName = "Sub",
+                    LastName = "Mitter",
+                    AvatarUrl = "/Uploads/Michelangelo-submitter.png",
+                    DisplayName = "Ticket Creator"
+                }, "Abc&123!");
+            }
+            if (!context.Users.Any(u => u.Email == "zuri@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Zuri",
-                        LastName = "Mbutha",
-                        DisplayName = "Princess",
-                        AvatarUrl = "/Uploads/avatar-160055_640.png",
-                        Email = "zuri@mailinator.com",
-                        UserName = "zuri@mailinator.com"
+                    FirstName = "Zuri",
+                    LastName = "Mbutha",
+                    DisplayName = "Princess",
+                    AvatarUrl = "/Uploads/avatar-160055_640.png",
+                    Email = "zuri@mailinator.com",
+                    UserName = "zuri@mailinator.com"
 
-                    }, "Zuri@1234");
-                }
-                if (!context.Users.Any(u => u.Email == "josephine@mailinator.com"))
+                }, "Zuri@1234");
+            }
+            if (!context.Users.Any(u => u.Email == "josephine@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Josephine",
-                        LastName = "Ngina",
-                        DisplayName = "Queen",
-                        AvatarUrl = "/Uploads/secondlife-1625903_640.jpg",
-                        Email = "josephine@mailinator.com",
-                        UserName = "josephine@mailinator.com"
-                    }, "Ngina@1234");
-                }
+                    FirstName = "Josephine",
+                    LastName = "Ngina",
+                    DisplayName = "Queen",
+                    AvatarUrl = "/Uploads/secondlife-1625903_640.jpg",
+                    Email = "josephine@mailinator.com",
+                    UserName = "josephine@mailinator.com"
+                }, "Ngina@1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "bryant@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "bryant@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Bryant",
-                        LastName = "Caldwell",
-                        DisplayName = "2hoursaway",
-                        AvatarUrl = "/Uploads/man-3414477_640.png",
-                        Email = "bryant@mailinator.com",
-                        UserName = "bryant@mailinator.com"
+                    FirstName = "Bryant",
+                    LastName = "Caldwell",
+                    DisplayName = "2hoursaway",
+                    AvatarUrl = "/Uploads/man-3414477_640.png",
+                    Email = "bryant@mailinator.com",
+                    UserName = "bryant@mailinator.com"
 
-                    }, "Bryant@1234");
-                }
+                }, "Bryant@1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "dimitri@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "dimitri@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Dimitri",
-                        LastName = "Carter",
-                        DisplayName = "Curses",
-                        AvatarUrl = "/Uploads/goaty-149860_640.png",
-                        Email = "dimitri@mailinator.com",
-                        UserName = "dimitri@mailinator.com"
+                    FirstName = "Dimitri",
+                    LastName = "Carter",
+                    DisplayName = "Curses",
+                    AvatarUrl = "/Uploads/goaty-149860_640.png",
+                    Email = "dimitri@mailinator.com",
+                    UserName = "dimitri@mailinator.com"
 
-                    }, "dimitri@1234");
-                }
+                }, "dimitri@1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "srijana@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "srijana@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Srijana",
-                        LastName = "Karki",
-                        DisplayName = "Coder",
-                        AvatarUrl = "/Uploads/avatar-2027367_640.png",
-                        Email = "srijana@mailinator.com",
-                        UserName = "srijana@mailinator.com"
+                    FirstName = "Srijana",
+                    LastName = "Karki",
+                    DisplayName = "Coder",
+                    AvatarUrl = "/Uploads/avatar-2027367_640.png",
+                    Email = "srijana@mailinator.com",
+                    UserName = "srijana@mailinator.com"
 
-                    }, "srijana@1234");
-                }
+                }, "srijana@1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "hunter@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "hunter@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Hunter",
-                        LastName = "Williams",
-                        DisplayName = "Hunter",
-                        AvatarUrl = "/Uploads/cartoon-1890438_640.jpg",
-                        Email = "hunter@mailinator.com",
-                        UserName = "hunter@mailinator.com"
+                    FirstName = "Hunter",
+                    LastName = "Williams",
+                    DisplayName = "Hunter",
+                    AvatarUrl = "/Uploads/cartoon-1890438_640.jpg",
+                    Email = "hunter@mailinator.com",
+                    UserName = "hunter@mailinator.com"
 
-                    }, "hunter@1234");
-                }
+                }, "hunter@1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "lisa@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "lisa@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Lisa",
-                        LastName = "Kaifer",
-                        DisplayName = "LisaDev",
-                        AvatarUrl = "/Uploads/avatar-160055_640.png",
-                        Email = "lisa@mailinator.com",
-                        UserName = "lisa@mailinator.com"
+                    FirstName = "Lisa",
+                    LastName = "Kaifer",
+                    DisplayName = "LisaDev",
+                    AvatarUrl = "/Uploads/avatar-160055_640.png",
+                    Email = "lisa@mailinator.com",
+                    UserName = "lisa@mailinator.com"
 
-                    }, "lisa@1234");
-                }
+                }, "lisa@1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "diego@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "diego@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Diego",
-                        LastName = "Rangel",
-                        DisplayName = "Exploer",
-                        AvatarUrl = "/Uploads/avatar-1606916_640.png",
-                        Email = "diego@mailinator.com",
-                        UserName = "diego@mailinator.com"
+                    FirstName = "Diego",
+                    LastName = "Rangel",
+                    DisplayName = "Exploer",
+                    AvatarUrl = "/Uploads/avatar-1606916_640.png",
+                    Email = "diego@mailinator.com",
+                    UserName = "diego@mailinator.com"
 
-                    }, "diego@1234");
-                }
+                }, "diego@1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "jalpa@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "jalpa@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Jalpa",
-                        LastName = "Patel",
-                        DisplayName = "C#Guru",
-                        AvatarUrl = "/Uploads/avatar-2027369_640.png",
-                        Email = "jalpa@mailinator.com",
-                        UserName = "jalpa@mailinator.com"
+                    FirstName = "Jalpa",
+                    LastName = "Patel",
+                    DisplayName = "C#Guru",
+                    AvatarUrl = "/Uploads/avatar-2027369_640.png",
+                    Email = "jalpa@mailinator.com",
+                    UserName = "jalpa@mailinator.com"
 
-                    }, "jalpa@1234");
-                }
+                }, "jalpa@1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "joeshmoe@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "joeshmoe@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Joe",
-                        LastName = "Shmoe",
-                        DisplayName = "Other",
-                        AvatarUrl = "/Uploads/bald-head-147977_640.png",
-                        Email = "Joeshmoe@mailinator.com",
-                        UserName = "joeshmoe@mailinator.com"
+                    FirstName = "Joe",
+                    LastName = "Shmoe",
+                    DisplayName = "Other",
+                    AvatarUrl = "/Uploads/bald-head-147977_640.png",
+                    Email = "Joeshmoe@mailinator.com",
+                    UserName = "joeshmoe@mailinator.com"
 
-                    }, "joe@1234");
-                }
+                }, "joe@1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "adam@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "adam@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Adam",
-                        LastName = "Brooks",
-                        DisplayName = "joker",
-                        AvatarUrl = "/Uploads/man-3414477_640.png",
-                        Email = "adam@mailinator.com",
-                        UserName = "adam@mailinator.com"
+                    FirstName = "Adam",
+                    LastName = "Brooks",
+                    DisplayName = "joker",
+                    AvatarUrl = "/Uploads/man-3414477_640.png",
+                    Email = "adam@mailinator.com",
+                    UserName = "adam@mailinator.com"
 
-                    }, "adam@1234");
-                }
+                }, "adam@1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "derrick@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "derrick@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Derrick",
-                        LastName = "Gordon",
-                        DisplayName = "Flash",
-                        AvatarUrl = "/Uploads/man-3357275_640.png",
-                        Email = "derrick@mailinator.com",
-                        UserName = "derrick@mailinator.com"
+                    FirstName = "Derrick",
+                    LastName = "Gordon",
+                    DisplayName = "Flash",
+                    AvatarUrl = "/Uploads/man-3357275_640.png",
+                    Email = "derrick@mailinator.com",
+                    UserName = "derrick@mailinator.com"
 
-                    }, "derrick&1234");
-                }
+                }, "derrick&1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "david@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "david@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "David",
-                        LastName = "Etzel",
-                        DisplayName = "Ergo",
-                        AvatarUrl = "/Uploads/man-1721463_640.png",
-                        Email = "david@mailinator.com",
-                        UserName = "david@mailinator.com"
+                    FirstName = "David",
+                    LastName = "Etzel",
+                    DisplayName = "Ergo",
+                    AvatarUrl = "/Uploads/man-1721463_640.png",
+                    Email = "david@mailinator.com",
+                    UserName = "david@mailinator.com"
 
-                    }, "david&1234");
-                }
+                }, "david&1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "kerry@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "kerry@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "Kerry",
-                        LastName = "Peary",
-                        DisplayName = "silent",
-                        AvatarUrl = "/Uploads/bald-head-147977_640.png",
-                        Email = "kerry@mailinator.com",
-                        UserName = "kerry@mailinator.com"
+                    FirstName = "Kerry",
+                    LastName = "Peary",
+                    DisplayName = "silent",
+                    AvatarUrl = "/Uploads/bald-head-147977_640.png",
+                    Email = "kerry@mailinator.com",
+                    UserName = "kerry@mailinator.com"
 
-                    }, "kerry&1234");
-                }
+                }, "kerry&1234");
+            }
 
-                if (!context.Users.Any(u => u.Email == "willy@mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "willy@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
                 {
-                    userManager.Create(new ApplicationUser
-                    {
-                        FirstName = "William",
-                        LastName = "Laspata",
-                        DisplayName = "Will",
-                        AvatarUrl = "/Uploads/avatar-3637425_640.png",
-                        Email = "willy@mailinator.com",
-                        UserName = "willy@mailinator.com"
+                    FirstName = "William",
+                    LastName = "Laspata",
+                    DisplayName = "Will",
+                    AvatarUrl = "/Uploads/avatar-3637425_640.png",
+                    Email = "willy@mailinator.com",
+                    UserName = "willy@mailinator.com"
 
-                    }, "william&1234");
-                }
+                }, "william&1234");
+            }
             //Introduce my Demo users
             if (!context.Users.Any(u => u.Email == "DemoAdmin@Mailinator.com"))
             {
@@ -328,7 +328,7 @@ namespace ACNbugtracker.Migrations
                     LastName = "DemoAdministrator",
                     AvatarUrl = "/Uploads/leonardo-admin.png",
                     DisplayName = "The Demo Admin"
-                },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
+                }, WebConfigurationManager.AppSettings["DemoUserPassword"]);
             }
 
             if (!context.Users.Any(u => u.Email == "DemoProjectManager@Mailinator.com"))
@@ -341,7 +341,7 @@ namespace ACNbugtracker.Migrations
                     LastName = "Manager",
                     AvatarUrl = "/Uploads/Raphael-PM.png",
                     DisplayName = "The Demo PM"
-                },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
+                }, WebConfigurationManager.AppSettings["DemoUserPassword"]);
             }
 
             if (!context.Users.Any(u => u.Email == "DemoDeveloper@Mailinator.com"))
@@ -354,7 +354,7 @@ namespace ACNbugtracker.Migrations
                     LastName = "Developer",
                     AvatarUrl = "/Uploads/Donatello-developer.png",
                     DisplayName = "Developer"
-                },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
+                }, WebConfigurationManager.AppSettings["DemoUserPassword"]);
             }
 
             if (!context.Users.Any(u => u.Email == "DemoSubmitter@Mailinator.com"))
@@ -367,7 +367,7 @@ namespace ACNbugtracker.Migrations
                     LastName = "Submitter",
                     AvatarUrl = "/Uploads/Michelangelo-submitter.png",
                     DisplayName = "Submitter"
-                },  WebConfigurationManager.AppSettings["DemoUserPassword"]);
+                }, WebConfigurationManager.AppSettings["DemoUserPassword"]);
             }
 
             #region Role Assignment
@@ -389,7 +389,7 @@ namespace ACNbugtracker.Migrations
 
             pmId = userManager.FindByEmail("ProjectManager@Mailinator.com").Id;
             userManager.AddToRole(pmId, "ProjectManager");
-            
+
             var subId = userManager.FindByEmail("Submitter@Mailinator.com").Id;
             userManager.AddToRole(subId, "Submitter");
 
@@ -419,14 +419,14 @@ namespace ACNbugtracker.Migrations
             var portfolioProjectId = context.Projects.FirstOrDefault(p => p.Name == "Moses Portfolio").Id;
             var blogProjectId = context.Projects.FirstOrDefault(p => p.Name == "Mos Blog").Id;
             var bugTrackerProjectId = context.Projects.FirstOrDefault(p => p.Name == "ACN BugTracker").Id;
-            
+
             var projectHelper = new ProjectsHelper();
 
             //Assign all three users to the Potfolio project
             ProjectsHelper.AddUserToProject(pmId, portfolioProjectId);
             ProjectsHelper.AddUserToProject(devId, portfolioProjectId);
             ProjectsHelper.AddUserToProject(subId, portfolioProjectId);
-            
+
             //Assign all three users to the Blog project
             ProjectsHelper.AddUserToProject(pmId, blogProjectId);
             ProjectsHelper.AddUserToProject(devId, blogProjectId);
@@ -562,5 +562,5 @@ namespace ACNbugtracker.Migrations
         }
 
     }
-    
+
 }
