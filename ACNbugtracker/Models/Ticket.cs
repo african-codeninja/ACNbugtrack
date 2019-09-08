@@ -8,8 +8,11 @@ namespace ACNbugtracker.Models
 {
     public class Ticket
     {
+        //Primary key
         public int  Id { get; set; }
         [Display(Name ="Project Name")]
+
+        //Foreign Key
         public int ProjectId { get; set; }
         [Display(Name ="Ticket Type")]
         public int TicketTypeId { get; set; }
@@ -21,9 +24,9 @@ namespace ACNbugtracker.Models
         public string OwnerUserId { get; set; }
         [Display(Name ="Developer")]
         public string AssignedToUserId { get; set; }
-        [StringLength(30, ErrorMessage = "Must be between {2} and {1} characters long.", MinimumLength =6)]
+        [StringLength(200, ErrorMessage = "Must be between {2} and {1} characters long.", MinimumLength =6)]
         public string Title { get; set; }
-        [StringLength(400, ErrorMessage = "Must be between {2} and {1} characters long.", MinimumLength = 5)]
+        [StringLength(200, ErrorMessage = "Must be between {2} and {1} characters long.", MinimumLength = 6)]
         public string Description { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
@@ -33,9 +36,12 @@ namespace ACNbugtracker.Models
         public virtual TicketType TicketType { get; set; }
         public virtual TicketStatus TicketStatus { get; set; }
         public virtual TicketPriority TicketPriority { get; set; }
+
+        //
         public virtual ApplicationUser OwnerUser { get; set; }
         public virtual ApplicationUser AssignedToUser { get; set; }
 
+        //Parent of
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }
