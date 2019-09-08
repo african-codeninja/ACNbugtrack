@@ -64,7 +64,6 @@ namespace ACNbugtracker.Helper
                 return false;
             }
         }
-
         public static string GetIconPath(string filePath)
         {
             switch(Path.GetExtension(filePath))
