@@ -19,6 +19,9 @@ namespace ACNbugtracker.Migrations
 
         protected override void Seed(ACNbugtracker.Models.ApplicationDbContext context)
         {
+            if (!System.Diagnostics.Debugger.IsAttached)
+                System.Diagnostics.Debugger.Launch();
+
             #region roleManager
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
@@ -409,7 +412,9 @@ namespace ACNbugtracker.Migrations
                p => p.Name,
                    new Project { Name = "Mos Blog", Description = "This is the Mos Blog project that is now out in the wild.", Created = DateTime.Now },
                    new Project { Name = "Moses Portfolio", Description = "This is the Portfolio project that is now out in the wild.", Created = DateTime.Now },
-                   new Project { Name = "ACN BugTracker", Description = "This is the ACN BugTracker project that is now out in the wild.", Created = DateTime.Now }
+                   new Project { Name = "ACN BugTracker", Description = "This is the ACN BugTracker project that is now out in the wild.", Created = DateTime.Now },
+                   new Project { Name = "ACN Financial", Description = "This is the ACN Financial Web App that we have just created.", Created = DateTime.Now },
+                   new Project { Name = "ACNWeatherApi", Description = "This is the ACN Weather project yet to be created.", Created = DateTime.Now }
                );
 
             context.SaveChanges();
@@ -419,25 +424,36 @@ namespace ACNbugtracker.Migrations
             var portfolioProjectId = context.Projects.FirstOrDefault(p => p.Name == "Moses Portfolio").Id;
             var blogProjectId = context.Projects.FirstOrDefault(p => p.Name == "Mos Blog").Id;
             var bugTrackerProjectId = context.Projects.FirstOrDefault(p => p.Name == "ACN BugTracker").Id;
+            var ACNFinanacialId = context.Projects.FirstOrDefault(p => p.Name == "ACN Financial").Id;
+            var ACNWeatherApi = context.Projects.FirstOrDefault(p => p.Name == "ACNWeatherAPI").Id;
 
             var projectHelper = new ProjectsHelper();
 
             //Assign all three users to the Potfolio project
-            ProjectsHelper.AddUserToProject(pmId, portfolioProjectId);
-            ProjectsHelper.AddUserToProject(devId, portfolioProjectId);
-            ProjectsHelper.AddUserToProject(subId, portfolioProjectId);
+            projectHelper.AddUserToProject(pmId, portfolioProjectId);
+            projectHelper.AddUserToProject(devId, portfolioProjectId);
+            projectHelper.AddUserToProject(subId, portfolioProjectId);           
 
             //Assign all three users to the Blog project
-            ProjectsHelper.AddUserToProject(pmId, blogProjectId);
-            ProjectsHelper.AddUserToProject(devId, blogProjectId);
-            ProjectsHelper.AddUserToProject(subId, blogProjectId);
+            projectHelper.AddUserToProject(pmId, blogProjectId);
+            projectHelper.AddUserToProject(devId, blogProjectId);
+            projectHelper.AddUserToProject(subId, blogProjectId);
 
-            //Assign all three users to the Blog project
-            ProjectsHelper.AddUserToProject(pmId, bugTrackerProjectId);
-            ProjectsHelper.AddUserToProject(devId, bugTrackerProjectId);
-            ProjectsHelper.AddUserToProject(subId, bugTrackerProjectId);
+            //Assign all three users to the BugTracker project
+            projectHelper.AddUserToProject(pmId, bugTrackerProjectId);
+            projectHelper.AddUserToProject(devId, bugTrackerProjectId);
+            projectHelper.AddUserToProject(subId, bugTrackerProjectId);
+
+            //Assign all three users to the Financial project
+            projectHelper.AddUserToProject(pmId, ACNFinanacialId);
+            projectHelper.AddUserToProject(devId, ACNFinanacialId);
+            projectHelper.AddUserToProject(subId, ACNFinanacialId);
+
+            //Assign all three users to the WeahterAPi project
+            projectHelper.AddUserToProject(pmId, ACNWeatherApi);
+            projectHelper.AddUserToProject(devId, ACNWeatherApi);
+            projectHelper.AddUserToProject(subId, ACNWeatherApi);
             #endregion
-
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
@@ -477,11 +493,22 @@ namespace ACNbugtracker.Migrations
             context.SaveChanges();
             #endregion
 
+
+            //1 unassigned Bug on the Blog project
+            //1 assigned Defect on the Blog project
+            //1 New / Assigned Defect on the Blog project
+            //1 Assigned Defect on the Blog project
+            //1 In progress Defect on the Blog project
+            //1 Completed Defect on the Blog project
+
             #region Ticket creation          
-            context.Tickets.AddOrUpdate(
+
+            var ticketPriorities = context.TicketPriorities.ToList();
+            var ticketStatuses = context.TicketStatuses.ToList();
+            var ticketTypes = context.TicketTypes.ToList();
+
+           context.Tickets.AddOrUpdate(
                p => p.Title,
-                //1 unassigned Bug on the Blog project
-                //1 assigned Defect on the Blog project
                 new Ticket
                 {
                     ProjectId = blogProjectId,
@@ -489,10 +516,11 @@ namespace ACNbugtracker.Migrations
                     Title = "Seeded Ticket #1",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
                 },
+
                 new Ticket
                 {
                     ProjectId = blogProjectId,
@@ -501,63 +529,320 @@ namespace ACNbugtracker.Migrations
                     Title = "Seeded Ticket #2",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Immediate").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
                 },
 
-                //1 unassigned Bug on the Portfolio project
-                //1 assigned Defect on the Portfolio project
+                new Ticket
+                {
+                    ProjectId = blogProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #3",
+                    Description = "New Functionality Request on the blog",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "New Functionality request").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = blogProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #4",
+                    Description = "New Functionality Request on the blog",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "New Functionality request").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = blogProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #5",
+                    Description = "New Document Request on the blog",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "New Document Request").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = blogProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #6",
+                    Description = "A completed ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                },
+
                 new Ticket
                 {
                     ProjectId = portfolioProjectId,
                     OwnerUserId = subId,
-                    Title = "Seeded Ticket #3",
+                    Title = "Seeded Ticket #7",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "New Document Request").Id,
                 },
+
                 new Ticket
                 {
                     ProjectId = portfolioProjectId,
                     OwnerUserId = subId,
                     AssignedToUserId = devId,
-                    Title = "Seeded Ticket #4",
+                    Title = "Seeded Ticket #8",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Training Request").Id,
                 },
 
-                //1 unassigned Bug on the BugTracker
-                //1 assigned Defect on the BugTracker
+                new Ticket
+                {
+                    ProjectId = portfolioProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #39",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Complaint").Id
+                },
+
+                new Ticket
+                {
+                    ProjectId = portfolioProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #10",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Defect").Id
+                },
+
+                new Ticket
+                {
+                    ProjectId = portfolioProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #11",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Complaint").Id
+                },
+
+                new Ticket
+                {
+                    ProjectId = portfolioProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #12",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Defect").Id
+                },
 
                 new Ticket
                 {
                     ProjectId = bugTrackerProjectId,
                     OwnerUserId = subId,
-                    Title = "Seeded Ticket #3",
+                    Title = "Seeded Ticket #13",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
                 },
+
                 new Ticket
                 {
                     ProjectId = bugTrackerProjectId,
                     OwnerUserId = subId,
                     AssignedToUserId = devId,
-                    Title = "Seeded Ticket #4",
+                    Title = "Seeded Ticket #14",
                     Description = "Testing a seeded Ticket",
                     Created = DateTime.Now,
-                    TicketPriorityId = context.TicketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
-                    TicketStatusId = context.TicketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
-                    TicketTypeId = context.TicketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
-                });
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = bugTrackerProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #15",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = bugTrackerProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #16",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = bugTrackerProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #17",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Other").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = bugTrackerProjectId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #18",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Defect").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = ACNFinanacialId,
+                    OwnerUserId = subId,
+                    Title = "Seeded Ticket #19",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = ACNFinanacialId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #20",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = ACNFinanacialId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #21",
+                    Description = "Testing a seeded Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = ACNFinanacialId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #22",
+                    Description = "Testing a seeded In progress Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Bug").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = ACNFinanacialId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #23",
+                    Description = "Testing a seeded Ticket In progress",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Low").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "In Progress").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Other").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = ACNFinanacialId,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #24",
+                    Description = "A Cpmpleted Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "Completed").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Other").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = ACNWeatherApi,
+                    OwnerUserId = subId,
+                    Title = "Seeded Ticket #25",
+                    Description = "Testing a seeded API Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "High").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / UnAssigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
+                },
+
+                new Ticket
+                {
+                    ProjectId = ACNWeatherApi,
+                    OwnerUserId = subId,
+                    AssignedToUserId = devId,
+                    Title = "Seeded Ticket #26",
+                    Description = "Testing a seeded API Ticket",
+                    Created = DateTime.Now,
+                    TicketPriorityId = ticketPriorities.FirstOrDefault(t => t.Name == "Medium").Id,
+                    TicketStatusId = ticketStatuses.FirstOrDefault(t => t.Name == "New / Assigned").Id,
+                    TicketTypeId = ticketTypes.FirstOrDefault(t => t.Name == "Complaint").Id,
+                }
+
+                );
             #endregion
         }
 
