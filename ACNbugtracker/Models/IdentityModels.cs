@@ -12,13 +12,16 @@ namespace ACNbugtracker.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        [Required]
         [StringLength(40, MinimumLength = 3, ErrorMessage = "The First Name must be between 3 and 40 characters long.")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
-
+        [Required]
         [StringLength(40, MinimumLength = 3, ErrorMessage = "The Last Name must be between 3 and 40 characters long.")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
         [StringLength(80, MinimumLength = 3, ErrorMessage = "The Display Name must be between 3 and 80 characters long.")]
+        [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
         public string AvatarUrl { get; set; }
 
@@ -40,7 +43,7 @@ namespace ACNbugtracker.Models
             }
         }
 
-        //virtual nav
+        //Parent of virtual nav
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketComment> TicketComments { get; set; }
@@ -59,6 +62,8 @@ namespace ACNbugtracker.Models
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+
+            userIdentity.AddClaim(new Claim("Project", Projects.ToString()));
             // Add custom user claims here
             return userIdentity;
         }
@@ -77,6 +82,7 @@ namespace ACNbugtracker.Models
         }
 
         public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectNotification> ProjectNotifications { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketAttachment> TicketAttachments { get; set; }
         public DbSet<TicketComment> TicketComments { get; set; }
@@ -84,8 +90,6 @@ namespace ACNbugtracker.Models
         public DbSet<TicketPriority> TicketPriorities { get; set; }
         public DbSet<TicketStatus> TicketStatuses { get; set; }
         public DbSet<TicketType> TicketTypes { get; set; }
-        public DbSet<ProjectNotification> ProjectNotifications { get; set; }       
         public DbSet<TicketHistory> TicketHistories { get; set; }
-
     }
 }
