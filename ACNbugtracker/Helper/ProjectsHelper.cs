@@ -9,9 +9,8 @@ namespace ACNbugtracker.Helper
 {
     public class ProjectsHelper
     {
-        public static ApplicationDbContext db = new ApplicationDbContext();
-
-        private UserRolesHelper RolesHelper = new UserRolesHelper();
+        ApplicationDbContext db = new ApplicationDbContext();
+        UserRolesHelper RolesHelper = new UserRolesHelper();
 
         //Previous implementation of is user in project
         public List<string> UserInRoleOnProject(int projectId, string roleName)
@@ -42,7 +41,7 @@ namespace ACNbugtracker.Helper
             return people;
         }
 
-        public static bool IsUserOnProject(string userId, int projectId)
+        public bool IsUserOnProject(string userId, int projectId)
         {
             //go into the database find project table and using the a particular User's Id get the projects they are on and return a true or false value
             var project = db.Projects.Find(projectId);
@@ -61,7 +60,7 @@ namespace ACNbugtracker.Helper
         }
 
         //Add user to a project
-        public static void AddUserToProject(string userId, int projectId)
+        public void AddUserToProject(string userId, int projectId)
         {
             //only add if the user doesn't belong to a project
             if (!IsUserOnProject(userId, projectId))
@@ -76,7 +75,7 @@ namespace ACNbugtracker.Helper
         }
 
         //Remove user from project
-        public static void RemoveUserFromProject(string userId, int projectId)
+        public void RemoveUserFromProject(string userId, int projectId)
         {
             //Do this only if user is on a project
             if (IsUserOnProject(userId, projectId))
