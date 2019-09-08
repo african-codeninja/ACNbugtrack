@@ -15,7 +15,7 @@ namespace ACNbugtracker.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            var users = db.Users.Select(userAttrib => new UserProfileViewModel
+            var users = db.Users.Select(userAttrib => new ViewModels.UserProfileViewModel
             {
                 Id = userAttrib.Id,
                 FirstName = userAttrib.FirstName,
