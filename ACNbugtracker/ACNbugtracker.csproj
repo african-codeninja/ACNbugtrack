@@ -225,7 +225,7 @@
     <Compile Include="ViewModels\TeamUserViewModel.cs" />
     <Compile Include="ViewModels\TicketViewModel.cs" />
     <Compile Include="ViewModels\UserIndexViewModel.cs" />
-    <Compile Include="Models\UserProfileViewModel.cs" />
+    <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Attachments\bald-head-147977_640.png" />
