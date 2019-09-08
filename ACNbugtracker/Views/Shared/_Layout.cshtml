@@ -87,7 +87,7 @@
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "TicketNotifications")">Ticket Notifications</a></li>
                                 <li><i class="fa fa-book"></i><a href="@Url.Action("Index", "TicketHistories")">Ticket Histories</a></li>
                             }
-                            
+
                         </ul>
                     </li>
                     @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
@@ -262,19 +262,13 @@
             </div>
 
         </header>
-        <!-- /header -->
-        <!-- Header-->
-
-
         @RenderBody()
         <div class="col-10">
             <footer>
                 <p>&copy; @DateTime.Now.Year - Moses Mbutha Mwangi</p>
             </footer>
         </div>
-
-    </div>
-
+    </div>  
     <script src="/Scripts/jquery.min.js"></script>
     <script src="/Scripts/popper.js"></script>
     <script src="/Scripts/popper.min.js"></script>
@@ -293,7 +287,6 @@
     <script src="/Scripts/datatables-init.js"></script>
     <script src="/Scripts/jquery.roadmap.js"></script>
     <script src="/Scripts/jquery.roadmap.min.js"></script>
-
 
     <!--Morris chats reference-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
