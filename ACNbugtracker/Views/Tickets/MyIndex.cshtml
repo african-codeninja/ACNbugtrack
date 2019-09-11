@@ -67,10 +67,10 @@
                                     </th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
 
-                            @foreach (var item in Model)
-                            {
-                                <tbody>
                                     <tr>
                                         <!--1-->
                                         <td>
@@ -128,9 +128,8 @@
                                         </td>
 
                                     </tr>
-                                </tbody>
-                            }
-
+                                 }
+                            </tbody>
                         </table>
 
                     </div>
