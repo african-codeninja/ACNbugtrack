@@ -9,9 +9,12 @@
         lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
     });
 
-    $('#bootstrap-data-table-export').DataTable({
-        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+    $('#bootstrap-data-table-export').DataTable({        
+        dom: "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: ['copy', 'csv' , 'excel', 'pdf', 'print'],
+        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
     });
 
 	$('#row-select').DataTable( {

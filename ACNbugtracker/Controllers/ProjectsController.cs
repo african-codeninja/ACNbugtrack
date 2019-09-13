@@ -25,7 +25,9 @@ namespace ACNbugtracker.Controllers
         {
             return View(db.Projects.ToList());
         }
-        [Authorize]
+
+        //Get: My Projects
+        [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
         public ActionResult MyProjectsIndex()
         {
             return View(projectsHelper.ListUserProjects(User.Identity.GetUserId()));

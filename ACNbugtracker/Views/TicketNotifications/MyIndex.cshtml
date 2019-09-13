@@ -16,12 +16,15 @@
                 <table class="table">
                     <thead class="thead-dark text-light">
                         <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Recipient.FirstName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Sender.FirstName)
-                            </th>
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                            {
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Recipient.FirstName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sender.FirstName)
+                                </th>
+                            }
                             <th>
                                 @Html.DisplayNameFor(model => model.Ticket.OwnerUser.FirstName)
                             </th>
@@ -44,12 +47,17 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>
+                                @if(User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                {
+                                  <td>
                                     @Html.DisplayFor(modelItem => item.Recipient.FirstName)
-                                </td>
-                                <td>
+                                  </td>
+
+                                 <td>
                                     @Html.DisplayFor(modelItem => item.Sender.FirstName)
                                 </td>
+                                }
+                                
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Ticket.OwnerUserId)
                                 </td>

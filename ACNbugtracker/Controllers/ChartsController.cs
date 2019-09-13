@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace ACNbugtracker.Controllers
 {
+    [Authorize]
     public class ChartsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

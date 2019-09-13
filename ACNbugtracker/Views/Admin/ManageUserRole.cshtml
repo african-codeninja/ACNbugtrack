@@ -11,6 +11,34 @@
     @Html.DisplayFor(model => model.FirstName)
 </div>*@
 
+<div class="col-md-4">
+    <div class="card">
+        <div class="card-header">
+            <strong class="card-title">MANAGE ROLE</strong>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("UserId", (string)ViewBag.UserId)
+
+                <br />
+                @Html.Display(User.Identity.Name)
+
+                <div class="form-group">
+                    @Html.Label("ASSIGN ROLE", null, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col=md-10">
+                        @Html.DropDownList("UserRole", null, "--Select Role---", htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" value="Assign" btn btn-primary">Assign the User a Role Now</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
 @using (Html.BeginForm())
 {

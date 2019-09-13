@@ -71,7 +71,12 @@
         </div>     
         <div class="col-md-12">
             <div class="alert alert-primary" role="alert">
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) | @Html.ActionLink("Back to List", "Index")
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <span>|</span> @Html.ActionLink("Back to List", "Index")
+                }
+
+                @Html.ActionLink("Back to List", "MyProjectsIndex")
             </div>
         </div>
         <!--Assigning users to projects-->

@@ -235,8 +235,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bugtacker1.css" />
+    <Content Include="Content\buttons.bootstrap4.css" />
     <Content Include="Content\buttons.bootstrap4.min.css" />
     <Content Include="Content\cs-skin-elastic.css" />
+    <Content Include="Content\dataTables.bootstrap4.css" />
     <Content Include="Content\dataTables.bootstrap4.min.css" />
     <Content Include="Content\datatables.css" />
     <Content Include="Content\datatables.min.css" />
@@ -818,7 +820,12 @@
     <Content Include="Scripts\buttons.bootstrap4.js" />
     <Content Include="Scripts\buttons.bootstrap4.min.js" />
     <Content Include="Scripts\buttons.colVis.js" />
+    <Content Include="Scripts\buttons.colVis.min.js" />
+    <Content Include="Scripts\buttons.flash.js" />
+    <Content Include="Scripts\buttons.flash.min.js" />
+    <Content Include="Scripts\buttons.html5.js" />
     <Content Include="Scripts\buttons.html5.min.js" />
+    <Content Include="Scripts\buttons.print.js" />
     <Content Include="Scripts\buttons.print.min.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
@@ -855,8 +862,11 @@
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\pdfmake.js" />
+    <Content Include="Scripts\pdfmake.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\vfs_fonts.js" />
     <Content Include="Uploads\avatar-160055_640.png" />
     <Content Include="Uploads\avatar-1606916_640.png" />
     <Content Include="Uploads\avatar-2027365_640.png" />

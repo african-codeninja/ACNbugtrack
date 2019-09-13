@@ -954,7 +954,7 @@ a,
 button {
     text-decoration: none;
     outline: none !important;
-    color: #000eab;
+    color: #6c757d;
     -webkit-transition: all 0.25s ease;
     transition: all 0.25s ease;
 }

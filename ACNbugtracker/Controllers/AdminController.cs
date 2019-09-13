@@ -181,25 +181,14 @@ namespace ACNbugtracker.Controllers
         }
 
         //Get Function
-        public ActionResult ManageUserProjects(string userId, string projectId)
-        {
-            var users = db.Users.Select(userAttrib => new ViewModels.UserProfileViewModel
-            {
-                Id = userAttrib.Id,
-                FirstName = userAttrib.FirstName,
-                LastName = userAttrib.LastName,
-                DisplayName = userAttrib.DisplayName,
-                AvatarUrl = userAttrib.AvatarUrl,
-                Email = userAttrib.Email
-            }).ToList();
-
+        public ActionResult ManageUserProjects(string userId)
+        {        
             var myProjects = projectHelper.ListUserProjects(userId).Select(p => p.Id);
 
             ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
             ViewBag.Projects = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
 
-
-            return View(users);                  
+            return View();                  
         }
 
         //post

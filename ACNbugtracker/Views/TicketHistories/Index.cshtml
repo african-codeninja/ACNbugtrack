@@ -51,12 +51,15 @@
                                         <th>
                                             @Html.DisplayNameFor(model => model.Updated)
                                         </th>
-                                        <th>Links</th>
+                                        <th>
+                                            Links
+                                        </th>
                                     </tr>
-
+                                </thead>
+                                    
+                                <tbody>
                                     @foreach (var item in Model)
                                     {
-                                    <tbody>
                                         <tr>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.FirstName)
@@ -82,8 +85,9 @@
                                                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                                             </td>
                                         </tr>
-                                    </tbody>
-                                }
+                                    }
+                                </tbody>
+                                
                                 </table>
                             </div>
                         </div>
