@@ -106,30 +106,20 @@
 
     <div class="card">
         <div class="card-header bg-secondary">
-            <strong class="card-title text-light"><h2>The Bug tracker</h2></strong>
-        </div>
-        <div class="card-body text-white bg-dark">
-            <p class="card-text text-light">
-                <h3>
-                    Fully designed and developed a multi-functional issue tracker web application,
-                    implementing enhanced roles & security, which also used a Code First Relational
-                    database designed and modeled in SQL Server. Technologies used include: .Net
-                    Framework v. 4.6.1, MVC5, C#, LINQ, SQL, Entity Framework, jQuery DataTables
-                </h3>
-            </p>
-        </div>
+            <strong class="card-title text-light"><h2>The ACN Bug tracker</h2></strong>
+        </div>       
     </div>
 
 </div>
 
-<div class="col-lg-6">
+@*<div class="col-lg-6">
     <div class="card">
         <div class="card-body">
             <h4 class="mb-3">3D Bar Chart</h4>
             <div id="Fusion3dBarChartType" class="chart275"></div>
         </div>
     </div>
-</div><!-- /# column -->
+</div>*@<!-- /# column -->
 
 <div class="col-lg-6">
     <div class="card">
@@ -149,14 +139,14 @@
     </div>
 </div><!-- /# column -->
 
-<div class="col-lg-6">
+@*<div class="col-lg-6">
     <div class="card">
         <div class="card-body">
             <h4 class="mb-3">3d Pie Chart: Ticket Count</h4>
             <div id="Fusion3dPieChart" class="chart275"></div>
         </div>
     </div>
-</div><!-- /# column -->
+</div>*@<!-- /# column -->
 
 <div class="col-lg-6">
     <div class="card">
@@ -241,7 +231,7 @@
       });
     </script>
 
-    <script>
+    @*<script>
       $(function(){
          var url='@Url.Action("GetJsonFusionData","Charts")';
          $.post(url).then(function(response){
@@ -265,9 +255,9 @@
              }).render();
          });
       });
-    </script>
+    </script>*@
 
-    <script>
+    @*<script>
       $(function(){
          var url='@Url.Action("GetJsonFusionDataTypes","Charts")';
          $.post(url).then(function(response){
@@ -291,7 +281,7 @@
              }).render();
          });
       });
-    </script>
+    </script>*@
 
     <script>
       $(function(){
