@@ -23,6 +23,9 @@ namespace ACNbugtracker.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -214,6 +217,7 @@ namespace ACNbugtracker.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    rolesHelper.AddUserToRole(user.Id, "Submitter");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
