@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ACNbugtracker.Models;
+using ACNbugtracker.ViewModels;
 
 namespace ACNbugtracker.Controllers
 {
@@ -15,6 +16,7 @@ namespace ACNbugtracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -32,9 +34,9 @@ namespace ACNbugtracker.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -52,6 +54,7 @@ namespace ACNbugtracker.Controllers
 
         //
         // GET: /Manage/Index
+        [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -64,16 +67,37 @@ namespace ACNbugtracker.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
+            var user = db.Users.Find(userId);
+
+            var ProfileViewModel = new ProfileViewModel
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                IndexViewModel = new IndexViewModel
+                {
+                    HasPassword = HasPassword(),
+                    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+                    Logins = await UserManager.GetLoginsAsync(userId),
+                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                },
+
+                UserViewModel = new UserViewModel
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    ProfilePic = user.AvatarUrl
+                },
+                ChangePasswordViewModel = new ChangePasswordViewModel
+                {
+                    ConfirmPassword = "",
+                    NewPassword = "",
+                    OldPassword = user.PasswordHash
+                }
             };
-            return View(model);
-        }
+            return View(ProfileViewModel);
+        }     
+            
+      
 
         //
         // POST: /Manage/RemoveLogin
