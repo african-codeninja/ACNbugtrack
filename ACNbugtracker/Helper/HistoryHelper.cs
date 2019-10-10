@@ -36,7 +36,7 @@ namespace ACNbugtracker.Helper
                         PropertyName = propObj1.Name,
                         OldValue = Utilities.MakeReadable(propObj1.Name, oldPropValue.ToString()),
                         NewValue = Utilities.MakeReadable(propObj1.Name, newPropValue.ToString()),
-                        Updated = DateTime.Now,
+                        Updated = DateTime.UtcNow,
                         TicketId = newTicket.Id,
                         UserId = HttpContext.Current.User.Identity.GetUserId()
                     };

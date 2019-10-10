@@ -96,7 +96,6 @@
 
 </div>
 <style>
-
     .chart275 {
         height: 275px;
     }
@@ -112,41 +111,40 @@
 
 </div>
 
-@*<div class="col-lg-6">
+<div class="col-lg-6">
     <div class="card">
         <div class="card-body">
             <h4 class="mb-3">3D Bar Chart</h4>
-            <div id="Fusion3dBarChartType" class="chart275"></div>
+            <div id="RealMorrisBarChart" class="chart275"></div>
         </div>
     </div>
-</div>*@<!-- /# column -->
+</div> 
 
 <div class="col-lg-6">
     <div class="card">
         <div class="card-body">
             <h4 class="mb-3">3D Pie Chart </h4>
-            <div id="Fusion3dPieChartType" class="chart275"></div>
+            <div id="RealMorrisDonutChart" class="chart275"></div>
         </div>
     </div>
-</div><!-- /# column -->
+</div>
 
-<div class="col-lg-6">
+@*<div class="col-lg-6">
     <div class="card">
         <div class="card-body">
             <h4 class="mb-3">3D BarChart: Tickets By Type</h4>
             <div id="Fusion3dBarChart" class="chart275"></div>
         </div>
     </div>
-</div><!-- /# column -->
-
-@*<div class="col-lg-6">
+</div>
+<div class="col-lg-6">
     <div class="card">
         <div class="card-body">
             <h4 class="mb-3">3d Pie Chart: Ticket Count</h4>
             <div id="Fusion3dPieChart" class="chart275"></div>
         </div>
     </div>
-</div>*@<!-- /# column -->
+</div> 
 
 <div class="col-lg-6">
     <div class="card">
@@ -155,8 +153,7 @@
             <div id="Fusion3dBarChartUsers" class="chart275"></div>
         </div>
     </div>
-</div><!-- /# column -->
-
+</div>
 <div class="col-lg-6">
     <div class="card">
         <div class="card-body">
@@ -164,13 +161,13 @@
             <div id="Fusion3dPieChartUsers" class="chart275"></div>
         </div>
     </div>
-</div>
-    <!-- /# column -->
+</div>*@
+    
 
 
 @section scripts{
 
-    @*<script type="text/javascript">
+    <script type="text/javascript">
            $(function(){
                 var url='@Url.Action("GetJsonMorrisData","Charts")';
                $.post(url).then(function(response){
@@ -186,9 +183,9 @@
                     });
                 });
            });
-    </script>*@
+    </script>
 
-    @*<script type="text/javascript">
+    <script type="text/javascript">
            $(function(){
                 var url='@Url.Action("GetJsonMorrisData","Charts")';
                 $.post(url).then(function(response){
@@ -203,9 +200,9 @@
                     });
                 });
             });
-    </script>*@
+    </script>
 
-    <script>
+    @*<script>
       $(function(){
          var url='@Url.Action("GetJsonFusionData","Charts")';
          $.post(url).then(function(response){
@@ -231,7 +228,7 @@
       });
     </script>
 
-    @*<script>
+    <script>
       $(function(){
          var url='@Url.Action("GetJsonFusionData","Charts")';
          $.post(url).then(function(response){
@@ -255,9 +252,9 @@
              }).render();
          });
       });
-    </script>*@
+    </script>
 
-    @*<script>
+    <script>
       $(function(){
          var url='@Url.Action("GetJsonFusionDataTypes","Charts")';
          $.post(url).then(function(response){
@@ -281,7 +278,7 @@
              }).render();
          });
       });
-    </script>*@
+    </script>
 
     <script>
       $(function(){
@@ -359,7 +356,7 @@
              }).render();
          });
       });
-    </script>
+    </script>*@
 
 
 }

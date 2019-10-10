@@ -53,7 +53,7 @@ namespace ACNbugtracker.Controllers
             {
                 ticketAttachment.Title = AttachmentTitle;
                 ticketAttachment.Description = attachmentDescription;
-                ticketAttachment.Created = DateTime.Now;
+                ticketAttachment.Created = DateTime.UtcNow;
                 ticketAttachment.UserId = User.Identity.GetUserId();
 
                 if (ImageUploadValidator.IsValidAttachment(attachment))
@@ -64,7 +64,7 @@ namespace ACNbugtracker.Controllers
                 }
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(ticketAttachment);
             } 
             return View(ticketAttachment);
         }

@@ -119,7 +119,7 @@ namespace ACNbugtracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                project.Created = DateTime.Now;
+                project.Created = DateTime.UtcNow;
                 db.Projects.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Index");

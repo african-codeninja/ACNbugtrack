@@ -73,7 +73,7 @@ namespace ACNbugtracker.Controllers
                 case "Admin":
                     var tickets = db.Tickets.Include(t => t.AssignedToUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
                     return View(tickets.ToList());
-                    break;
+                
             }
 
             return View("Index", myTickets);
@@ -119,7 +119,7 @@ namespace ACNbugtracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                ticket.Created = DateTime.Now;//set the time of the created ticket
+                ticket.Created = DateTime.UtcNow;//set the time of the created ticket
                 ticket.OwnerUserId = User.Identity.GetUserId();//whoever is logged in
                 //setting ticket status to a defualt value New/Unassigned
                 ticket.TicketStatusId = db.TicketStatuses.AsNoTracking().FirstOrDefault(t => t.Name == "New / Unassigned").Id;
@@ -294,7 +294,7 @@ namespace ACNbugtracker.Controllers
 
                 await ems.SendMailAsync(msg);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await Task.FromResult(0);
             }

@@ -7,19 +7,9 @@
 
 
     <div class="col-lg-12">
-        @if (User.IsInRole("Admin"))
-        {
-            <div class="alert alert-danger" role="alert">
-                Ticket Histories Index @Html.ActionLink("Create New", "Create")
-            </div>
-        }
-        else
-        {
             <div class="alert alert-danger" role="alert">
                 Ticket Histories Index
-            </div>
-        }
-
+            </div>     
     <div class="content mt-3">
         <div class="animated fadeIn">
             <div class="row">

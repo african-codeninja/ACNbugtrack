@@ -45,8 +45,8 @@ namespace ACNbugtracker.Helper
         {
             var notification = new TicketNotification
             {
-                Created = DateTime.Now,
-                Subject = $"You were unassigned from Ticket Id {newTicket.Id} on {DateTime.Now}",
+                Created = DateTime.UtcNow,
+                Subject = $"You were unassigned from Ticket Id {newTicket.Id} on {DateTime.UtcNow}",
                 Read = false,
                 RecipientId = oldTicket.AssignedToUserId,
                 SenderId = HttpContext.Current.User.Identity.GetUserId(),
@@ -62,8 +62,8 @@ namespace ACNbugtracker.Helper
         {
             var notification = new TicketNotification
             {
-                Created = DateTime.Now,
-                Subject = $"You were assigned to Ticket Id {newTicket.Id} on {DateTime.Now}",
+                Created = DateTime.UtcNow,
+                Subject = $"You were assigned to Ticket Id {newTicket.Id} on {DateTime.UtcNow}",
                 Read = false,
                 RecipientId = newTicket.AssignedToUserId,
                 SenderId = HttpContext.Current.User.Identity.GetUserId(),
@@ -103,7 +103,7 @@ namespace ACNbugtracker.Helper
                 var notification = new TicketNotification
                 {
                     TicketId = newTicket.Id,
-                    Created = DateTime.Now,
+                    Created = DateTime.UtcNow,
                     Subject = $"Ticket Id: {newTicket.Id} has changed",
                     RecipientId = newTicket.AssignedToUserId,
                     SenderId = senderId,
